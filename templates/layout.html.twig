@@ -1,0 +1,37 @@
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>{% block titre %}Snow Tricks{% endblock%}</title>
+    {% block stylesheets %}
+        <link rel="stylesheet" href="{{ ('assets/styles/app.scss') }}">
+        <script src="https://kit.fontawesome.com/a4ca8720ca.js" crossorigin="anonymous"></script>
+    {% endblock %}
+</head>
+<body>
+{% block header %}
+    <header>
+        <div id="header">
+            <div class="header-picture">
+                <img src="/assets/img/logo.png" alt="surfer">
+            </div>
+            <div class="navbar">
+                <ul>
+                    <li><a href="/">Home</a></li>
+                    <li><a href="/single_trick">Trick</a></li>
+                    <li><a href="/create_account">Sign in</a></li>
+                    <li><a href="/login">Sign up</a></li>
+                </ul>
+            </div>
+        </div>
+    </header>
+{% endblock %}
+{% block main %}
+{% endblock %}
+{% block footer %}
+    <div>
+        <p>Copyright @ Pierre Fayet</p>
+    </div>
+{% endblock %}

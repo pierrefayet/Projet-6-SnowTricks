@@ -1,18 +1,204 @@
-<!DOCTYPE html>
-<html>
-    <head>
-        <meta charset="UTF-8">
-        <title>{% block title %}Welcome!{% endblock %}</title>
-        <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text></svg>">
-        {% block stylesheets %}
-            {{ ux_controller_link_tags() }}
-        {% endblock %}
+{% extends 'layout.html.twig' %}
+{% block main %}
+<main>
+    <section class="intro" style="background-image: url('/assets/img/surfeur.jpg');">
+        <div>
+            <p>
+                Rejoignez la communauté Snow tricks la plus cool sur la neige et partagez votre passion pour le snow
+                avec des riders du monde entier !
+            </p>
+        </div>
+        <div class="scroll-arrow-down" id="scroll-down">
+            <a href="#expand">
+                <i class="fa-solid fa-arrow-down"></i>
+            </a>
+        </div>
+    </section>
+    <section id="portfolio">
+        <div class="card">
+            <div class="card-image">
+                <img src="/assets/tricks/50 50 Grinds.png" alt="figure de snowboard">
+            </div>
+            <div class="card-content">
+                <div class="card-header">
+                    <h4>Grab</h4>
+                </div>
+                <div class="card-icons">
+                    <span class="icon"><i class="fa-solid fa-pencil"></i></span>
+                </div>
+                <div class="card-icons">
+                    <span class="icon"><i class="fa-solid fa-trash-can"></i></span>
+                </div>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-image">
+                <img src="/assets/tricks/Ollie.png" alt="figure de snowboard"/>
+            </div>
+            <div class="card-content">
+                <div class="card-header">
+                    <h4>Ollie</h4>
+                </div>
+                <div class="card-icons">
+                    <span class="icon"><i class="fa-solid fa-pencil"></i></span>
+                </div>
+                <div class="card-icons">
+                    <span class="icon"><i class="fa-solid fa-trash-can"></i></span>
+                </div>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-image">
+                <img src="/assets/tricks/MFM_butter.png" alt="figure de snowboard"/>
+            </div>
+            <div class="card-content">
+                <div class="card-header">
+                    <h4>MFM butter</h4>
+                </div>
+                <div class="card-icons">
+                    <span class="icon"><i class="fa-solid fa-pencil"></i></span>
+                </div>
+                <div class="card-icons">
+                    <span class="icon"><i class="fa-solid fa-trash-can"></i></span>
+                </div>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-image">
+                <img src="/assets/tricks/Taking_Jumps.png" alt="figure de snowboard"/>
+            </div>
+            <div class="card-content">
+                <div class="card-header">
+                    <h4>Taking Jumps</h4>
+                </div>
+                <div class="card-icons">
+                    <span class="icon"><i class="fa-solid fa-pencil"></i></span>
+                </div>
+                <div class="card-icons">
+                    <span class="icon"><i class="fa-solid fa-trash-can"></i></span>
+                </div>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-image">
+                <img src="/assets/tricks/Indy_Grabs.png" alt="figure de snowboard"/>
+            </div>
+            <div class="card-content">
+                <div class="card-header">
+                    <h4>Indy Grabs</h4>
+                </div>
+                <div class="card-icons">
+                    <span class="icon"><i class="fa-solid fa-pencil"></i></span>
+                </div>
+                <div class="card-icons">
+                    <span class="icon"><i class="fa-solid fa-trash-can"></i></span>
+                </div>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-image">
+                <img src="/assets/tricks/Frontside_180s.png" alt="figure de snowboard"/>
+            </div>
+            <div class="card-content">
+                <div class="card-header">
+                    <h4>Frontside 180s</h4>
+                </div>
+                <div class="card-icons">
+                    <span class="icon"><i class="fa-solid fa-pencil"></i></span>
+                </div>
+                <div class="card-icons">
+                    <span class="icon"><i class="fa-solid fa-trash-can"></i></span>
+                </div>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-image">
+                <img src="/assets/tricks/Butter_Nose_Rolls.png" alt="figure de snowboard"/>
+            </div>
+            <div class="card-content">
+                <div class="card-header">
+                    <h4>Butter Nose Rolls</h4>
+                </div>
+                <div class="card-icons">
+                    <span class="icon"><i class="fa-solid fa-pencil"></i></span>
+                </div>
+                <div class="card-icons">
+                    <span class="icon"><i class="fa-solid fa-trash-can"></i></span>
+                </div>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-image">
+                <img src="/assets/tricks/50 50 Grinds.png" alt="figure de snowboard"/>
+            </div>
+            <div class="card-content">
+                <div class="card-header">
+                    <h4>50/50 Grinds</h4>
+                </div>
+                <div class="card-icons">
+                    <span class="icon"><i class="fa-solid fa-pencil"></i></span>
+                </div>
+                <div class="card-icons">
+                    <span class="icon"><i class="fa-solid fa-trash-can"></i></span>
+                </div>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-image">
+                <img src="/assets/tricks/50 50 Tail Press.png" alt="figure de snowboard"/>
+            </div>
+            <div class="card-content">
+                <div class="card-header">
+                    <h4>50/50 Tail Press</h4>
+                </div>
+                <div class="card-icons">
+                    <span class="icon"><i class="fa-solid fa-pencil"></i></span>
+                </div>
+                <div class="card-icons">
+                    <span class="icon"><i class="fa-solid fa-trash-can"></i></span>
+                </div>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-image">
+                <img src="/assets/tricks/50 50 Nose Press.png" alt="figure de snowboard"/>
+            </div>
+            <div class="card-content">
+                <div class="card-header">
+                    <h4>50/50 Nose Press</h4>
+                </div>
+                <div class="card-icons">
+                    <span class="icon"><i class="fa-solid fa-pencil"></i></span>
+                </div>
+                <div class="card-icons">
+                    <span class="icon"><i class="fa-solid fa-trash-can"></i></span>
+                </div>
+            </div>
+        </div>
+    </section>
+    <div id="expand">
+        <div>
+            <p><i class="fa-solid fa-spinner"></i></p>
+        </div>
+        <div>
+            <p>Load more</p>
+        </div>
+    </div>
+    <div class="scroll-arrow-up" id="scroll-up">
+        <a href="#portfolio">
+            <i class="fa-solid fa-arrow-up"></i>
+        </a>
+    </div>
+    <div class="navbar-mobile">
+        <ul>
+            <li><a href="/"><i class="fa-solid fa-house"></i></a></li>
+            <li><a href="/single_trick"><i class="fa-solid fa-bookmark"></i></a></li>
+            <li><a href="/login"><i class="fa-solid fa-user"></i></a></li>
+            <!-- <li><i class="fa-solid fa-right-from-bracket"></i></li> -->
+        </ul>
+    </div>
+</main>
+{% block javascripts %}{% endblock %}
+{% endblock %}
 
-        {% block javascripts %}
-{% block importmap %}{{ importmap('app') }}{% endblock %}
-        {% endblock %}
-    </head>
-    <body>
-        {% block body %}{% endblock %}
-    </body>
-</html>
+

@@ -1,0 +1,38 @@
+controllers:
+    resource:
+        path: ../../src/Controller/
+        namespace: App\Controller
+    type: attribute
+
+
+home:
+    path: /
+    controller: App\Controller\HomePageController::home
+
+notFoundPage:
+    path: /notFoundPage
+    controller: App\Controller\DefaultController::notFoundPage
+
+forgot_password:
+    path: /forgot_password
+    controller: App\Controller\ForgotPasswordController::forgotPassword
+
+login:
+    path: /login
+    controller: App\Controller\LoginPasswordController::loginUser
+
+create_account:
+    path: /create_account
+    controller: App\Controller\RegistrationPasswordController::createAccount
+
+reset_password:
+    path: /reset_password
+    controller: App\Controller\ResetPasswordController::resetPassword
+
+single_trick:
+    path: /single_trick
+    controller: App\Controller\SingleTrickController::showTrick
+
+update_tricks:
+    path: /update_tricks
+    controller: App\Controller\updateTrickController::modifyArticle

@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "909ac3c1b71b40dffeec24f88ecf5fe5",
+    "content-hash": "b04bbe1fd5a2f3b432e18236b7fc3c62",
     "packages": [
         {
             "name": "composer/semver",
@@ -4159,16 +4159,16 @@
         },
         {
             "name": "symfony/intl",
-            "version": "v6.4.0",
+            "version": "v6.4.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/intl.git",
-                "reference": "41d16f0294b9ca6e5540728580c65cfa3848fbf5"
+                "reference": "4f45148f7eb984ef12b1f7e123205ab904828839"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/intl/zipball/41d16f0294b9ca6e5540728580c65cfa3848fbf5",
-                "reference": "41d16f0294b9ca6e5540728580c65cfa3848fbf5",
+                "url": "https://api.github.com/repos/symfony/intl/zipball/4f45148f7eb984ef12b1f7e123205ab904828839",
+                "reference": "4f45148f7eb984ef12b1f7e123205ab904828839",
                 "shasum": ""
             },
             "require": {
@@ -4221,7 +4221,7 @@
                 "localization"
             ],
             "support": {
-                "source": "https://github.com/symfony/intl/tree/v6.4.0"
+                "source": "https://github.com/symfony/intl/tree/v6.4.2"
             },
             "funding": [
                 {
@@ -4237,7 +4237,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2023-10-28T23:12:08+00:00"
+            "time": "2023-12-26T18:38:00+00:00"
         },
         {
             "name": "symfony/mailer",
@@ -7374,6 +7374,61 @@
                 }
             ],
             "time": "2023-11-06T11:00:25+00:00"
+        },
+        {
+            "name": "symfonycasts/sass-bundle",
+            "version": "v0.5.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/SymfonyCasts/sass-bundle.git",
+                "reference": "50bc699fab4d2999ecfc681d0bf73c9d529eb63e"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/SymfonyCasts/sass-bundle/zipball/50bc699fab4d2999ecfc681d0bf73c9d529eb63e",
+                "reference": "50bc699fab4d2999ecfc681d0bf73c9d529eb63e",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=8.1",
+                "symfony/asset-mapper": "^6.3|^7.0",
+                "symfony/console": "^5.4|^6.3|^7.0",
+                "symfony/http-client": "^5.4|^6.3|^7.0",
+                "symfony/process": "^5.4|^6.3|^7.0"
+            },
+            "require-dev": {
+                "matthiasnoback/symfony-config-test": "^5.0",
+                "phpstan/phpstan-symfony": "^1.4",
+                "symfony/filesystem": "^6.3|^7.0",
+                "symfony/framework-bundle": "^6.3|^7.0",
+                "symfony/phpunit-bridge": "^6.3|^7.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Symfonycasts\\SassBundle\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Mathéo Daninos",
+                    "homepage": "https://github.com/WebMamba"
+                }
+            ],
+            "description": "Delightful Sass Support for Symfony + AssetMapper",
+            "keywords": [
+                "asset-mapper",
+                "sass"
+            ],
+            "support": {
+                "issues": "https://github.com/SymfonyCasts/sass-bundle/issues",
+                "source": "https://github.com/SymfonyCasts/sass-bundle/tree/v0.5.0"
+            },
+            "time": "2024-01-05T17:18:25+00:00"
         },
         {
             "name": "twig/extra-bundle",
