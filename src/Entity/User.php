@@ -2,14 +2,26 @@
 
 namespace App\Entity;
 
+use App\Repository\UserRepository;
+use Doctrine\ORM\Mapping as ORM;
+
+#[ORM\Entity(repositoryClass: UserRepository::class)]
+
 class User
 {
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column(type: "integer")]
     private int $id;
-    private string $userName;
-    private string $email;
-    private string $password;
 
-    private string $role;
+    #[ORM\Column(type: "string", length: 255)]
+    private string $userName;
+
+    #[ORM\Column(type: "string", length: 255)]
+    private string $email;
+
+    #[ORM\Column(type: "string", length: 255)]
+    private string $password;
 
     /**
      * @return int
@@ -26,7 +38,6 @@ class User
     {
         $this->id = $id;
     }
-
 
     /**
      * @return string
@@ -75,21 +86,4 @@ class User
     {
         $this->email = $email;
     }
-
-    /**
-     * @return string
-     */
-    public function getRole(): string
-    {
-        return $this->role;
-    }
-
-    /**
-     * @param string $role
-     */
-    public function setRole(string $role): void
-    {
-        $this->role = $role;
-    }
-
 }

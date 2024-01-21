@@ -1,4 +1,21 @@
 {% extends 'layout.html.twig' %}
+{% block header %}
+    <header>
+        <div id="header">
+            <div class="header-picture">
+                <img src="/assets/img/logo.png" alt="surfer">
+            </div>
+            <div class="navbar">
+                <ul>
+                    <li><a href="/">Home</a></li>
+                    <li><a href="#portfolio">Trick</a></li>
+                    <li><a href="/create_account">Sign in</a></li>
+                    <li><a href="/login">Sign up</a></li>
+                </ul>
+            </div>
+        </div>
+    </header>
+{% endblock %}
 {% block main %}
 <main>
     <section class="intro" style="background-image: url('/assets/img/surfeur.jpg');">

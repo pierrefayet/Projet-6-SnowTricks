@@ -28,11 +28,3 @@ create_account:
 reset_password:
     path: /reset_password
     controller: App\Controller\ResetPasswordController::resetPassword
-
-single_trick:
-    path: /single_trick
-    controller: App\Controller\SingleTrickController::showTrick
-
-update_tricks:
-    path: /update_tricks
-    controller: App\Controller\updateTrickController::modifyArticle

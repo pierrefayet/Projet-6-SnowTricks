@@ -7,24 +7,22 @@
             </div>
         </div>
         <section class="connection-form">
-            {{ form(connection) }}
-            <form class="connection-content">
-                <div id="user_name">
-                    <label for="name">Username</label>
-                    <input type="text" id="name" name="user_name" />
-                </div>
-
-                <div id="user_password">
-                    <label for="userPassword">password</label>
-                    <input id="userPassword" type="password" />
-                </div>
-
-                <div class="button">
-                    <button type="submit">Login</button>
-                </div>
-                <div class="link-registration"><a href="/create_account">Register</a></div>
-                <div class="link-reset"><a href="/reset_password">Forgot Password ?</a></div>
-            </form>
+            {{ form_start(connection, {'attr': {'class': 'connection-content'}}) }}
+            <div id="user_name">
+                <label for="name">Username</label>
+                {{ form_row(connection.user_name, {'attr': {'id': 'user_name'}}) }}
+            </div>
+            <div id="user_password">
+                <label for="userPassword">password</label>
+                {{ form_row(connection.password, {'attr': {'id': 'userPassword'}}) }}
+            </div>
+            <div class="button">
+                <button type="submit">Login</button>
+            </div>
+            {{ form_rest(connection) }}
+            <div class="link-registration"><a href="/create_account">Register</a></div>
+            <div class="link-reset"><a href="/reset_password">Forgot Password ?</a></div>
+            {{ form_end(connection) }}
         </section>
     </main>
     <div class="navbar-mobile">
