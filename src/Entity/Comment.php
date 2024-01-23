@@ -2,13 +2,26 @@
 
 namespace App\Entity;
 
+use App\Repository\CommentRepository;
+use Doctrine\ORM\Mapping as ORM;
+
+#[ORM\Entity(repositoryClass: CommentRepository::class)]
 class Comment
 {
-private int $id;
-private string $content;
-private string $creationDate;
-private int $commentPostId;
-private int $commentUserId;
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column(type: "integer")]
+    private int $id;
+    #[ORM\Column(type: "string", length: 255)]
+    private string $content;
+    #[ORM\Column(type: "datetime")]
+    private \DateTime $creationDate;
+    #[ORM\ManyToOne(targetEntity: Trick::class)]
+    #[ORM\JoinColumn(name: 'trick_id', referencedColumnName: 'id')]
+    private ?Trick $commentPostId;
+    #[ORM\ManyToOne(targetEntity: User::class)]
+    #[ORM\JoinColumn(name: 'user_id', referencedColumnName: 'id')]
+    private ?User $commentUserId;
 
     public function getId(): int
     {
@@ -30,32 +43,32 @@ private int $commentUserId;
         $this->content = $content;
     }
 
-    public function getCreationDate(): string
+    public function getCreationDate(): \DateTime
     {
         return $this->creationDate;
     }
 
-    public function setCreationDate(string $creationDate): void
+    public function setCreationDate(\DateTime $creationDate): void
     {
         $this->creationDate = $creationDate;
     }
 
-    public function getCommentPostId(): int
+    public function getCommentPostId(): ?Trick
     {
         return $this->commentPostId;
     }
 
-    public function setCommentPostId(int $commentPostId): void
+    public function setCommentPostId(?Trick $commentPostId): void
     {
         $this->commentPostId = $commentPostId;
     }
 
-    public function getCommentUserId(): int
+    public function getCommentUserId(): ?User
     {
         return $this->commentUserId;
     }
 
-    public function setCommentUserId(int $commentUserId): void
+    public function setCommentUserId(?User $commentUserId): void
     {
         $this->commentUserId = $commentUserId;
     }
