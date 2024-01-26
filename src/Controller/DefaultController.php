@@ -11,6 +11,6 @@ class DefaultController extends AbstractController
     #[Route('/default', name: 'notFoundPage')]
     public function notFoundPage(): Response
     {
-        return $this->render('default/index.html.twig');
+        return $this->render('notFoundPage.html.twig');
     }
 }

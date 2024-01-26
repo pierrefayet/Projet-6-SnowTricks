@@ -14,8 +14,7 @@ class ForgotFormType extends UserFormType
         $builder
             ->add('user_name')
             ->remove('email')
-            ->remove('password')
-        ;
+            ->remove('password');
     }
 
     public function configureOptions(OptionsResolver $resolver): void
@@ -25,3 +24,4 @@ class ForgotFormType extends UserFormType
         ]);
     }
 }
+
