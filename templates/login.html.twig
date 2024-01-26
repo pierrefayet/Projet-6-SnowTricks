@@ -7,7 +7,7 @@
             </div>
         </div>
         <section class="connection-form">
-            <form {{ path('security_login') }} method="post">
+            <form action="{{ path('security_login') }}" method="post">
                 {{ form_start(connection, {'attr': {'class': 'connection-content'}}) }}
                 <div id="user_name">
                     {{ form_row(connection.userName, {'attr': {'id': 'Username'}}) }}

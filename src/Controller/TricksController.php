@@ -2,7 +2,7 @@
 
 namespace App\Controller;
 
-use App\Entity\Trick;
+use  App\Entity\Trick;
 use App\Repository\TrickRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -10,10 +10,10 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-// todo: Récupérer les données et les insérer en baseet initier le CRUD
+// todo: Récupérer les données et les insérer en base et initier le CRUD
 class TricksController extends AbstractController
 {
-    #[Route('/add_Trick', name: 'add_trick')]
+    #[Route('/add_trick', name: 'add_trick')]
     public function addTrick(): Response
     {
 
@@ -29,14 +29,8 @@ class TricksController extends AbstractController
     }
 
     #[Route('/single_trick/{id}', name: 'single_trick')]
-    public function showTrick(int $id, TrickRepository $trickRepository): Response
+    public function showTrick(Trick $trick): Response
     {
-        $trick = $trickRepository->find($id);
-
-        if(!$trick) {
-            throw new $this->createNotFoundException('No trick found for id: ' . $id);
-        }
-
 
         return $this->render('singleTrick.html.twig', ['trick' => $trick]);
     }
@@ -48,7 +42,7 @@ class TricksController extends AbstractController
         $trick = $trickRepository->find($id);
 
         if(!$trick) {
-            throw new $this->createNotFoundException('No trick found for id: ' . $id);
+            throw new NotFoundException('No trick found for id: ' . $id);
         }
 
         $entityManager->remove($trick);

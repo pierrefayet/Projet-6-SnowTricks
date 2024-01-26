@@ -6,6 +6,7 @@ use App\Repository\TrickRepository;
 use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: TrickRepository::class)]
@@ -13,19 +14,19 @@ class Trick
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
-    #[ORM\Column(type: "integer")]
+    #[ORM\Column]
     private int $id;
     #[ORM\Column(type: "string", length: 255)]
     private string $title;
-    #[ORM\Column(type: "string", length: 255)]
+
     private string $intro;
-    #[ORM\Column(type: "string", length: 255)]
-    private string $content;
-    #[ORM\Column(type: "datetime")]
+    #[ORM\Column(type: Types::TEXT,nullable: true)]
+    private ?string $content;
+
     private DateTime $creation_date;
 
     #[ORM\Column(type: 'string', length: 255)]
-    private $image;
+    private string $image;
 
     #[ORM\ManyToOne(targetEntity: User::class)]
     #[ORM\JoinColumn(name: 'user_id', referencedColumnName: 'id')]

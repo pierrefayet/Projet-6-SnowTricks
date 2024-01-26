@@ -11,17 +11,14 @@ class Comment
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
-    #[ORM\Column(type: "integer")]
     private int $id;
-    #[ORM\Column(type: "string", length: 255)]
+
     private string $content;
-    #[ORM\Column(type: "datetime")]
+
     private \DateTime $creationDate;
     #[ORM\ManyToOne(targetEntity: Trick::class)]
-    #[ORM\JoinColumn(name: 'trick_id', referencedColumnName: 'id')]
     private ?Trick $commentPostId;
     #[ORM\ManyToOne(targetEntity: User::class)]
-    #[ORM\JoinColumn(name: 'user_id', referencedColumnName: 'id')]
     private ?User $commentUserId;
 
     /**

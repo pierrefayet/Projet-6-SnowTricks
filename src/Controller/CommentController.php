@@ -19,7 +19,7 @@ class CommentController extends AbstractController
         return $this->render('singleTrick.html.twig', []);
     }
 
-    #[Route('/delete_comment', name: 'delete_comment')]
+    #[Route('/delete_comment/{id}', name: 'delete_comment')]
     public function deleteTrick(): Response
     {
 
