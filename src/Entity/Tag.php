@@ -3,8 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\TagRepository;
-use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: TagRepository::class)]
@@ -15,6 +15,7 @@ class Tag
     #[ORM\Column]
     private int $id;
 
+    #[ORM\Column]
     private string $name;
     #[ORM\ManyToMany(targetEntity: Trick::class, inversedBy: 'tags')]
     private Collection $tricks;
@@ -57,9 +58,9 @@ class Tag
     }
 
     /**
-     * @return Collection
+     * @return ArrayCollection
      */
-    public function getTricks(): Collection
+    public function getTricks(): ArrayCollection
     {
         return $this->tricks;
     }

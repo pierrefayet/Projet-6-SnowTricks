@@ -33,40 +33,22 @@
         </div>
     </section>
     <section id="portfolio">
+        {% for trick in tricks %}
         <div class="card">
             <div class="card-image">
-                <a href="/single_trick">
+                <a href="/single_trick/{{ trick.id }}">
                     <img src="/assets/tricks/50 50 Grinds.png" alt="figure de snowboard">
                 </a>
             </div>
             <div class="card-content">
                 <div class="card-header">
-                    <h4>Grab</h4>
+                    <h4>{{ trick.title }}</h4>
                 </div>
                 <div class="card-icons">
-                    <span class="icon"><a href="/update_tricks"><i class="fa-solid fa-pencil"></i></a></span>
+                    <span class="icon"><a href="/update_tricks/{{ trick.id }}"><i class="fa-solid fa-pencil"></i></a></span>
                 </div>
                 <div class="card-icons">
-                    <span class="icon"><a href="/update_tricks"><i class="fa-solid fa-trash-can"></i></a></span>
-                </div>
-            </div>
-        </div>
-        {% for tricks in trick %}
-        <div class="card">
-            <div class="card-image">
-                <a href="/single_trick">
-                    <img src="/assets/tricks/50 50 Grinds.png" alt="figure de snowboard">
-                </a>
-            </div>
-            <div class="card-content">
-                <div class="card-header">
-                    <h4>Grab</h4>
-                </div>
-                <div class="card-icons">
-                    <span class="icon"><a href="/update_tricks"><i class="fa-solid fa-pencil"></i></a></span>
-                </div>
-                <div class="card-icons">
-                    <span class="icon"><a href="/update_tricks"><i class="fa-solid fa-trash-can"></i></a></span>
+                    <span class="icon"><a href="/update_tricks/{{ trick.id }}"><i class="fa-solid fa-trash-can"></i></a></span>
                 </div>
             </div>
         </div>
@@ -88,7 +70,7 @@
     <div class="navbar-mobile">
         <ul>
             <li><a href="/"><i class="fa-solid fa-house"></i></a></li>
-            <li><a href="/single_trick"><i class="fa-solid fa-bookmark"></i></a></li>
+            <li><a href="/single_trick{id}"><i class="fa-solid fa-bookmark"></i></a></li>
             <li><a href="/login"><i class="fa-solid fa-user"></i></a></li>
             <!-- <li><i class="fa-solid fa-right-from-bracket"></i></li> -->
         </ul>

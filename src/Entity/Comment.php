@@ -11,6 +11,7 @@ class Comment
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
+    #[ORM\Column]
     private int $id;
 
     private string $content;

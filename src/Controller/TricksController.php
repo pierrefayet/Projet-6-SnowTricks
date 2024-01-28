@@ -2,28 +2,50 @@
 
 namespace App\Controller;
 
-use  App\Entity\Trick;
+use App\Entity\Trick;
+use App\Form\TrickFormType;
 use App\Repository\TrickRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-// todo: Récupérer les données et les insérer en base et initier le CRUD
 class TricksController extends AbstractController
 {
     #[Route('/add_trick', name: 'add_trick')]
-    public function addTrick(): Response
+    public function addTrick(Request $request, EntityManagerInterface $entityManager): Response
     {
-
         $trick = new Trick();
-        return $this->render('singleTrick.html.twig', []);
+        $form = $this->createForm(TrickFormType::class, $trick);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $entityManager->persist($trick);
+            $entityManager->flush();
+
+            return $this->redirectToRoute('single_trick', ['id' => $trick->getId()]);
+        }
+
+        return $this->render('singleTrick.html.twig', ['form' => $form->createView()]);
     }
 
-    #[Route('/update_tricks', name: 'update_tricks')]
-    public function modifyArticle(): Response
+    #[Route('/update_tricks/{id}', name: 'update_tricks')]
+    public function modifyArticle(Request $request, EntityManagerInterface $entityManager, TrickRepository $trickRepository, Trick $id): Response
     {
+        $trick = $trickRepository->find($id);
+
+        if (!$trick) {
+            throw new NotFoundHttpException('No trick found for id: ' . $trick->getId());
+        }
+        $form = $this->createForm(TrickFormType::class, $trick);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $entityManager->flush();
+            return $this->redirectToRoute('single_trick', ['id' => $trick->getId()]);
+        }
 
         return $this->render('updateTrick.html.twig');
     }
@@ -41,13 +63,13 @@ class TricksController extends AbstractController
 
         $trick = $trickRepository->find($id);
 
-        if(!$trick) {
-            throw new NotFoundException('No trick found for id: ' . $id);
+        if (!$trick) {
+            throw new NotFoundHttpException('No trick found for id: ' . $trick->getId());
         }
 
         $entityManager->remove($trick);
         $entityManager->flush();
 
-        return $this->redirectToRoute('single_trick');
+        return $this->redirectToRoute('home');
     }
 }

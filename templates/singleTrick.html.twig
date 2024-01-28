@@ -10,50 +10,36 @@
                 <div class="content-header" style="background-image: url('/assets/tricks/50 50 Grinds.png');">
                     <div class="content-trick-image-title">
                         <h1>
-                            50/50 Grinds
+                            {{ trick.title }}
                         </h1>
                     </div>
                     <div class="content-trick-image--icon">
-                        <div id="pencil"><i class="fa-solid fa-pencil"></i></div>
-                        <div id="trash-can"><i class="fa-solid fa-trash-can"></i></div>
+                        <div id="pencil"><a href="/update_tricks/{{ trick.id }}"><i class="fa-solid fa-pencil"></i></a>
+                        </div>
+                        <div id="trash-can"><a href="/delete_trick/{{ trick.id }}"><i class="fa-solid fa-trash-can"></i></a>
+                        </div>
                     </div>
                 </div>
                 <div>
                     <div class="content-media-tricks">
-                        <img src="/assets/tricks/50 50 Grinds.png" alt="surfer">
-                        <img src="/assets/tricks/50 50 Grinds.png" alt="surfer">
-                        <img src="/assets/tricks/50 50 Grinds.png" alt="surfer">
-                        <video controls>
-                            <source src="/public/assets/media/50 50 Grinds easy snowboard.mp4" type="video/mp4">
-                            Votre navigateur ne prend pas en charge la balise vidéo.
-                        </video>
-                        <video controls>
-                            <source src="/public/assets/media/How to Boardslide a Snowboard Beginner Guide.mp4"
-                                    type="video/mp4">
-                            Votre navigateur ne prend pas en charge la balise vidéo.
-                        </video>
+                        {% for media in trick.medias %}
+                            {% if media.type == 'image' %}
+                                <img src="{{ media.filename }}" alt="{{ media.alt }}">
+                            {% elseif media instanceof App\\Entity\\Video %}
+                                <video controls>
+                                    <source src="{{ media.filename }}"
+                                            type="video/mp4">
+                                    Votre navigateur ne prend pas en charge la balise vidéo.
+                                </video>
+                            {% endif %}
+                        {% endfor %}
                     </div>
                     <div class="media-expand">
                         <div class="media-expand-content">See medias</div>
                     </div>
                     <div class="content-description">
-                        <p>Omitto iuris dictionem in libera civitate contra leges senatusque consulta; caedes relinquo;
-                            libidines praetereo, quarum acerbissimum extat indicium et ad insignem memoriam turpitudinis
-                            et
-                            paene ad iustum odium imperii nostri, quod constat nobilissimas virgines se in puteos
-                            abiecisse
-                            et
-                            morte voluntaria necessariam turpitudinem depulisse. Nec haec idcirco omitto, quod non
-                            gravissima
-                            sint, sed quia nunc sine teste dico.
-
-                            Isdem diebus Apollinaris Domitiani gener, paulo ante agens palatii Caesaris curam, ad
-                            Mesopotamiam
-                            missus a socero per militares numeros immodice scrutabatur, an quaedam altiora meditantis
-                            iam
-                            Galli
-                            secreta susceperint scripta, qui conpertis Antiochiae gestis per minorem Armeniam lapsus
-                            Constantinopolim petit exindeque per protectores retractus artissime tenebatur.
+                        <p>
+                            {{ trick.content }}
                         </p>
                     </div>
                     <div class="content-information">
