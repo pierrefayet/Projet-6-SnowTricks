@@ -12,11 +12,11 @@ class Tag
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
-    #[ORM\Column]
-    private int $id;
+    #[ORM\Column(nullable: true)]
+    private ?int $id;
 
-    #[ORM\Column]
-    private string $name;
+    #[ORM\Column(nullable: true)]
+    private ?string $name;
     #[ORM\ManyToMany(targetEntity: Trick::class, inversedBy: 'tags')]
     private Collection $tricks;
 

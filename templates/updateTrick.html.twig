@@ -2,11 +2,11 @@
 {% block main %}
     <main>
         <section class="intro-background">
-            <div class="intro-trick" style="background-image: url('/assets/img/surfeur.jpg');"></div>
+            <div class="intro-trick" style="background-image: url({{ asset('build/images/50_50_Grinds.51e6a335.png') }});"></div>
         </section>
         <section class="content">
             <div id="content-trick">
-                <div class="content-header" style="background-image: url('/assets/tricks/50 50 Grinds.png');">
+                <div class="content-header" style="background-image: url({{ asset('build/images/50_50_Grinds.51e6a335.png') }});">
                     <div class="content-trick-image-title">
                         <h1>
                             50/50 Grinds
@@ -20,7 +20,7 @@
                 <div class="content-media">
                     <div class="media-tricks--modifier">
                         <div class="media-tricks-modifier-content">
-                            <img src="/assets/tricks/50 50 Grinds.png" alt="surfer">
+                            <img src="{{ asset('build/images/50_50_Grinds.51e6a335.png') }}" alt="surfer">
                             <div class="modifier-icons">
                                 <div class="modifier-icons-content">
                                     <div><i class="fa-solid fa-pencil"></i></div>
@@ -31,7 +31,7 @@
                     </div>
                     <div class="media-tricks--modifier">
                         <div class="media-tricks-modifier-content">
-                            <img src="/assets/tricks/50 50 Grinds.png" alt="surfer">
+                            <img src="/assets/img/50_50_Grinds.png" alt="surfer">
                             <div class="modifier-icons">
                                 <div class="modifier-icons-content">
                                     <div><i class="fa-solid fa-pencil"></i></div>
@@ -42,7 +42,7 @@
                     </div>
                     <div class="media-tricks--modifier">
                         <div class="media-tricks-modifier-content">
-                            <img src="/assets/tricks/50 50 Grinds.png" alt="surfer">
+                            <img src="/assets/img/50_50_Grinds.png" alt="surfer">
                             <div class="modifier-icons">
                                 <div class="modifier-icons-content">
                                     <div><i class="fa-solid fa-pencil"></i></div>
@@ -54,7 +54,7 @@
                     <div class="media-tricks--modifier">
                         <div class="media-tricks-modifier-content">
                             <video controls class="media-item">
-                                <source src="/assets/media/50 50 Grinds easy snowboard.mp4" type="video/mp4">
+                                <source src="{{ asset('build/media/50_50_Grinds_easy_snowboard.576d4151.mp4') }}" type="video/mp4">
                                 Votre navigateur ne prend pas en charge la balise vidéo.
                             </video>
                             <div class="modifier-icons">
@@ -68,7 +68,7 @@
                     <div class="media-tricks--modifier">
                         <div class="media-tricks-modifier-content">
                             <video controls class="media-item">
-                                <source src="/assets/media/How to Boardslide a Snowboard   Beginner Guide.mp4"
+                                <source src="{{ asset('build/media/How_to_Boardslide_a_Snowboard_Beginner Guide.6efae9b9.mp4') }}"
                                         type="video/mp4">
                                 Votre navigateur ne prend pas en charge la balise vidéo.
                             </video>

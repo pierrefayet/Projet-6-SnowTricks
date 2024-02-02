@@ -8,7 +8,6 @@ use Doctrine\ORM\Mapping\DiscriminatorMap;
 use Doctrine\ORM\Mapping\Entity;
 use Doctrine\ORM\Mapping\InheritanceType;
 
-
 #[Entity]
 #[InheritanceType('JOINED')]
 #[DiscriminatorColumn(name: 'discr', type: 'string')]
@@ -17,22 +16,36 @@ class Media
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
-    #[ORM\Column]
+    #[ORM\Column(nullable: true)]
     private ?int $id = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 255, nullable: true)]
     private ?string $filename = null;
 
-    #[ORM\Column]
-    private ?int $size = null;
-    #[ORM\OneToOne(targetEntity: Image::class)]
-    protected Image $imageId;
-
-    #[ORM\OneToOne(targetEntity: Video::class)]
-    private ?Video $video = null;
     #[ORM\ManyToOne(targetEntity: Trick::class, inversedBy: "medias")]
     #[ORM\JoinColumn(name: "trick_id", referencedColumnName: "id")]
     private Trick $trick;
+
+
+    public function getId(): ?int
+    {
+        return $this->id;
+    }
+
+    public function setId(?int $id): void
+    {
+        $this->id = $id;
+    }
+
+    public function getFilename(): ?string
+    {
+        return $this->filename;
+    }
+
+    public function setFilename(?string $filename): void
+    {
+        $this->filename = $filename;
+    }
 
     /**
      * @return Trick|null

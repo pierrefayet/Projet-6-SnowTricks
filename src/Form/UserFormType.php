@@ -25,6 +25,7 @@ class UserFormType extends AbstractType
         $resolver->setDefaults([
             'data_class' => User::class,
             'attr' => ['class' => 'connection-content'],
+            'csrf_token_id' => 'authenticate'
         ]);
     }
 }

@@ -16,7 +16,7 @@ class Trick
     #[ORM\GeneratedValue]
     #[ORM\Column]
     private int $id;
-    #[ORM\Column(type: "string", length: 255)]
+    #[ORM\Column(type: "string", length: 255, nullable: true)]
     private string $title;
     #[ORM\Column]
     private ?string $intro;
@@ -41,65 +41,65 @@ class Trick
     }
 
     /**
-     * @return int
+     * @return ?int
      */
-    public function getId(): int
+    public function getId(): ?int
     {
         return $this->id;
     }
 
     /**
-     * @param int $id
+     * @param int | null $id
      */
-    public function setId(int $id): void
+    public function setId(?int $id): void
     {
         $this->id = $id;
     }
 
     /**
-     * @return string
+     * @return ?string
      */
-    public function getTitle(): string
+    public function getTitle(): ?string
     {
         return $this->title;
     }
 
     /**
-     * @param string $title
+     * @param string | null  $title
      */
-    public function setTitle(string $title): void
+    public function setTitle(?string $title): void
     {
         $this->title = $title;
     }
 
     /**
-     * @return string
+     * @return ?string
      */
-    public function getIntro(): string
+    public function getIntro(): ?string
     {
         return $this->intro;
     }
 
     /**
-     * @param string $intro
+     * @param string | null $intro
      */
-    public function setIntro(string $intro): void
+    public function setIntro(?string $intro): void
     {
         $this->intro = $intro;
     }
 
     /**
-     * @return string
+     * @return ?string
      */
-    public function getContent(): string
+    public function getContent(): ?string
     {
         return $this->content;
     }
 
     /**
-     * @param string $content
+     * @param string | null $content
      */
-    public function setContent(string $content): void
+    public function setContent(?string $content): void
     {
         $this->content = $content;
     }
@@ -136,7 +136,7 @@ class Trick
         $this->author = $author;
     }
 
-    public function getTags(): ArrayCollection
+    public function getTags(): Collection
     {
         return $this->tags;
     }
@@ -163,7 +163,7 @@ class Trick
     }
 
     /**
-     * @return  Collection|Media[]
+     * @return Collection
      */
     public function getMedias(): Collection
     {

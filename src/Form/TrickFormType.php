@@ -13,7 +13,7 @@ class TrickFormType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('title', null, ['att' => ['id' => 'content']])
+            ->add('title', null, ['attr' => ['id' => 'content']])
             ->add('content', TextareaType::class);
     }
 

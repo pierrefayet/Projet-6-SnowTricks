@@ -3,7 +3,7 @@
     <header>
         <div id="header">
             <div class="header-picture">
-                <img src="/assets/img/logo.png" alt="surfer">
+                <img src="{{ asset('build/images/logo.69cbb78a.png') }}" alt="surfer">
             </div>
             <div class="navbar">
                 <ul>
@@ -19,7 +19,7 @@
 {% block main %}
 // TODO: ajouter une icone log out si l'utilisateur est connecté.
 <main>
-    <section class="intro" style="background-image: url('/assets/img/surfeur.jpg');">
+    <section class="intro" style="background-image: url({{ asset('build/images/surfeur.jpg') }})">
         <div>
             <p>
                 Rejoignez la communauté Snow tricks la plus cool sur la neige et partagez votre passion pour le snow
@@ -37,7 +37,7 @@
         <div class="card">
             <div class="card-image">
                 <a href="/single_trick/{{ trick.id }}">
-                    <img src="/assets/tricks/50 50 Grinds.png" alt="figure de snowboard">
+                    <img src="{{ asset('build/images/50_50_Grinds.51e6a335.png') }}" alt="figure de snowboard">
                 </a>
             </div>
             <div class="card-content">
@@ -77,4 +77,5 @@
     </div>
 </main>
 {% block javascripts %}{% endblock %}
+            {{ encore_entry_script_tags('app') }}
 {% endblock %}

@@ -11,45 +11,45 @@ class Comment
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
-    #[ORM\Column]
-    private int $id;
-
-    private string $content;
-
-    private \DateTime $creationDate;
+    #[ORM\Column(nullable: true)]
+    private ?int $id;
+    #[ORM\Column(nullable: true)]
+    private ?string $content;
+    #[ORM\Column(nullable: true)]
+    private DateTime $creationDate;
     #[ORM\ManyToOne(targetEntity: Trick::class)]
     private ?Trick $commentPostId;
     #[ORM\ManyToOne(targetEntity: User::class)]
     private ?User $commentUserId;
 
     /**
-     * @return int
+     * @return ?int
      */
-    public function getId(): int
+    public function getId(): ?int
     {
         return $this->id;
     }
 
     /**
-     * @param int $id
+     * @param int  | null $id
      */
-    public function setId(int $id): void
+    public function setId(?int $id): void
     {
         $this->id = $id;
     }
 
     /**
-     * @return string
+     * @return ?string
      */
-    public function getContent(): string
+    public function getContent(): ?string
     {
         return $this->content;
     }
 
     /**
-     * @param string $content
+     * @param string | null $content
      */
-    public function setContent(string $content): void
+    public function setContent(?string $content): void
     {
         $this->content = $content;
     }
@@ -95,7 +95,7 @@ class Comment
     }
 
     /**
-     * @param ?User $commentUserId
+     * @param User | null $commentUserId
      */
     public function setCommentUserId(?User $commentUserId): void
     {

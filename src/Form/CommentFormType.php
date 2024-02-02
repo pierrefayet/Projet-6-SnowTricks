@@ -14,16 +14,14 @@ class CommentFormType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('name',null , ['attr' => ['userId' => 'user_id']
-            ])
-            ->add('comment_content',null, ['attr' => ['comment_content' => 'content']
+            ->add('content', null, ['attr' => ['id' => 'form-comment']
             ]);
     }
 
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            'data_class' => Comment::class,
+            'comment' => Comment::class,
             'attr' => ['class' => 'comment']
         ]);
     }
