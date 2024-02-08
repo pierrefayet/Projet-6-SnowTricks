@@ -1,16 +1,15 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Entity;
 
 use App\Repository\UserRepository;
-use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
-use phpDocumentor\Reflection\Types\Collection;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
-
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
     #[ORM\Id]
@@ -28,6 +27,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private ?string $password;
     #[ORM\Column(nullable: true)]
     private array $roles;
+    #[ORM\Column(nullable: true)]
+    private string $avatar;
+
+    #[ORM\Column(type: 'string', length: 100)]
+    private $resetToken;
 
     /**
      * @return ?int
@@ -37,9 +41,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this->id;
     }
 
-    /**
-     * @param int | null $id
-     */
     public function setId(?int $id): void
     {
         $this->id = $id;
@@ -53,9 +54,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this->userName;
     }
 
-    /**
-     * @return string
-     */
     public function getUserIdentifier(): string
     {
         return $this->userName;
@@ -76,7 +74,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         return $this->password;
     }
-
 
     /**
      * @param ?string $password
@@ -102,17 +99,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->email = $email;
     }
 
-    /**
-     * @return  array
-     */
     public function getRoles(): array
     {
         return $this->roles;
     }
 
-    /**
-     * @param array $roles
-     */
     public function setRoles(array $roles)
     {
         $this->roles = $roles;
@@ -120,5 +111,17 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     public function eraseCredentials(): void
     {
+    }
+
+    public function getResetToken(): ?string
+    {
+        return $this->resetToken;
+    }
+
+    public function setResetToken(?string $resetToken): self
+    {
+        $this->resetToken = $resetToken;
+
+        return $this;
     }
 }

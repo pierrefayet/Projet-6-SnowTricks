@@ -21,6 +21,7 @@
                     </div>
                 </div>
                 <div>
+                    {#TODO: créer un portfolio acceptant autant d'image et video que l'on veut#}
                     <div class="content-media-tricks">
                         {% set image_count = 0 %}
                         {% set video_count = 0 %}
@@ -55,11 +56,10 @@
                     </div>
                     <div class="content-form">
                         <div class="content-form--content">
-                            <form action="{{ path('add_comment') }}" method="post">
-                                {{ form_start(comment) }}
+                            <form action="{{ path('add_comment', { 'id': trick.id  }) }}" method="post">
+                                {{ form_start(comment, {'attr': {'id': 'comment_form_content'}}) }}
                                 {{ form_row(comment.content) }}
                                 {{ form_rest(comment) }}
-
                                 <button type="submit">Leave a comment</button>
                                 {{ form_end(comment) }}
                             </form>

@@ -1,15 +1,16 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Form;
 
 use Symfony\Component\Form\FormBuilderInterface;
 
-class ResetFormType extends UserFormType
+class ResetFormType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
-        parent::buildForm($builder, $options);
         $builder
-            ->remove('email');
+            ->add('email');
     }
 }

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Entity;
 
 use App\Repository\TrickRepository;
@@ -16,13 +18,13 @@ class Trick
     #[ORM\GeneratedValue]
     #[ORM\Column]
     private int $id;
-    #[ORM\Column(type: "string", length: 255, nullable: true)]
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
     private string $title;
     #[ORM\Column]
     private ?string $intro;
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $content;
-    #[ORM\Column(options: ["default" => "CURRENT_TIMESTAMP"])]
+    #[ORM\Column(options: ['default' => 'CURRENT_TIMESTAMP'])]
     private DateTime $creation_date;
 
     #[ORM\ManyToOne(targetEntity: User::class)]
@@ -31,12 +33,12 @@ class Trick
     #[ORM\ManyToMany(targetEntity: Tag::class, mappedBy: 'tricks')]
     private Collection $tags;
 
-    #[ORM\OneToMany(mappedBy: "trick", targetEntity: Media::class)]
+    #[ORM\OneToMany(mappedBy: 'trick', targetEntity: Media::class)]
     private Collection $medias;
 
     public function __construct()
     {
-        $this->tags = new ArrayCollection();
+        $this->tags   = new ArrayCollection();
         $this->medias = new ArrayCollection();
     }
 
@@ -48,9 +50,6 @@ class Trick
         return $this->id;
     }
 
-    /**
-     * @param int | null $id
-     */
     public function setId(?int $id): void
     {
         $this->id = $id;
@@ -64,9 +63,6 @@ class Trick
         return $this->title;
     }
 
-    /**
-     * @param string | null  $title
-     */
     public function setTitle(?string $title): void
     {
         $this->title = $title;
@@ -80,9 +76,6 @@ class Trick
         return $this->intro;
     }
 
-    /**
-     * @param string | null $intro
-     */
     public function setIntro(?string $intro): void
     {
         $this->intro = $intro;
@@ -96,9 +89,6 @@ class Trick
         return $this->content;
     }
 
-    /**
-     * @param string | null $content
-     */
     public function setContent(?string $content): void
     {
         $this->content = $content;
@@ -107,30 +97,22 @@ class Trick
     /**
      * @return DateTime
      */
+
     public function getCreationDate(): DateTime
     {
         return $this->creation_date;
     }
 
-    /**
-     * @param DateTime $creation_date
-     */
     public function setCreationDate(DateTime $creation_date): void
     {
         $this->creation_date = $creation_date;
     }
 
-    /**
-     * @return User
-     */
     public function getAuthor(): User
     {
         return $this->author;
     }
 
-    /**
-     * @param User $author
-     */
     public function setAuthor(User $author): void
     {
         $this->author = $author;
@@ -141,20 +123,14 @@ class Trick
         return $this->tags;
     }
 
-    /**
-     * @param Tag $tag
-     */
     public function addTag(Tag $tag): void
     {
-        if (!$this->tags->contains($tag)) {
+        if (! $this->tags->contains($tag)) {
             $this->tags[] = $tag;
             $tag->addTrick($this);
         }
     }
 
-    /**
-     * @param Tag $tag
-     */
     public function removeTag(Tag $tag): void
     {
         if ($this->tags->removeElement($tag)) {
@@ -162,28 +138,19 @@ class Trick
         }
     }
 
-    /**
-     * @return Collection
-     */
     public function getMedias(): Collection
     {
         return $this->medias;
     }
 
-    /**
-     * @param Media $media
-     */
     public function addMedia(Media $media): void
     {
-        if (!$this->medias->contains($media)) {
+        if (! $this->medias->contains($media)) {
             $this->medias[] = $media;
             $media->setTrick($this);
         }
     }
 
-    /**
-     * @param Media $media
-     */
     public function removeMedia(Media $media): void
     {
         if ($this->medias->removeElement($media)) {

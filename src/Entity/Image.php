@@ -1,9 +1,11 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Entity;
 
-use Doctrine\ORM\Mapping\Entity;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ORM\Mapping\Entity;
 
 #[Entity]
 class Image extends Media
@@ -23,15 +25,5 @@ class Image extends Media
     public function setAlt(string $alt): void
     {
         $this->alt = $alt;
-    }
-
-    public function getImageId(): Image
-    {
-        return $this->imageId;
-    }
-
-    public function setImageId(Image $imageId): void
-    {
-        $this->imageId = $imageId;
     }
 }

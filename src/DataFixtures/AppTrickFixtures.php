@@ -1,20 +1,21 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\DataFixtures;
 
-use App\Entity\Image;
 use App\Entity\Tag;
-use App\Entity\Video;
-use Faker\Factory;
-use Faker\Generator;
 use App\Entity\Trick;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
+use Faker\Factory;
+use Faker\Generator;
 
 class AppTrickFixtures extends Fixture implements DependentFixtureInterface
 {
     private Generator $faker;
+
     public function __construct()
     {
         $this->faker = Factory::create('fr_FR');
@@ -22,15 +23,14 @@ class AppTrickFixtures extends Fixture implements DependentFixtureInterface
 
     public function load(ObjectManager $manager): void
     {
-
-        for ($i = 1; $i <= 4; $i++) {
+        for ($i = 1; $i <= 4; ++$i) {
             $tag = new Tag();
             $tag->setName($this->faker->word);
             $manager->persist($tag);
             $tags[] = $tag;
         }
 
-        for ($i = 1; $i <= 10; $i++) {
+        for ($i = 1; $i <= 10; ++$i) {
             $trick = new Trick();
             $trick->setAuthor($this->getReference('UserFixtures' . $i));
             $trick->setTitle($this->faker->sentence(2));
@@ -42,7 +42,6 @@ class AppTrickFixtures extends Fixture implements DependentFixtureInterface
                 $trick->addTag($tag);
             }
 
-
             $manager->persist($trick);
         }
         $manager->flush();
@@ -52,7 +51,7 @@ class AppTrickFixtures extends Fixture implements DependentFixtureInterface
     public function getDependencies(): array
     {
         return [
-            AddedUserFixtures::class
+            AddedUserFixtures::class,
         ];
     }
 }

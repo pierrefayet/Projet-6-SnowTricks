@@ -6,22 +6,35 @@ security:
   # https://symfony.com/doc/current/security.html#loading-the-user-the-user-provider
 
   providers:
+    fos_userbundle:
+      id: fos_user.user_provider.username
     app_user_provider:
       entity:
         class: App\Entity\User
         property: userName
+
+  role_hierarchy:
+    ROLE_ADMIN: ROLE_USER
+    ROLE_SUPER_ADMIN: ROLE_ADMIN
 
   firewalls:
     dev:
       pattern: ^/(_(profiler|wdt)|css|images|js)/
       security: false
     main:
+      pattern: ^/
+      user_checker: fos_user.user_checker
+      form_login:
+        provider: fos_userbundle
+        csrf_token_generator: security.csrf.token_manager
       lazy: true
       provider: app_user_provider
+
       custom_authenticator:
         - App\Security\FormLoginAuthenticator
       logout:
         path: security_logout
+      anonymous: true
 
       # activate different ways to authenticate
       # https://symfony.com/doc/current/security.html#the-firewall

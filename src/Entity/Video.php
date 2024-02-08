@@ -1,9 +1,10 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping\Entity;
-use Doctrine\ORM\Mapping as ORM;
 
 #[Entity]
 class Video extends Media
@@ -13,12 +14,12 @@ class Video extends Media
         return 'video';
     }
 
-    public function getVideo(): ?Video
+    public function getVideo(): ?self
     {
         return $this->video;
     }
 
-    public function setVideo(?Video $video): void
+    public function setVideo(?self $video): void
     {
         $this->video = $video;
     }
