@@ -7,20 +7,23 @@
             </div>
         </div>
         <section class="connection-form">
-                {{ form_start(connection, {'attr': {'class': 'connection-content'}}) }}
-                <div id="user_name">
-                    {{ form_row(connection.userName, {'attr': {'id': 'Username'}}) }}
-                </div>
-                <div id="user_password">
-                    {{ form_row(connection.password, {'attr': {'id': 'userPassword'}}) }}
-                </div>
-                <div class="button">
-                    <button type="submit">Login</button>
-                </div>
-                <div class="link-registration"><a href="/create_account">Register</a></div>
-                <div class="link-reset"><a href="/forgot_password">Forgot Password ?</a></div>
-                {{ form_rest(connection) }}
-                {{ form_end(connection) }}
+            {{ form_start(connection, {'attr': {'class': 'connection-content'}}) }}
+            <div id="user_name">
+                {{ form_row(connection.userName, {'attr': {'id': 'username'}}) }}
+            </div>
+            <div id="user_password">
+                {{ form_row(connection.password, {'attr': {'id': 'password'}}) }}
+            </div>
+            <div class="button">
+                <button type="submit">Login</button>
+            </div>
+            <div class="link-registration"><a href="/create_account">Register</a></div>
+            <div class="link-reset"><a href="/forgot_password">Forgot Password ?</a></div>
+            {% if error %}
+                <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+            {% endif %}
+            {{ form_rest(connection) }}
+            {{ form_end(connection) }}
         </section>
     </main>
     <div class="navbar-mobile">

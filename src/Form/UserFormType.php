@@ -14,9 +14,9 @@ class UserFormType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('userName', null, ['attr' => ['id' => 'Username'],
+            ->add('userName', null, ['attr' => ['id' => 'username'],
             ])
-            ->add('password', null, ['attr' => ['id' => 'passsword'],
+            ->add( 'password', null, ['attr' => ['id' => 'password'],
             ]);
     }
 
@@ -25,7 +25,7 @@ class UserFormType extends AbstractType
         $resolver->setDefaults([
             'data_class'    => User::class,
             'attr'          => ['class' => 'connection-content'],
-            'csrf_token_id' => 'authenticate',
+            'csrf_token_id' => 'authenticate'
         ]);
     }
 }

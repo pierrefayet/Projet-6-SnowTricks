@@ -30,6 +30,9 @@ class AddedUserFixtures extends Fixture
             $user->setEmail($this->faker->email());
             $user->setPassword($this->passwordEncoder->hashPassword($user, 'TEST'));
             $user->setRoles(['ROLE_USER']);
+            $user->setAvatar('default_avatar.png');
+            $user->setResetToken('');
+
             $manager->persist($user);
             $this->addReference('UserFixtures' . $i, $user);
         }

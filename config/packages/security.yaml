@@ -1,5 +1,4 @@
 security:
-  enable_authenticator_manager: true
   # https://symfony.com/doc/current/security.html#registering-the-user-hashing-passwords
   password_hashers:
     Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface: 'auto'
@@ -8,33 +7,20 @@ security:
   providers:
     fos_userbundle:
       id: fos_user.user_provider.username
-    app_user_provider:
-      entity:
-        class: App\Entity\User
-        property: userName
-
-  role_hierarchy:
-    ROLE_ADMIN: ROLE_USER
-    ROLE_SUPER_ADMIN: ROLE_ADMIN
-
   firewalls:
     dev:
       pattern: ^/(_(profiler|wdt)|css|images|js)/
       security: false
     main:
+      lazy: true
       pattern: ^/
       user_checker: fos_user.user_checker
-      form_login:
-        provider: fos_userbundle
-        csrf_token_generator: security.csrf.token_manager
-      lazy: true
-      provider: app_user_provider
-
-      custom_authenticator:
-        - App\Security\FormLoginAuthenticator
       logout:
         path: security_logout
-      anonymous: true
+        target: home
+      custom_authenticators:
+        - App\Security\FormLoginAuthenticator
+
 
       # activate different ways to authenticate
       # https://symfony.com/doc/current/security.html#the-firewall
@@ -45,8 +31,16 @@ security:
   # Easy way to control access for large sections of your site
   # Note: Only the *first* access control that matches will be used
   access_control:
-  # - { path: ^/admin, roles: ROLE_ADMIN }
-  # - { path: ^/, roles: ROLE_USER }
+  # - { path: ^/, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+  # - { path: ^/login$, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+  # - { path: ^/single_trick/[ ^/]+, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+  - { path: ^/update_tricks/[ ^/]+, roles: ROLE_USER }
+  # - { path: ^/delete_trick/[ ^/]+, roles: ROLE_USER }
+  # - { path: ^/create_account, roles: ROLE_USER  }
+  # - { path: ^/forgot_password, roles: ROLE_USER  }
+  # - { path: ^/reset_password, roles: ROLE_USER  }
+  # - { path: ^/add_comment/[ ^/]+, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+
 
 when@test:
   security:
