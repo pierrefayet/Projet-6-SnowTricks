@@ -12,16 +12,7 @@ class ForgotFormType extends UserFormType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('user_name')
-            ->remove('email')
-            ->remove('password');
-    }
-
-    public function configureOptions(OptionsResolver $resolver): void
-    {
-        $resolver->setDefaults([
-            'data_class' => User::class,
-        ]);
+            ->add('user_name');
     }
 }
 

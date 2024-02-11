@@ -26,6 +26,21 @@ class Media
     #[ORM\JoinColumn(name: "trick_id", referencedColumnName: "id")]
     private Trick $trick;
 
+    #[ORM\Column(type: 'string')]
+    private string $brochureFilename;
+
+    public function getBrochureFilename(): string
+    {
+        return $this->brochureFilename;
+    }
+
+    public function setBrochureFilename(string $brochureFilename): self
+    {
+        $this->brochureFilename = $brochureFilename;
+
+        return $this;
+    }
+
 
     public function getId(): ?int
     {

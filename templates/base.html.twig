@@ -17,6 +17,11 @@
     </header>
 {% endblock %}
 {% block main %}
+    {% for message in app.flashes('success') %}
+        <div class="alert alert-success">
+            {{ message }}
+        </div>
+    {% endfor %}
 // TODO: ajouter une icone log out si l'utilisateur est connecté.
 <main>
     <section class="intro" style="background-image: url({{ asset('build/images/surfeur.jpg') }})">

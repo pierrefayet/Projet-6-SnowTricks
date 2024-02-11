@@ -8,8 +8,10 @@ class ResetFormType extends UserFormType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
-        parent::buildForm($builder, $options);
         $builder
-            ->remove('email');
+            ->add('userName', null, ['attr' => ['id' => 'Username']
+            ])
+            ->add('password', null, ['attr' => ['id' => 'passsword']
+            ]);
     }
 }

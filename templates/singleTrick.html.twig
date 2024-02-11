@@ -55,42 +55,30 @@
                     </div>
                     <div class="content-form">
                         <div class="content-form--content">
-                            <form action="{{ path('add_comment') }}" method="post">
-                                {{ form_start(comment) }}
-                                {{ form_row(comment.content) }}
-                                {{ form_rest(comment) }}
-
-                                <button type="submit">Leave a comment</button>
-                                {{ form_end(comment) }}
-                            </form>
+                            {{ form_start(commentForm, {'action': path('add_comment', {'id': trick.id}), 'method': 'POST'}) }}
+                            {{ form_row(commentForm.content, {'label':false}) }}
+                            <div class="form-error">
+                                {{ form_errors(commentForm.content) }}
+                            </div>
+                            {{ form_row(commentForm.submit) }}
+                            {{ form_errors(commentForm) }}
+                            {{ form_rest(commentForm) }}
+                            {{ form_end(commentForm) }}
                         </div>
                     </div>
                     <div class="content-comment-container">
                         <div class="content-comment">
-                            <div class="content-comment-items">
-                                <div class="content-comment--icon">
-                                    <i class="fa-solid fa-user"></i>
+                            {% for comment in comments %}
+                                <div class="content-comment-items">
+                                    <div class="content-comment--icon">
+                                        <i class="fa-solid fa-user"></i>
+                                    </div>
+                                    <div class="content-comment--content">
+                                        <p>{{ comment.content }}</p>
+                                        <p>{{ comment.creationDate|date('d/m/Y') }}</p>
+                                    </div>
                                 </div>
-                                <div class="content-comment--content">
-                                    <p>Anteposuit anteibat omnes nostro ille Maximum in se parem erat.</p>
-                                </div>
-                            </div>
-                            <div class="content-comment-items">
-                                <div class="content-comment--icon">
-                                    <i class="fa-solid fa-user"></i>
-                                </div>
-                                <div class="content-comment--content">
-                                    <p>Anteposuit anteibat omnes nostro ille Maximum in se parem erat.</p>
-                                </div>
-                            </div>
-                            <div class="content-comment-items">
-                                <div class="content-comment--icon">
-                                    <i class="fa-solid fa-user"></i>
-                                </div>
-                                <div class="content-comment--content">
-                                    <p>Anteposuit anteibat omnes nostro ille Maximum in se parem erat.</p>
-                                </div>
-                            </div>
+                            {% endfor %}
                         </div>
                         <div class="container-expand">
                             <div id="expand">

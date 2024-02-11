@@ -2,14 +2,17 @@
 {% block main %}
     <main>
         <section class="intro-background">
-            <div class="intro-trick" style="background-image: url({{ asset('build/images/50_50_Grinds.51e6a335.png') }});"></div>
+            <div class="intro-trick"
+                 style="background-image: url({{ asset('build/images/50_50_Grinds.51e6a335.png') }});"></div>
         </section>
         <section class="content">
+            {{ form_start(trickForm) }}
             <div id="content-trick">
-                <div class="content-header" style="background-image: url({{ asset('build/images/50_50_Grinds.51e6a335.png') }});">
+                <div class="content-header"
+                     style="background-image: url({{ asset('build/images/50_50_Grinds.51e6a335.png') }});">
                     <div class="content-trick-image-title">
                         <h1>
-                            50/50 Grinds
+
                         </h1>
                     </div>
                     <div class="content-trick-image--icon">
@@ -20,7 +23,7 @@
                 <div class="content-media">
                     <div class="media-tricks--modifier">
                         <div class="media-tricks-modifier-content">
-                            <img src="{{ asset('build/images/50_50_Grinds.51e6a335.png') }}" alt="surfer">
+                            <img src="" alt="surfer">
                             <div class="modifier-icons">
                                 <div class="modifier-icons-content">
                                     <div><i class="fa-solid fa-pencil"></i></div>
@@ -29,49 +32,15 @@
                             </div>
                         </div>
                     </div>
+                    {% for media in trick.medias %}
                     <div class="media-tricks--modifier">
                         <div class="media-tricks-modifier-content">
-                            <img src="/assets/img/50_50_Grinds.png" alt="surfer">
-                            <div class="modifier-icons">
-                                <div class="modifier-icons-content">
-                                    <div><i class="fa-solid fa-pencil"></i></div>
-                                    <div><i class="fa-solid fa-trash-can"></i></div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="media-tricks--modifier">
-                        <div class="media-tricks-modifier-content">
-                            <img src="/assets/img/50_50_Grinds.png" alt="surfer">
-                            <div class="modifier-icons">
-                                <div class="modifier-icons-content">
-                                    <div><i class="fa-solid fa-pencil"></i></div>
-                                    <div><i class="fa-solid fa-trash-can"></i></div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="media-tricks--modifier">
-                        <div class="media-tricks-modifier-content">
-                            <video controls class="media-item">
-                                <source src="{{ asset('build/media/50_50_Grinds_easy_snowboard.576d4151.mp4') }}" type="video/mp4">
-                                Votre navigateur ne prend pas en charge la balise vidéo.
-                            </video>
-                            <div class="modifier-icons">
-                                <div class="modifier-icons-content">
-                                    <div><i class="fa-solid fa-pencil"></i></div>
-                                    <div><i class="fa-solid fa-trash-can"></i></div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="media-tricks--modifier">
-                        <div class="media-tricks-modifier-content">
-                            <video controls class="media-item">
-                                <source src="{{ asset('build/media/How_to_Boardslide_a_Snowboard_Beginner Guide.6efae9b9.mp4') }}"
-                                        type="video/mp4">
-                                Votre navigateur ne prend pas en charge la balise vidéo.
-                            </video>
+                            {% if media.type == 'image' %}
+                                <img src="{{ asset('path/to/uploads/image' ~ media.filename) }}" alt="surfer">
+                            {% elseif media.type == 'video' %}
+                                <video src="{{ asset('path/to/uploads/video' ~ media.filename) }}">
+                            {% endif %}
+                            {% endfor %}
                             <div class="modifier-icons">
                                 <div class="modifier-icons-content">
                                     <div><i class="fa-solid fa-pencil"></i></div>
@@ -84,44 +53,30 @@
                 <div class="media-expand">
                     <div class="media-expand-content">See medias</div>
                 </div>
+
                 <div class="information-content">
                     <div class="content-description-scroll">
-                        <p>Omitto iuris dictionem in libera civitate contra leges senatusque consulta; caedes relinquo;
-                            libidines praetereo, quarum acerbissimum extat indicium et ad insignem memoriam turpitudinis
-                            et
-                            paene ad iustum odium imperii nostri, quod constat nobilissimas virgines se in puteos
-                            abiecisse
-                            et
-                            morte voluntaria necessariam turpitudinem depulisse. Nec haec idcirco omitto, quod non
-                            gravissima
-                            sint, sed quia nunc sine teste dico.
-
-                            Isdem diebus Apollinaris Domitiani gener, paulo ante agens palatii Caesaris curam, ad
-                            Mesopotamiam
-                            missus a socero per militares numeros immodice scrutabatur, an quaedam altiora meditantis
-                            iam
-                            Galli
-                            secreta susceperint scripta, qui conpertis Antiochiae gestis per minorem Armeniam lapsus
-                            Constantinopolim petit exindeque per protectores retractus artissime tenebatur.
+                        <p>{{ trick.content }}
                         </p>
                     </div>
                     <div class="information-actions">
                         <div class="select-group">
                             <select name="groups" id="select-group">
-                                <option value="Group 1">Group 1</option>
-                                <option value="Group 2">Group 2</option>
-                                <option value="Group 3">Group 3</option>
-                                <option value="Group 4">Group 4</option>
+                                {% for tag in trick.tags %}
+                                    <option value="{{ tag.id }}">{{ tag.name }}</option>
+                                {% endfor %}
                             </select>
                         </div>
                         <div class="button-content">
                             <div class="delete">
-                                <button>Delete</button>
+                                {{ form_row(trickForm.delete) }}
                             </div>
                             <div class="save">
-                                <button>Save</button>
+                                {{ form_row(trickForm.save) }}
                             </div>
                         </div>
+                        {{ form_rest(trickForm) }}
+                        {{ form_end(trickForm) }}
                     </div>
                 </div>
             </div>

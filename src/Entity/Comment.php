@@ -3,8 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\CommentRepository;
-use DateTime;
 use Doctrine\ORM\Mapping as ORM;
+use DateTime;
 
 #[ORM\Entity(repositoryClass: CommentRepository::class)]
 class Comment
@@ -22,6 +22,10 @@ class Comment
     #[ORM\ManyToOne(targetEntity: User::class)]
     private ?User $commentUserId;
 
+    public function __construct()
+    {
+        $this->creationDate = new \DateTime();
+    }
     /**
      * @return ?int
      */

@@ -13,7 +13,7 @@ use Symfony\Component\HttpFoundation\Response;
 
 class CommentController extends AbstractController
 {
-    #[Route('/add_comment', name: 'add_comment')]
+    #[Route('/add_comment/{id}', name: 'add_comment')]
     public function AddComment(Request $request, EntityManagerInterface $entityManager,Trick $trick):Response
     {
         $comment = new Comment;
@@ -21,6 +21,8 @@ class CommentController extends AbstractController
         $form->handleRequest($request);
 
         if($form->isSubmitted() && $form->isValid()) {
+            dump('ici');
+            $comment->setCommentPostId($trick);
             $entityManager->persist($comment);
             $entityManager->flush();
 
@@ -28,16 +30,17 @@ class CommentController extends AbstractController
         }
 
         return $this->render('singleTrick.html.twig', [
-            'comment' => $form->createView()
+            'commentForm' => $form->createView()
         ]);
     }
 
     #[Route('/delete_comment/{id}', name: 'delete_comment')]
-    public function deleteTrick(Comment $comment, EntityManagerInterface $entityManager): Response
+    public function deleteTrick(Comment $comment, EntityManagerInterface $entityManager, Trick $trick): Response
     {
+        $trickId = $comment->getCommentPostId()->getId();
         $entityManager->remove($comment);
         $entityManager->flush();
 
-        return $this->redirectToRoute('single_trick');
+        return $this->redirectToRoute('single_trick',  ['id' => $trickId]);
     }
 }
