@@ -194,15 +194,15 @@ footer p {
 }
 
 .content #content-trick {
+  width: 800px;
   background-color: #6982ec;
   border: cornflowerblue solid 2px;
-  width: 64%;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.5), inset 0 0 10px rgba(255, 255, 255, 0.5);
 }
 
 .content #content-trick .content-header {
   height: 720px;
-  background-image: url("/public/upload/media/image/50_50_Grinds.png");
+  background-image: url("/public/uploads/media/image/50_50_Grinds.png");
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center center;
@@ -291,6 +291,7 @@ footer p {
   form {
     display: flex
   }
+
   #comment_form_content {
     height: 24px;
   }
@@ -298,6 +299,7 @@ footer p {
   #form-comment {
     height: 30px;
   }
+
   button {
     height: 30px;
   }
@@ -369,6 +371,7 @@ footer p {
   margin: 2%;
   border: 2px solid aliceblue;
   padding: 1%;
+  margin-top: 100px;
 }
 
 .information-content {
@@ -382,6 +385,7 @@ footer p {
   justify-content: space-between;
   align-items: flex-start;
   width: 80%;
+  margin-top: 50px;
 }
 
 .information-content .information-actions #select-group {
@@ -390,22 +394,23 @@ footer p {
   font-weight: bold;
 }
 
-.information-content .information-actions .button-content {
+.information-content .button-content {
   display: flex;
   width: 200px;
-  justify-content: space-around;
+  justify-content: flex-end;
   align-items: center;
   height: 300px;
+  margin-left: 500px;
 }
 
-.information-content .information-actions .button-content .delete button {
+.information-content .button-content .delete button {
   width: 70px;
   height: 30px;
   background-color: #e01e1e;
   font-weight: bold;
 }
 
-.information-content .information-actions .button-content .save button {
+.information-content .button-content .save button {
   width: 70px;
   height: 30px;
   font-weight: bold;
@@ -536,6 +541,12 @@ footer p {
   margin: 20px 0 50px 0;
   height: 30px;
 }
+.delete {
+  margin-right: 20px;
+}
+.save {
+  margin-right: 20px;
+}
 
 .connection-form .link-login {
   display: none;
@@ -585,6 +596,9 @@ footer p {
   }
   /* singleTrick */
   .content #content-trick .content-trick-image-title h1 {
+    display: flex;
+    justify-content: center;
+    align-items: center;
     font-size: 25px;
   }
   .link-login {
@@ -770,26 +784,30 @@ footer p {
     font-size: 15px;
   }
   .content #content-trick .content-trick-image-title {
-    margin-left: 50px;
+    h1 {
+      width: 200px;
+    }
   }
-  .content #content-trick .content-trick-image-title h1 {
-    width: 120px;
+
+    .button-laptop {
+      display: none;
+    }
+
+    .connection-form .button-mobil {
+      display: block;
+    }
+
+    .connection-form .link-registration {
+      display: block;
+      margin: 0 0 20px 0;
+    }
+
+    .connection-form .link-registration {
+      display: block;
+      margin: 15px 0 5px 0;
+    }
+
+    .content-media {
+      display: none;
+    }
   }
-  .button-laptop {
-    display: none;
-  }
-  .connection-form .button-mobil {
-    display: block;
-  }
-  .connection-form .link-registration {
-    display: block;
-    margin: 0 0 20px 0;
-  }
-  .connection-form .link-registration {
-    display: block;
-    margin: 15px 0 5px 0;
-  }
-  .content-media {
-    display: none;
-  }
-}

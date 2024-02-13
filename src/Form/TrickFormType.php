@@ -2,14 +2,14 @@
 
 namespace App\Form;
 
-use App\Entity\Tag;
 use App\Entity\Trick;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Validator\Constraints\File;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class TrickFormType extends AbstractType
@@ -19,25 +19,34 @@ class TrickFormType extends AbstractType
         $builder
             ->add('title')
             ->add('content', TextareaType::class)
-            ->add('tags', EntityType::class, [
-                'class' => Tag::class,
-                'choice_label' => 'name',
-                'multiple' => true,
-                'expanded' => false
-            ])
             ->add('newTags', null, [
                 'mapped' => false,
                 'required' => false,
                 'attr' => ['placeholder' => 'Saisir un nouveau tag']
             ])
-            ->add('save', SubmitType::class, ['label' => 'Save'])
-            ->add('delete', SubmitType::class, ['label' => 'Delete'])
+            ->add('media', FileType::class, [
+                'mapped' => false,
+                'label' => false,
+                'constraints' => [
+                    new File([
+                        'maxSize' => '5M',
+                        'mimeTypes' => [
+                            'video/mp4',
+                            'image/png',
+                        ],
+                        'mimeTypesMessage' => 'Please upload a valid image file (MP4, PNG)',
+                    ])
+                ]
+            ])
             ->add('medias', CollectionType::class, [
                 'entry_type' => MediaType::class,
                 'allow_add' => true,
                 'by_reference' => false,
-                'mapped' => true
-            ]);
+                'mapped' => true,
+                'label' => false
+            ])
+            ->add('save', SubmitType::class, ['label' => 'Save'])
+            ->add('delete', SubmitType::class, ['label' => 'Delete']);
     }
 
     public function configureOptions(OptionsResolver $resolver): void

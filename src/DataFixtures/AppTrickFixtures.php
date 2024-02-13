@@ -2,9 +2,7 @@
 
 namespace App\DataFixtures;
 
-use App\Entity\Image;
 use App\Entity\Tag;
-use App\Entity\Video;
 use Faker\Factory;
 use Faker\Generator;
 use App\Entity\Trick;

@@ -187,7 +187,6 @@ class Trick
     public function removeMedia(Media $media): void
     {
         if ($this->medias->removeElement($media)) {
-            // set the owning side to null (unless already changed)
             if ($media->getTrick() === $this) {
                 $media->setTrick(null);
             }

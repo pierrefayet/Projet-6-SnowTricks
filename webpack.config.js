@@ -12,7 +12,7 @@ Encore
     .addEntry('app', './assets/app.js')
     .addStyleEntry('style', './assets/styles/app.scss')
     .copyFiles({
-        from: './assets/media',
+        from: './assets/img',
         to: 'media/[path][name].[hash:8].[ext]'
     })
     .copyFiles({

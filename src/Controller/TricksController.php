@@ -10,7 +10,6 @@ use App\Entity\Video;
 use App\Form\CommentFormType;
 use App\Form\TrickFormType;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -38,7 +37,8 @@ class TricksController extends AbstractController
 
         return $this->render('singleTrick.html.twig', [
             'trick' => $trick,
-            'trickForm' => $form->createView()
+            'trickForm' => $form->createView(),
+            'MediaType' => $form->createView()
         ]);
     }
 
@@ -51,20 +51,26 @@ class TricksController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $mediasFiles = $form->get('medias')->getData();
+            //image
+            //gestion des images:
+            //recuperation des media du formulaire
+            $mediasFiles = $form->get('media')->getData();
+            dump($mediasFiles);
             foreach ($mediasFiles as $file) {
-                if ($file instanceof UploadedFile) {
+                dd($file);
+                if ($file !== null) {
                     $mimeType = $file->getMimeType();
+                    //dd($mimeType,'ici');
                     if (str_starts_with($mimeType, 'image/')) {
                         $media = new Image();
                     }
                     if (str_starts_with($mimeType, 'video/')) {
-                        $media = new video();
+                        $media = new Video();
                     }
-
-                    if ($media) {
+                    if ($media !== null) {
                         // Sauvegarde du fichier et création de l'entité Media
                         $newFilename = uniqid() . '.' . $file->guessExtension();
+                        dump($newFilename,'toto');
                         $file->move($this->getParameter('media_directory'), $newFilename);
                         $media->setFilename($newFilename);
                         $media->setTrick($trick);
@@ -97,8 +103,10 @@ class TricksController extends AbstractController
 
         $entityManager->flush();
 
-        return $this->render('updateTrick.html.twig', ['trickForm' => $form->createView(),
-            'trick' => $trick]);
+        return $this->render('updateTrick.html.twig', [
+            'trickForm' => $form->createView(),
+            'trick' => $trick
+        ]);
     }
 
     #[
@@ -126,6 +134,6 @@ class TricksController extends AbstractController
             $entityManager->flush();
         }
 
-        return $this->redirectToRoute('home');
+        return $this->redirectToRoute('single_trick', ['id' => $trick->getId()]);
     }
 }
