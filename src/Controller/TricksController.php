@@ -54,30 +54,29 @@ class TricksController extends AbstractController
             //image
             //gestion des images:
             //recuperation des media du formulaire
-            $mediasFiles = $form->get('media')->getData();
-            dump($mediasFiles);
-            foreach ($mediasFiles as $file) {
-                dd($file);
+            $file = $form->get('media')->getData();
+            dump($file);
+                //dd('ici');
                 if ($file !== null) {
                     $mimeType = $file->getMimeType();
                     //dd($mimeType,'ici');
                     if (str_starts_with($mimeType, 'image/')) {
                         $media = new Image();
+                        $directory = '/image/';
                     }
                     if (str_starts_with($mimeType, 'video/')) {
                         $media = new Video();
+                        $directory = '/video/';
                     }
                     if ($media !== null) {
                         // Sauvegarde du fichier et création de l'entité Media
-                        $newFilename = uniqid() . '.' . $file->guessExtension();
-                        dump($newFilename,'toto');
-                        $file->move($this->getParameter('media_directory'), $newFilename);
+                        $newFilename = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME) . uniqid() . '.' . $file->guessExtension();
+                        $file->move($this->getParameter('media_directory') . $directory, $newFilename);
                         $media->setFilename($newFilename);
                         $media->setTrick($trick);
                     }
                 }
             }
-        }
 
         // tag
         // Géstion des tags existants
