@@ -27,10 +27,10 @@
                         {% for media in trick.medias %}
                             {% if media.type == 'image' and image_count < 3 %}
                                 {% set image_count = image_count + 1 %}
-                                <img src="{{ asset('build/images/' ~ media.filename) }}" alt="{{ media.alt }}">
+                                <img src="{{ asset('uploads/image/' ~ media.filename) }}" alt="{{ media.alt }}">
                             {% elseif media.type == 'video' and video_count < 2 %}
                                 <video controls>
-                                    <source src="{{ asset('build/media/' ~ media.filename) }}"
+                                    <source src="{{ asset('upload/video/' ~ media.filename) }}"
                                             type="video/mp4">
                                     Votre navigateur ne prend pas en charge la balise vidéo.
                                 </video>

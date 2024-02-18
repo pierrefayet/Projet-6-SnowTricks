@@ -3,13 +3,12 @@
 namespace App\Controller;
 
 use App\Entity\Comment;
-use App\Entity\Image;
-use App\Entity\Tag;
 use App\Entity\Trick;
-use App\Entity\Video;
 use App\Form\CommentFormType;
 use App\Form\DeleteTrickForm;
 use App\Form\TrickFormType;
+use App\Services\HandleMedia;
+use App\Services\HandleTags;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\Routing\Attribute\Route;
@@ -22,6 +21,10 @@ use Symfony\Component\HttpFoundation\Session\SessionInterface;
 
 class TricksController extends AbstractController
 {
+    public function __construct(private readonly HandleMedia $handleMedia, private readonly HandleTags $handleTags)
+    {
+    }
+
     #[Route('/add_trick', name: 'add_trick')]
     public function addTrick(Request $request, EntityManagerInterface $entityManager, Security $security): Response
     {
@@ -55,61 +58,22 @@ class TricksController extends AbstractController
     #[Route('/update_tricks/{id}', name: 'update_tricks')]
     public function modifyArticle(Request $request, EntityManagerInterface $entityManager, Trick $trick): Response
     {
-
         $form = $this->createForm(TrickFormType::class, $trick);
         $form->handleRequest($request);
-        $formDelete = $this->createForm(TrickFormType::class, $trick);
-        $formDelete->handleRequest($request);
-
 
         if ($form->isSubmitted() && $form->isValid()) {
-            //image
-            //gestion des images:
-            //recuperation des media du formulaire
             $file = $form->get('media')->getData();
-            if ($file !== null) {
-                $mimeType = $file->getMimeType();
-                if (str_starts_with($mimeType, 'image/')) {
-                    $media = new Image();
-                    $directory = '/image/';
-                }
-                if (str_starts_with($mimeType, 'video/')) {
-                    $media = new Video();
-                    $directory = '/video/';
-                }
-                if ($media !== null) {
-                    // Sauvegarde du fichier et création de l'entité Media
-                    $newFilename = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME) . uniqid() . '.' . $file->guessExtension();
-                    $file->move($this->getParameter('media_directory') . $directory, $newFilename);
-                    $media->setFilename($newFilename);
-                    $media->setTrick($trick);
-                }
+            if (isset($file)) {
+                $this->handleMedia->handleMediaUpload($file, $trick);
             }
+
+            $newTagsString = $form->get('newTags')->getData();
+            $this->handleTags->handleTags($newTagsString, $trick, $entityManager);
+
+            $entityManager->flush();
+
+            return $this->redirectToRoute('single_trick', ['id' => $trick->getId()]);
         }
-
-        // tag
-        // Géstion des tags existants
-        $trick = $form->getData();
-
-        // Géstion des nouveaux tags
-        $newTagsString = $form->get('newTags')->getData();
-        if (!empty($newTagsString)) {
-            $newTagsArray = explode(',', $newTagsString);
-            foreach ($newTagsArray as $tagName) {
-                $tagName = trim($tagName);
-                if (!empty($tagName)) {
-                    $tag = $entityManager->getRepository(Tag::class)->findOneBy(['name' => $tagName]);
-                    if (!$tag) {
-                        $tag = new Tag();
-                        $tag->setName($tagName);
-                        $entityManager->persist($tag);
-                    }
-                    $trick->addTag($tag);
-                }
-            }
-        }
-
-        $entityManager->flush();
 
         return $this->render('updateTrick.html.twig', [
             'trickForm' => $form->createView(),
@@ -117,7 +81,8 @@ class TricksController extends AbstractController
         ]);
     }
 
-    #[Route('/single_trick/{id}', name: 'single_trick')]
+    #[
+        Route('/single_trick/{id}', name: 'single_trick')]
     public function showTrick(Trick $trick, EntityManagerInterface $entityManager,): Response
     {
         $comment = new Comment();
@@ -158,5 +123,4 @@ class TricksController extends AbstractController
 
         return $this->redirectToRoute('home');
     }
-    //test git hub
 }
