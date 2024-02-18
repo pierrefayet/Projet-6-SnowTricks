@@ -13,6 +13,11 @@ class VoterTrick extends Voter
         if ('edit' === $attribute && $subject instanceof Trick) {
             return true;
         }
+
+        if ('add' === $attribute && $subject instanceof Trick) {
+            return true;
+        }
+
         if ('delete' === $attribute && $subject instanceof Trick) {
             return true;
         }

@@ -8,34 +8,43 @@ use App\Entity\Tag;
 use App\Entity\Trick;
 use App\Entity\Video;
 use App\Form\CommentFormType;
+use App\Form\DeleteTrickForm;
 use App\Form\TrickFormType;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 
 class TricksController extends AbstractController
 {
     #[Route('/add_trick', name: 'add_trick')]
-    public function addTrick(Request $request, EntityManagerInterface $entityManager): Response
+    public function addTrick(Request $request, EntityManagerInterface $entityManager, Security $security): Response
     {
         $trick = new Trick();
         $form = $this->createForm(TrickFormType::class, $trick);
         $form->handleRequest($request);
-        $form = $form->getData();
+
+
+        $user = $security->getUser();
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $trick->setContent('content');
+
+            $trick->setTitle('title');
             $trick->setIntro('intro');
+            $trick->setContent('content');
+            $trick->setAuthor($user);
             $entityManager->persist($trick);
             $entityManager->flush();
 
             return $this->redirectToRoute('single_trick', ['id' => $trick->getId()]);
         }
 
-        return $this->render('singleTrick.html.twig', [
+        return $this->render('addTrick.html.twig', [
             'trick' => $trick,
             'trickForm' => $form->createView(),
             'MediaType' => $form->createView()
@@ -49,34 +58,34 @@ class TricksController extends AbstractController
 
         $form = $this->createForm(TrickFormType::class, $trick);
         $form->handleRequest($request);
+        $formDelete = $this->createForm(TrickFormType::class, $trick);
+        $formDelete->handleRequest($request);
+
 
         if ($form->isSubmitted() && $form->isValid()) {
             //image
             //gestion des images:
             //recuperation des media du formulaire
             $file = $form->get('media')->getData();
-            dump($file);
-                //dd('ici');
-                if ($file !== null) {
-                    $mimeType = $file->getMimeType();
-                    //dd($mimeType,'ici');
-                    if (str_starts_with($mimeType, 'image/')) {
-                        $media = new Image();
-                        $directory = '/image/';
-                    }
-                    if (str_starts_with($mimeType, 'video/')) {
-                        $media = new Video();
-                        $directory = '/video/';
-                    }
-                    if ($media !== null) {
-                        // Sauvegarde du fichier et création de l'entité Media
-                        $newFilename = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME) . uniqid() . '.' . $file->guessExtension();
-                        $file->move($this->getParameter('media_directory') . $directory, $newFilename);
-                        $media->setFilename($newFilename);
-                        $media->setTrick($trick);
-                    }
+            if ($file !== null) {
+                $mimeType = $file->getMimeType();
+                if (str_starts_with($mimeType, 'image/')) {
+                    $media = new Image();
+                    $directory = '/image/';
+                }
+                if (str_starts_with($mimeType, 'video/')) {
+                    $media = new Video();
+                    $directory = '/video/';
+                }
+                if ($media !== null) {
+                    // Sauvegarde du fichier et création de l'entité Media
+                    $newFilename = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME) . uniqid() . '.' . $file->guessExtension();
+                    $file->move($this->getParameter('media_directory') . $directory, $newFilename);
+                    $media->setFilename($newFilename);
+                    $media->setTrick($trick);
                 }
             }
+        }
 
         // tag
         // Géstion des tags existants
@@ -108,14 +117,16 @@ class TricksController extends AbstractController
         ]);
     }
 
-    #[
-        Route('/single_trick/{id}', name: 'single_trick')]
+    #[Route('/single_trick/{id}', name: 'single_trick')]
     public function showTrick(Trick $trick, EntityManagerInterface $entityManager,): Response
     {
         $comment = new Comment();
         $commentForm = $this->createForm(CommentFormType::class, $comment, ['action' => $this->generateUrl('add_comment', ['id' => $trick->getId()]),
             'method' => 'POST',]);
-        $comments = $entityManager->getRepository(Comment::class)->findBy(['commentPostId' => $trick], ['creationDate' => 'DESC']);
+        $comments = [];
+        if ($trick->getId() !== null) {
+            $comments = $entityManager->getRepository(Comment::class)->findBy(['trick' => $trick], ['creationDate' => 'DESC']);
+        }
         return $this->render('singleTrick.html.twig', [
             'trick' => $trick,
             'comments' => $comments,
@@ -125,14 +136,26 @@ class TricksController extends AbstractController
 
     #[IsGranted('delete', 'trick')]
     #[Route('/delete_trick/{id}', name: 'delete_trick')]
-    public function deleteTrick(Request $request, Trick $trick, EntityManagerInterface $entityManager): Response
+    public function deleteTrick(
+        Request                       $request,
+        Trick                         $trick,
+        EntityManagerInterface        $entityManager,
+        AuthorizationCheckerInterface $authorizationChecker,
+        SessionInterface              $session
+    ): Response
     {
+        if (!$authorizationChecker->isGranted('delete', $trick)) {
+            $session->getFlashBag()->add('error', 'Vous ne pouvez supprimer que les figures que vous avez créées.');
 
-        if ($this->isCsrfTokenValid('delete' . $trick->getId(), $request->request->get('_token'))) {
-            $entityManager->remove($trick);
-            $entityManager->flush();
+            return $this->redirectToRoute('home');
         }
 
-        return $this->redirectToRoute('single_trick', ['id' => $trick->getId()]);
+        $form = $this->createForm(DeleteTrickForm::class, $trick);
+        $form->handleRequest($request);
+        $entityManager->remove($trick);
+        $entityManager->flush();
+        $session->getFlashBag()->add('success', 'La figure a été supprimée avec succès.');
+
+        return $this->redirectToRoute('home');
     }
 }

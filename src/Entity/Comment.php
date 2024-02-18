@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+
 use App\Repository\CommentRepository;
 use Doctrine\ORM\Mapping as ORM;
 use DateTime;
@@ -17,8 +18,8 @@ class Comment
     private ?string $content;
     #[ORM\Column(nullable: true)]
     private DateTime $creationDate;
-    #[ORM\ManyToOne(targetEntity: Trick::class)]
-    private ?Trick $commentPostId;
+    #[ORM\ManyToOne(targetEntity: Trick::class, inversedBy: 'comments')]
+    private ?Trick $trick;
     #[ORM\ManyToOne(targetEntity: User::class)]
     private ?User $commentUserId;
 
@@ -74,20 +75,14 @@ class Comment
         $this->creationDate = $creationDate;
     }
 
-    /**
-     * @return ?Trick
-     */
-    public function getCommentPostId(): ?Trick
+    public function getTrick(): ?Trick
     {
-        return $this->commentPostId;
+        return $this->trick;
     }
 
-    /**
-     * @param ?Trick $commentPostId
-     */
-    public function setCommentPostId(?Trick $commentPostId): void
+    public function setTrick(?Trick $trick): void
     {
-        $this->commentPostId = $commentPostId;
+        $this->trick = $trick;
     }
 
     /**

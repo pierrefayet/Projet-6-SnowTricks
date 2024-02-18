@@ -2,30 +2,24 @@
 
 namespace App\Form;
 
-use App\Entity\Comment;
+use App\Entity\Trick;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-
-class CommentFormType extends AbstractType
+class DeleteTrickForm extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('content', null, ['attr' => ['id' => 'form-comment']
-            ])
-            ->
-            add('submit', SubmitType::class, ['label' => 'Laisser un commentaire']
-            );
+            ->add('delete', SubmitType::class, ['label' => false]);
     }
 
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            'data_class' => Comment::class,
-            'attr' => ['class' => 'comment']
+            'data_class' => Trick::class
         ]);
     }
 }

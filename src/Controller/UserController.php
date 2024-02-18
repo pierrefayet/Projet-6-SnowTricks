@@ -15,6 +15,7 @@ use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
 use Symfony\Component\Mime\Address;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Attribute\Route;
@@ -77,6 +78,9 @@ class UserController extends AbstractController
         return $this->render('forgotPassword.html.twig', ['forgotPassword' => $userConnectionForm->createView()]);
     }
 
+    /**
+     * @throws TransportExceptionInterface
+     */
     #[Route('/create_account', name: 'registration')]
     public function registrationUser(
         Request $request, UserPasswordHasherInterface $passwordEncoder,
@@ -117,13 +121,13 @@ class UserController extends AbstractController
         $id = $request->query->get('id');
 
         if (null === $id) {
-            return $this->redirectToRoute('notFoundPage');
+            return $this->redirectToRoute(route: '_preview_error');
         }
 
         $user = $userRepository->find($id);
 
         if (null === $user) {
-            return $this->redirectToRoute('notFoundPage');
+            return $this->redirectToRoute(route: '_preview_error');
         }
 
         try {
@@ -134,8 +138,8 @@ class UserController extends AbstractController
             return $this->redirectToRoute('forgot_password');
         }
 
-        $this->addFlash('home', 'Your email address has been verified.');
+        $this->addFlash('success', 'Your email address has been verified.');
 
-        return $this->redirectToRoute('app_register');
+        return $this->redirectToRoute('home');
     }
 }

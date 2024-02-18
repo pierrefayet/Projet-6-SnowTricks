@@ -21,8 +21,7 @@ class CommentController extends AbstractController
         $form->handleRequest($request);
 
         if($form->isSubmitted() && $form->isValid()) {
-            dump('ici');
-            $comment->setCommentPostId($trick);
+            $comment->setTrick($trick);
             $entityManager->persist($comment);
             $entityManager->flush();
 
@@ -30,7 +29,8 @@ class CommentController extends AbstractController
         }
 
         return $this->render('singleTrick.html.twig', [
-            'commentForm' => $form->createView()
+            'commentForm' => $form->createView(),
+            'addTrick' => $form
         ]);
     }
 

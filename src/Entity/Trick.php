@@ -15,7 +15,7 @@ class Trick
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    private int $id;
+    private ?int $id = null;
     #[ORM\Column(type: "string", length: 255, nullable: true)]
     private string $title;
     #[ORM\Column]
@@ -26,7 +26,7 @@ class Trick
     private DateTime $creation_date;
 
     #[ORM\ManyToOne(targetEntity: User::class)]
-    private User $author;
+    private ?User $author = null;
 
     #[ORM\ManyToMany(targetEntity: Tag::class, mappedBy: 'tricks')]
     private Collection $tags;
@@ -34,14 +34,19 @@ class Trick
     #[ORM\OneToMany(mappedBy: "trick", targetEntity: Media::class)]
     private Collection $medias;
 
+    #[ORM\OneToMany(mappedBy: 'trick', targetEntity: Comment::class, cascade: ['remove'])]
+    private Collection $comments;
+
     public function __construct()
     {
         $this->tags = new ArrayCollection();
         $this->medias = new ArrayCollection();
+        $this->comments = new ArrayCollection();
+        $this->creation_date = new \DateTime();
     }
 
     /**
-     * @return ?int
+     * @return int|null
      */
     public function getId(): ?int
     {
@@ -49,7 +54,7 @@ class Trick
     }
 
     /**
-     * @param int | null $id
+     * @param int|null $id
      */
     public function setId(?int $id): void
     {
@@ -121,9 +126,9 @@ class Trick
     }
 
     /**
-     * @return User
+     * @return User|null
      */
-    public function getAuthor(): User
+    public function getAuthor(): ?User
     {
         return $this->author;
     }
@@ -191,5 +196,34 @@ class Trick
                 $media->setTrick(null);
             }
         }
+    }
+
+    /**
+     * @return Collection<int, Comment>
+     */
+    public function getComments(): Collection
+    {
+        return $this->comments;
+    }
+
+    public function addComment(Comment $comment): static
+    {
+        if (!$this->comments->contains($comment)) {
+            $this->comments->add($comment);
+            $comment->setTrick($this);
+        }
+
+        return $this;
+    }
+
+    public function removeComment(Comment $comment): static
+    {
+        if ($this->comments->removeElement($comment)) {
+            if ($comment->getTrick() === $this) {
+                $comment->setTrick(null);
+            }
+        }
+
+        return $this;
     }
 }

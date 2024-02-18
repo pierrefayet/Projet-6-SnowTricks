@@ -68,17 +68,24 @@
                     </div>
                     <div class="content-comment-container">
                         <div class="content-comment">
-                            {% for comment in comments %}
-                                <div class="content-comment-items">
-                                    <div class="content-comment--icon">
-                                        <i class="fa-solid fa-user"></i>
+                            {% if comments is not empty %}
+                                {% for comment in comments %}
+                                    <div class="content-comment-items">
+                                        <div class="content-comment--icon">
+                                            <i class="fa-solid fa-user"></i>
+                                        </div>
+                                        <div class="content-comment--content">
+                                            <p>{{ comment.content }}</p>
+                                            <p>{{ comment.creationDate|date('d/m/Y') }}</p>
+                                        </div>
                                     </div>
-                                    <div class="content-comment--content">
-                                        <p>{{ comment.content }}</p>
-                                        <p>{{ comment.creationDate|date('d/m/Y') }}</p>
-                                    </div>
+                                {% endfor %}
+                            {% else %}
+                                {# debug #}
+                                <div class="no-comments">
+                                    <p>No comments yet.</p>
                                 </div>
-                            {% endfor %}
+                            {% endif %}
                         </div>
                         <div class="container-expand">
                             <div id="expand">

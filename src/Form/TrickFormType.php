@@ -17,8 +17,9 @@ class TrickFormType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('title')
-            ->add('content', TextareaType::class)
+            ->add('title', null , ['label' => false])
+            ->add('intro', null , ['label' => false])
+            ->add('content', TextareaType::class, ['label' => false])
             ->add('newTags', null, [
                 'mapped' => false,
                 'required' => false,
@@ -26,6 +27,7 @@ class TrickFormType extends AbstractType
             ])
             ->add('media', FileType::class, [
                 'mapped' => false,
+                'required' => false,
                 'label' => false,
                 'constraints' => [
                     new File([
@@ -45,8 +47,7 @@ class TrickFormType extends AbstractType
                 'mapped' => true,
                 'label' => false
             ])
-            ->add('save', SubmitType::class, ['label' => 'Save'])
-            ->add('delete', SubmitType::class, ['label' => 'Delete']);
+            ->add('save', SubmitType::class, ['label' => 'Save']);
     }
 
     public function configureOptions(OptionsResolver $resolver): void

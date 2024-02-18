@@ -8,9 +8,4 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class DefaultController extends AbstractController
 {
-    #[Route('/default', name: 'notFoundPage')]
-    public function notFoundPage(): Response
-    {
-        return $this->render('error404.html.twig');
-    }
 }

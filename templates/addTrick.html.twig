@@ -1,19 +1,12 @@
 {% extends 'layout.html.twig' %}
 {% block main %}
     <main>
-        {% for message in app.flashes('error') %}
-            <div class="alert alert-danger">{{ message }}</div>
-        {% endfor %}
-
-        {% for message in app.flashes('success') %}
-            <div class="alert alert-success">{{ message }}</div>
-        {% endfor %}
         <section class="intro-background">
             <div class="intro-trick"
                  style="background-image: url({{ asset('build/images/50_50_Grinds.51e6a335.png') }});"></div>
         </section>
         <section class="content">
-            {{ form_start(trickForm, {'attr': {'enctype':'multipart/form-data'}}) }}
+            {{ form_start(trickForm) }}
             <div id="content-trick">
                 <div class="content-header"
                      style="background-image: url({{ asset('build/images/50_50_Grinds.51e6a335.png') }});">
@@ -21,12 +14,6 @@
                         <h1>
                             {{ form_row(trickForm.title, {'label':false }) }}
                         </h1>
-                    </div>
-                    <div class="content-trick-image--icon">
-                        <div id="pencil"><a href="{{ path('update_tricks', {'id': trick.id}) }}"><i
-                                        class="fa-solid fa-pencil"></i></a></div>
-                        <div id="trash-can"><a href="{{ path('delete_trick', {'id': trick.id}) }}"><i
-                                        class="fa-solid fa-trash-can"></i></a></div>
                     </div>
                 </div>
                 <div class="content-media">
@@ -40,29 +27,18 @@
                                 {% endif %}
                             {% endfor %}
                             {{ form_row(trickForm.media) }}
-                            <div class="modifier-icons">
-                                <div class="modifier-icons-content">
-                                    <div id="pencil"><a href="{{ path('update_tricks', {'id': trick.id}) }}"><i
-                                                    class="fa-solid fa-pencil"></i></a></div>
-                                    <div id="trash-can"><a href="{{ path('delete_trick', {'id': trick.id}) }}"><i
-                                                    class="fa-solid fa-trash-can"></i></a></div>
-                                </div>
-                            </div>
-                            <img id="imagePreview" src="#" alt="Show adding image  or video"
-                                 style="display: none; max-width: 200px; height: auto;"/>
-
                         </div>
                     </div>
                 </div>
                 <div class="media-expand">
                     <div class="media-expand-content">See medias</div>
                 </div>
-                <div class="content-intro">
-                    <p>
-                        {{ form_row(trickForm.intro, {'label':false }) }}
-                    </p>
-                </div>
                 <div class="information-content">
+                    <div class="content-intro">
+                        <p>
+                            {{ form_row(trickForm.intro, {'label':false }) }}
+                        </p>
+                    </div>
                     <div class="content-description-scroll">
                         <p>
                             {{ form_row(trickForm.content, {'label':false }) }}
@@ -87,11 +63,6 @@
                         </div>
                     </div>
                     {{ form_end(trickForm) }}
-                    <form action="{{ path('delete_trick', {'id': trick.id}) }}" method="POST">
-                        <div class="delete">
-                            <button type="submit">Supprimer</button>
-                        </div>
-                    </form>
                 </div>
             </div>
         </section>
@@ -104,17 +75,4 @@
             </ul>
         </div>
     </main>
-    {% block javascripts %}
-        <script>
-            document.getElementById('{{ trickForm.media.vars.id }}').addEventListener('change', function (event) {
-                let reader = new FileReader();
-                reader.onload = function () {
-                    let output = document.getElementById('imagePreview');
-                    output.src = reader.result;
-                    output.style.display = 'block';
-                };
-                reader.readAsDataURL(event.target.files[0]);
-            });
-        </script>
-    {% endblock %}
 {% endblock %}
