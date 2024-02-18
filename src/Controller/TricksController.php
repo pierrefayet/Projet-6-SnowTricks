@@ -30,14 +30,14 @@ class TricksController extends AbstractController
         $form->handleRequest($request);
 
 
-        $user = $security->getUser();
+        //$user = $security->getUser();
 
         if ($form->isSubmitted() && $form->isValid()) {
 
             $trick->setTitle('title');
             $trick->setIntro('intro');
             $trick->setContent('content');
-            $trick->setAuthor($user);
+            $trick->setIntro('intro');
             $entityManager->persist($trick);
             $entityManager->flush();
 
@@ -158,4 +158,5 @@ class TricksController extends AbstractController
 
         return $this->redirectToRoute('home');
     }
+    //test git hub
 }
