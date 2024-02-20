@@ -27,7 +27,7 @@ class AddedUserFixtures extends Fixture
             $user->setUserName($this->faker->word());
             $user->setEmail($this->faker->email());
             $user->setPassword($this->passwordEncoder->hashPassword($user, 'TEST'));
-            $user->setUserImage();
+            $user->setUserImage('');
             $user->setRoles(['ROLE_USER']);
             $manager->persist($user);
             $this->addReference('UserFixtures' . $i, $user);

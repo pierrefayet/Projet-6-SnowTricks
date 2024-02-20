@@ -6,6 +6,8 @@ use App\Entity\Trick;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\Persistence\ManagerRegistry;
+use Knp\Component\Pager\Pagination\PaginationInterface;
+use Knp\Component\Pager\PaginatorInterface;
 
 /**
  * @extends ServiceEntityRepository<Trick>
@@ -17,7 +19,7 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class TrickRepository extends ServiceEntityRepository
 {
-    public function __construct(ManagerRegistry $registry)
+    public function __construct(ManagerRegistry $registry, private readonly PaginatorInterface $paginator)
     {
         parent::__construct($registry, Trick::class);
     }
@@ -32,5 +34,13 @@ class TrickRepository extends ServiceEntityRepository
             ->where('tag.name = :tag')
             ->getQuery()
             ->getOneOrNullResult();
+    }
+    public function paginateTrick(int $page, int $limit): PaginationInterface
+    {
+        return $this->paginator->paginate(
+            $this->createQueryBuilder('t'),
+            $page,
+            $limit
+        );
     }
 }

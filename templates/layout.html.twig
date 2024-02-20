@@ -20,15 +20,21 @@
                 <img src="{{ asset('build/images/logo.png') }}" alt="surfer">
             </div>
             <div class="navbar">
-                <ul>
-                    <li><a href="{{ path('home') }}">Home</a></li>
-                    <li><a href="/#portfolio">Trick</a></li>
-                    <li><a href="{{ path('registration') }}">Sign in</a></li>
-                    <li><a href="{{ path('security_login') }}">Sign up</a></li>
-                    {% if is_granted('ROLE_USER') %}
-                    <li><a href="{{ path('profile') }}">Profile</a></li>
-                    {% endif %}
-                </ul>
+                {% if not is_granted('ROLE_USER') %}
+                    <ul>
+                        <li><a href="{{ path('home') }}">Home</a></li>
+                        <li><a href="#portfolio">Trick</a></li>
+                        <li><a href="{{ path('registration') }}">Sign in</a></li>
+                        <li><a href="{{ path('security_login') }}">Sign up</a></li>
+                    </ul>
+                {% else %}
+                    <ul>
+                        <li><a href="{{ path('home') }}">Home</a></li>
+                        <li><a href="#portfolio">Trick</a></li>
+                        <li><a href="{{ path('profile') }}">Profile</a></li>
+                        <li><a href="{{ path('security_logout') }}">Log out</a></li>
+                    </ul>
+                {% endif %}
             </div>
         </div>
     </header>

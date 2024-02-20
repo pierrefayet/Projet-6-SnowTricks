@@ -13,12 +13,14 @@
                             {{ trick.title }}
                         </h1>
                     </div>
+                    {% if is_granted('ROLE_USER') and app.user == trick.author %}
                     <div class="content-trick-image--icon">
                         <div id="pencil"><a href="/update_tricks/{{ trick.id }}"><i class="fa-solid fa-pencil"></i></a>
                         </div>
                         <div id="trash-can"><a href="/delete_trick/{{ trick.id }}"><i class="fa-solid fa-trash-can"></i></a>
                         </div>
                     </div>
+                    {% endif %}
                 </div>
                 <div>
                     <div class="content-media-tricks">
@@ -51,19 +53,16 @@
                             <div class="content-information-item">{{ tag.name }}</div>
                         {% endfor %}
                     </div>
+                    {% if is_granted('ROLE_USER') %}
                     <div class="content-form">
                         <div class="content-form--content">
                             {{ form_start(commentForm, {'action': path('add_comment', {'id': trick.id}), 'method': 'POST'}) }}
                             {{ form_row(commentForm.content, {'label':false}) }}
-                            <div class="form-error">
-                                {{ form_errors(commentForm.content) }}
-                            </div>
                             {{ form_row(commentForm.submit) }}
-                            {{ form_errors(commentForm) }}
-                            {{ form_rest(commentForm) }}
                             {{ form_end(commentForm) }}
                         </div>
                     </div>
+                    {% endif %}
                     <div class="content-comment-container">
                         <div class="content-comment">
                             {% if comments is not empty %}
@@ -78,6 +77,8 @@
                                         </div>
                                         <div class="content-comment--content">
                                             <p>{{ comment.content }}</p>
+                                            <p>''</p>
+                                            <p>{{ comment.commentUserId.userName }}</p>
                                             <p>{{ comment.creationDate|date('d/m/Y') }}</p>
                                         </div>
                                     </div>
