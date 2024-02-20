@@ -21,12 +21,12 @@
                         <div class="media-tricks-modifier-content">
                             {% for media in trick.medias %}
                                 {% if media.type == 'image' %}
-                                    <img src="{{ asset('path/to/uploads/media/image' ~ media.filename) }}" alt="surfer">
+                                    <img src="{{ asset('path/to/uploads/medias/image' ~ media.filename) }}" alt="surfer">
                                 {% elseif media.type == 'video' %}
-                                    <video src="{{ asset('path/to/uploads/media/video' ~ media.filename) }}"></video>
+                                    <video src="{{ asset('path/to/uploads/medias/video' ~ media.filename) }}"></video>
                                 {% endif %}
                             {% endfor %}
-                            {{ form_row(trickForm.media) }}
+                            {{ form_row(trickForm.medias) }}
                         </div>
                     </div>
                 </div>
@@ -68,9 +68,9 @@
         </section>
         <div class="navbar-mobile">
             <ul>
-                <li><a href="/"><i class="fa-solid fa-house"></i></a></li>
-                <li><a href="/single_trick"><i class="fa-solid fa-bookmark"></i></a></li>
-                <li><a href="/login"><i class="fa-solid fa-user"></i></a></li>
+                <li><a href="{{ path('home') }}"><i class="fa-solid fa-house"></i></a></li>
+                <li><a href="#portfolio"><i class="fa-solid fa-bookmark"></i></a></li>
+                <li><a href="{{ path('security_login') }}"><i class="fa-solid fa-user"></i></a></li>
                 <!-- <li><i class="fa-solid fa-right-from-bracket"></i></li> -->
             </ul>
         </div>

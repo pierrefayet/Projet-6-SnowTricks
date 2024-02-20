@@ -5,11 +5,16 @@ namespace App\Controller;
 use App\Entity\User;
 use App\Form\ForgotFormType;
 use App\Form\LoginFormType;
+use App\Form\ProfileEmailType;
+use App\Form\ProfileImageType;
+use App\Form\ProfileType;
+use App\Form\ProfileUserNameType;
 use App\Form\RegistrationType;
 use App\Form\ResetFormType;
 use App\Repository\UserRepository;
 use App\Security\EmailVerifier;
 use App\Security\FormLoginAuthenticator;
+use App\Services\ImageService;
 use Exception;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -83,10 +88,10 @@ class UserController extends AbstractController
      */
     #[Route('/create_account', name: 'registration')]
     public function registrationUser(
-        Request $request, UserPasswordHasherInterface $passwordEncoder,
-        EntityManagerInterface $entityManager,
+        Request                    $request, UserPasswordHasherInterface $passwordEncoder,
+        EntityManagerInterface     $entityManager,
         UserAuthenticatorInterface $userAuthenticator,
-        FormLoginAuthenticator $authenticator
+        FormLoginAuthenticator     $authenticator
     ): Response
     {
         $user = new User();
@@ -141,5 +146,46 @@ class UserController extends AbstractController
         $this->addFlash('success', 'Your email address has been verified.');
 
         return $this->redirectToRoute('home');
+    }
+
+    #[Route('/profile', name: 'profile')]
+    public function modifyProfile(
+        Request $request,
+        EntityManagerInterface $entityManager, ImageService $imageService
+    ): Response
+    {
+        $user = $this->getUser();
+        $formUsername = $this->createForm(ProfileUserNameType::class, $user);
+        $formUsername->handleRequest($request);
+        $formEmail = $this->createForm(ProfileEmailType::class, $user);
+        $formEmail->handleRequest($request);
+        $formImage = $this->createForm(ProfileImageType::class, $user);
+        $formImage->handleRequest($request);
+
+        if ($formUsername->isSubmitted() && $formUsername->isValid()) {
+            $entityManager->flush();
+         // return $this->redirectToRoute('security_login');
+        }
+
+        if ($formEmail->isSubmitted() && $formEmail->isValid()) {
+            $entityManager->flush();
+        }
+
+        if ($formImage->isSubmitted() && $formImage->isValid()) {
+            $file = $formImage->get('userImage')->getData();
+            if ($file) {
+                $user->setUserImage($imageService->buildImage($file, '/avatar'));
+            }
+
+            $entityManager->flush();
+            $this->addFlash('success', 'Votre profil a été mis à jour');
+        }
+
+        return $this->render('profile.html.twig', [
+            'profileUsername' => $formUsername->createView(),
+            'profileEmail' => $formEmail->createView(),
+            'profileImage' => $formImage->createView()
+
+        ]);
     }
 }

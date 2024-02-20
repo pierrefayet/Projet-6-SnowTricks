@@ -10,7 +10,7 @@
         <link rel="stylesheet" href="{{ asset('build/assets_styles_app_scss.css') }}">
         <script src="https://kit.fontawesome.com/a4ca8720ca.js" crossorigin="anonymous"></script>
     {% endblock %}
-    <link rel="icon" type="image/png" href="{{ asset('build/images/favicon.ico') }}"/>
+    <link rel="icon" type="image/png" href="{{ asset('favicon.ico') }}"/>
 </head>
 <body>
 {% block header %}
@@ -21,10 +21,13 @@
             </div>
             <div class="navbar">
                 <ul>
-                    <li><a href="/">Home</a></li>
+                    <li><a href="{{ path('home') }}">Home</a></li>
                     <li><a href="/#portfolio">Trick</a></li>
-                    <li><a href="/create_account">Sign in</a></li>
-                    <li><a href="/login">Sign up</a></li>
+                    <li><a href="{{ path('registration') }}">Sign in</a></li>
+                    <li><a href="{{ path('security_login') }}">Sign up</a></li>
+                    {% if is_granted('ROLE_USER') %}
+                    <li><a href="{{ path('profile') }}">Profile</a></li>
+                    {% endif %}
                 </ul>
             </div>
         </div>

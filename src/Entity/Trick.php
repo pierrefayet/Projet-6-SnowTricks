@@ -8,19 +8,25 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 #[ORM\Entity(repositoryClass: TrickRepository::class)]
+#[UniqueEntity('title')]
 class Trick
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
     private ?int $id = null;
-    #[ORM\Column(type: "string", length: 255, nullable: true)]
-    private string $title;
+
+    #[ORM\Column(type: "string")]
+    private string $slug;
+
+    #[ORM\Column(type: "string", length: 255)]
+    private ?string $title = null;
     #[ORM\Column]
-    private ?string $intro;
-    #[ORM\Column(type: Types::TEXT, nullable: true)]
+    private ?string $intro = null;
+    #[ORM\Column(type: Types::TEXT)]
     private ?string $content;
     #[ORM\Column(options: ["default" => "CURRENT_TIMESTAMP"])]
     private DateTime $creation_date;
@@ -43,6 +49,16 @@ class Trick
         $this->medias = new ArrayCollection();
         $this->comments = new ArrayCollection();
         $this->creation_date = new \DateTime();
+    }
+
+    public function getSlug(): string
+    {
+        return $this->slug;
+    }
+
+    public function setSlug(string $slug): void
+    {
+        $this->slug = $slug;
     }
 
     /**

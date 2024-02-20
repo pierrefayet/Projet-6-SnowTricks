@@ -22,10 +22,12 @@ class CommentController extends AbstractController
 
         if($form->isSubmitted() && $form->isValid()) {
             $comment->setTrick($trick);
+            $comment->setCommentUserId($this->getUser());
+
             $entityManager->persist($comment);
             $entityManager->flush();
 
-            return $this->redirectToRoute('single_trick', ['id' => $trick->getId()]);
+            return $this->redirectToRoute('single_trick', ['slug' => $trick->getSlug()]);
         }
 
         return $this->render('singleTrick.html.twig', [
@@ -37,10 +39,10 @@ class CommentController extends AbstractController
     #[Route('/delete_comment/{id}', name: 'delete_comment')]
     public function deleteTrick(Comment $comment, EntityManagerInterface $entityManager, Trick $trick): Response
     {
-        $trickId = $comment->getCommentPostId()->getId();
+
         $entityManager->remove($comment);
         $entityManager->flush();
 
-        return $this->redirectToRoute('single_trick',  ['id' => $trickId]);
+        return $this->redirectToRoute('single_trick', ['slug' => $trick->getSlug()]);
     }
 }

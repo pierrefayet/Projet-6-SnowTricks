@@ -1,6 +1,14 @@
 twig:
     default_path: '%kernel.project_dir%/templates'
+    globals:
+        pathMediaImage: '%env(MEDIA_UPLOAD_PATH)%/image'
+        pathMediaVideo: '%env(MEDIA_UPLOAD_PATH)%/video'
+        pathMediaAvatar: '%env(MEDIA_UPLOAD_PATH)%/avatar'
+
 
 when@test:
     twig:
         strict_variables: true
+
+
+

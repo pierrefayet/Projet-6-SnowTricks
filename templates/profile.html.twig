@@ -1,0 +1,52 @@
+{% extends 'layout.html.twig' %}
+{% block main %}
+    <main class="connection">
+        <div class="connection-title">
+            <div class="connection-title-content">
+                Login
+            </div>
+        </div>
+        <section class="connection-form">
+            {{ form_start(profileUsername) }}
+            <div>
+                {{ form_row(profileUsername.userName, {'attr': {'id': 'Username'}}) }}
+            </div>
+            <div>
+                <button type="submit">Save</button>
+            </div>
+            {{ form_end(profileUsername) }}
+            <section class="connection-form">
+            {{ form_start(profileEmail) }}
+            <div>
+                {{ form_row(profileEmail.email, {'attr': {'id': 'email'}}) }}
+            </div>
+            <div>
+                <button type="submit">Save</button>
+            </div>
+            {{ form_end(profileEmail) }}
+            </section>
+            {{ form_start(profileImage) }}
+            <div>
+                {{ form_row(profileImage, {'attr': {'class': 'connection-content'}}) }}
+            </div>
+            <div>
+                <button type="submit">Save</button>
+            </div>
+            {{ form_end(profileImage) }}
+        </section>
+    </main>
+    <div class="navbar-mobile">
+        <ul>
+            <li><a href="{{ path('home') }}"><i class="fa-solid fa-house"></i></a></li>
+            <li><a href="/single_trick"><i class="fa-solid fa-bookmark"></i></a></li>
+            <li><a href="{{ path('security_login') }}"><i class="fa-solid fa-user"></i></a></li>
+        </ul>
+    </div>
+    {% for message in app.flashes('error') %}
+        <div class="alert alert-danger">{{ message }}</div>
+    {% endfor %}
+
+    {% for message in app.flashes('success') %}
+        <div class="alert alert-success">{{ message }}</div>
+    {% endfor %}
+{% endblock %}

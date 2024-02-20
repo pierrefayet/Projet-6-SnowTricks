@@ -3,7 +3,7 @@
     <header>
         <div id="header">
             <div class="header-picture">
-                <img src="{{ asset('build/images/logo.69cbb78a.png') }}" alt="surfer">
+                <img src="{{ asset('build/images/logo.png') }}" alt="surfer">
             </div>
             <div class="navbar">
                 {% if not is_granted('ROLE_USER') %}
@@ -17,6 +17,7 @@
                     <ul>
                         <li><a href="{{ path('home') }}">Home</a></li>
                         <li><a href="#portfolio">Trick</a></li>
+                        <li><a href="{{ path('profile') }}">Profile</a></li>
                         <li><a href="{{ path('security_logout') }}">Log out</a></li>
                     </ul>
                 {% endif %}
@@ -59,7 +60,7 @@
             {% for trick in tricks %}
                 <div class="card">
                     <div class="card-image">
-                        <a href="/single_trick/{{ trick.id }}">
+                        <a href="{{ path('single_trick', {'slug': trick.slug }) }}">
                             <img src="{{ asset('build/images/50_50_Grinds.51e6a335.png') }}" alt="figure de snowboard">
                         </a>
                     </div>
@@ -67,14 +68,16 @@
                         <div class="card-header">
                             <h4>{{ trick.title }}</h4>
                         </div>
-                        <div class="card-icons">
+                        {% if is_granted('ROLE_USER') and app.user == trick.author %}
+                            <div class="card-icons">
                             <span class="icon"><a href="/update_tricks/{{ trick.id }}"><i
                                             class="fa-solid fa-pencil"></i></a></span>
-                        </div>
-                        <div class="card-icons">
+                            </div>
+                            <div class="card-icons">
                             <span class="icon"><a href="/update_tricks/{{ trick.id }}"><i
                                             class="fa-solid fa-trash-can"></i></a></span>
-                        </div>
+                            </div>
+                        {% endif %}
                     </div>
                 </div>
             {% endfor %}
@@ -94,13 +97,17 @@
         </div>
         <div class="navbar-mobile">
             <ul>
-                <li><a href="/"><i class="fa-solid fa-house"></i></a></li>
+                <li><a href="{{ path('home') }}"><i class="fa-solid fa-house"></i></a></li>
                 <li><a href="/single_trick{id}"><i class="fa-solid fa-bookmark"></i></a></li>
-                <li><a href="/login"><i class="fa-solid fa-user"></i></a></li>
-                <!-- <li><i class="fa-solid fa-right-from-bracket"></i></li> -->
+                {% if not is_granted('ROLE_USER') %}
+                    <li><a href="{{ path('security_login') }}"><i class="fa-solid fa-user"></i></a></li>
+                {% else %}
+                    <li><i class="fa-solid fa-right-from-bracket"></i></li>
+                {% endif %}
             </ul>
         </div>
     </main>
     {% block javascripts %}{% endblock %}
     {{ encore_entry_script_tags('app') }}
 {% endblock %}
+{# TODO faire une pagination sur load more des tricks en php #}

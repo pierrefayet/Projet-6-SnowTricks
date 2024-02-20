@@ -29,17 +29,27 @@
                                         class="fa-solid fa-trash-can"></i></a></div>
                     </div>
                 </div>
+                <div class="addMedia" data-index="0">
+                    <button type="button" class="add_item_media" data-collection-holder-class="media">Add a media
+                    </button>
+                </div>
                 <div class="content-media">
                     <div class="media-tricks--modifier">
                         <div class="media-tricks-modifier-content">
                             {% for media in trick.medias %}
                                 {% if media.type == 'image' %}
-                                    <img src="{{ asset('path/to/uploads/media/image' ~ media.filename) }}" alt="surfer">
+                                    <img src="{{ asset(pathMediaImage ~ '/' ~ media.filename) }}"
+                                         alt="surfer">
                                 {% elseif media.type == 'video' %}
-                                    <video src="{{ asset('path/to/uploads/media/video' ~ media.filename) }}"></video>
+                                    <video controls>
+                                        <source src="{{ asset(pathMediaVideo ~ '/' ~ media.filename) }}"/>
+                                    </video>
                                 {% endif %}
                             {% endfor %}
-                            {{ form_row(trickForm.media) }}
+                            <div>
+                                {{ form_row(trickForm.medias) }}
+
+                            </div>
                             <div class="modifier-icons">
                                 <div class="modifier-icons-content">
                                     <div id="pencil"><a href="{{ path('update_tricks', {'id': trick.id}) }}"><i
@@ -50,6 +60,9 @@
                             </div>
                             <img id="imagePreview" src="#" alt="Show adding image  or video"
                                  style="display: none; max-width: 200px; height: auto;"/>
+                            <video controls id="videoPreview" style="display: none; max-width: 200px; height: auto;">
+                                <source src="#"/>
+                            </video>
 
                         </div>
                     </div>
@@ -69,8 +82,12 @@
                         </p>
                     </div>
                     <div class="information-actions">
+                        <div class="addTag">
+                            <button type="button" class="add_item_tags" data-collection-holder-class="tag">Add a tag
+                            </button>
+                        </div>
                         <div class="select-group">
-                            <div class="delete">
+                            <div class="content-tag" data-index="0">
                                 {{ form_row(trickForm.newTags, {'label':false }) }}
                                 {{ form_errors(trickForm.newTags) }}
                             </div>
@@ -97,24 +114,67 @@
         </section>
         <div class="navbar-mobile">
             <ul>
-                <li><a href="/"><i class="fa-solid fa-house"></i></a></li>
+                <li><a href="{{ path('home') }}"><i class="fa-solid fa-house"></i></a></li>
                 <li><a href="/single_trick"><i class="fa-solid fa-bookmark"></i></a></li>
-                <li><a href="/login"><i class="fa-solid fa-user"></i></a></li>
+                <li><a href="{{ path('security_login') }}"><i class="fa-solid fa-user"></i></a></li>
                 <!-- <li><i class="fa-solid fa-right-from-bracket"></i></li> -->
             </ul>
         </div>
     </main>
     {% block javascripts %}
         <script>
-            document.getElementById('{{ trickForm.media.vars.id }}').addEventListener('change', function (event) {
-                let reader = new FileReader();
-                reader.onload = function () {
-                    let output = document.getElementById('imagePreview');
-                    output.src = reader.result;
-                    output.style.display = 'block';
-                };
-                reader.readAsDataURL(event.target.files[0]);
-            });
+            const mediaPrototype = document.querySelector('#trick_form_medias');
+            const collectionHolder = document.querySelector('.addMedia');
+            document.querySelector('.add_item_media').addEventListener('click', () => {
+                const item = document.createElement('li');
+                item.innerHTML = mediaPrototype
+                    .dataset
+                    .prototype
+                    .replace(
+                        /__name__/g,
+                        collectionHolder.dataset.index
+                    );
+                console.log('item:', item);
+                item.addEventListener('change', function (event) {
+                    console.log('on rentre');
+                    let reader = new FileReader();
+                    console.log('reader:', reader);
+                    reader.onload = function () {
+                        let outputImage = document.getElementById('imagePreview');
+                        let outputVideo = document.getElementById('videoPreview');
+                        if (/png|jpeg|jpg/.test(event.target.files[0].name)) {
+                            outputImage.src = reader.result;
+                            outputImage.style.display = 'block';
+                            outputVideo.style.display = 'none'
+                            return;
+                        }
+                        outputVideo.src = reader.result;
+                        outputVideo.style.display = 'block';
+                        outputImage.style.display = 'none'
+                    }
+                    console.log('event.target.files[0]:', event.target.files[0]);
+                    reader.readAsDataURL(event.target.files[0]);
+                });
+                collectionHolder.appendChild(item);
+
+                collectionHolder.dataset.index++;
+            })
+        </script>
+        <script>
+            const tagPrototype = document.querySelector('#trick_form_newTags');
+            const collectionTagHolder = document.querySelector('.content-tag');
+            document.querySelector('.add_item_tags').addEventListener('click', () => {
+                const item = document.createElement('li');
+                item.innerHTML = tagPrototype
+                    .dataset
+                    .prototype
+                    .replace(
+                        /__name__/g,
+                        collectionTagHolder.dataset.index
+                    );
+                collectionTagHolder.appendChild(item);
+                collectionTagHolder.dataset.index++;
+            })
         </script>
     {% endblock %}
 {% endblock %}

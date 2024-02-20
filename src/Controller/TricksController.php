@@ -10,6 +10,7 @@ use App\Form\TrickFormType;
 use App\Services\HandleMedia;
 use App\Services\HandleTags;
 use Doctrine\ORM\EntityManagerInterface;
+use Exception;
 use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\HttpFoundation\Request;
@@ -32,19 +33,12 @@ class TricksController extends AbstractController
         $form = $this->createForm(TrickFormType::class, $trick);
         $form->handleRequest($request);
 
-
-        //$user = $security->getUser();
-
         if ($form->isSubmitted() && $form->isValid()) {
 
-            $trick->setTitle('title');
-            $trick->setIntro('intro');
-            $trick->setContent('content');
-            $trick->setIntro('intro');
             $entityManager->persist($trick);
             $entityManager->flush();
 
-            return $this->redirectToRoute('single_trick', ['id' => $trick->getId()]);
+            return $this->redirectToRoute('single_trick', ['slug' => $trick->getSlug()]);
         }
 
         return $this->render('addTrick.html.twig', [
@@ -62,9 +56,13 @@ class TricksController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $file = $form->get('media')->getData();
+            $file = $form->get('medias')->getData();
             if (isset($file)) {
-                $this->handleMedia->handleMediaUpload($file, $trick);
+                try {
+                    $this->handleMedia->handleMediaUpload($file, $trick);
+                } catch (Exception $e) {
+                  //  throw new $e->getMessage();
+                }
             }
 
             $newTagsString = $form->get('newTags')->getData();
@@ -72,7 +70,7 @@ class TricksController extends AbstractController
 
             $entityManager->flush();
 
-            return $this->redirectToRoute('single_trick', ['id' => $trick->getId()]);
+            return $this->redirectToRoute('single_trick', ['slug' => $trick->getSlug()]);
         }
 
         return $this->render('updateTrick.html.twig', [
@@ -81,8 +79,7 @@ class TricksController extends AbstractController
         ]);
     }
 
-    #[
-        Route('/single_trick/{id}', name: 'single_trick')]
+    #[Route('/single_trick/{slug}', name: 'single_trick')]
     public function showTrick(Trick $trick, EntityManagerInterface $entityManager,): Response
     {
         $comment = new Comment();

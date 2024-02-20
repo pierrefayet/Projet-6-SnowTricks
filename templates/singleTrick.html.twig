@@ -27,10 +27,10 @@
                         {% for media in trick.medias %}
                             {% if media.type == 'image' and image_count < 3 %}
                                 {% set image_count = image_count + 1 %}
-                                <img src="{{ asset('uploads/image/' ~ media.filename) }}" alt="{{ media.alt }}">
+                                <img src="{{ asset(pathMediaImage  ~ '/' ~ media.filename) }}" alt="{{ media.alt }}">
                             {% elseif media.type == 'video' and video_count < 2 %}
                                 <video controls>
-                                    <source src="{{ asset('upload/video/' ~ media.filename) }}"
+                                    <source src="{{ asset(pathMediaVideo  ~ '/' ~ media.filename) }}"
                                             type="video/mp4">
                                     Votre navigateur ne prend pas en charge la balise vidéo.
                                 </video>
@@ -47,10 +47,8 @@
                         </p>
                     </div>
                     <div class="content-information">
-                        {% set tag_count = 4 %}
-                        {% for tag in trick.tags %}
+                        {% for tag in trick.tags|slice(0,4) %}
                             <div class="content-information-item">{{ tag.name }}</div>
-                            {% set tag_count = tag_count + 1 %}
                         {% endfor %}
                     </div>
                     <div class="content-form">
@@ -72,7 +70,11 @@
                                 {% for comment in comments %}
                                     <div class="content-comment-items">
                                         <div class="content-comment--icon">
-                                            <i class="fa-solid fa-user"></i>
+                                            {% if comment.commentUserId.userImage %}
+                                                <img  height="50" src="{{ asset(pathMediaAvatar  ~ '/' ~  comment.commentUserId.userImage) }}" alt="profil image">
+                                            {% else %}
+                                                <i class="fa-solid fa-user"></i>
+                                            {% endif %}
                                         </div>
                                         <div class="content-comment--content">
                                             <p>{{ comment.content }}</p>
@@ -104,10 +106,11 @@
     </main>
     <div class="navbar-mobile">
         <ul>
-            <li><a href="/"><i class="fa-solid fa-house"></i></a></li>
+            <li><a href="{{ path('home') }}"><i class="fa-solid fa-house"></i></a></li>
             <li><a href="/single_trick"><i class="fa-solid fa-bookmark"></i></a></li>
-            <li><a href="/login"><i class="fa-solid fa-user"></i></a></li>
+            <li><a href="{{ path('security_login') }}"><i class="fa-solid fa-user"></i></a></li>
             <!-- <li><i class="fa-solid fa-right-from-bracket"></i></li> -->
         </ul>
     </div>
 {% endblock %}
+{# TODO faire une pagination sur load more des comments en php #}

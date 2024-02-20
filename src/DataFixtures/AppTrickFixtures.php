@@ -9,6 +9,7 @@ use App\Entity\Trick;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
+use Symfony\Component\String\Slugger\AsciiSlugger;
 
 class AppTrickFixtures extends Fixture implements DependentFixtureInterface
 {
@@ -32,6 +33,7 @@ class AppTrickFixtures extends Fixture implements DependentFixtureInterface
             $trick = new Trick();
             $trick->setAuthor($this->getReference('UserFixtures' . $i));
             $trick->setTitle($this->faker->sentence(2));
+            $trick->setSlug((new AsciiSlugger())->slug(strtolower($trick->getTitle())));
             $trick->setIntro($this->faker->sentence(3));
             $trick->setContent($this->faker->paragraph);
             $trick->setCreationDate($this->faker->dateTime());

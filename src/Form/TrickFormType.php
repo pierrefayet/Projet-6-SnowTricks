@@ -8,8 +8,9 @@ use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\Validator\Constraints\File;
+;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class TrickFormType extends AbstractType
@@ -17,35 +18,37 @@ class TrickFormType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('title', null , ['label' => false])
-            ->add('intro', null , ['label' => false])
+            ->add('title', null, ['label' => false])
+            ->add('intro', null, ['label' => false])
             ->add('content', TextareaType::class, ['label' => false])
-            ->add('newTags', null, [
+            ->add('addTags', CollectionType::class, [
                 'mapped' => false,
                 'required' => false,
                 'attr' => ['placeholder' => 'Saisir un nouveau tag']
             ])
-            ->add('media', FileType::class, [
-                'mapped' => false,
-                'required' => false,
-                'label' => false,
-                'constraints' => [
-                    new File([
-                        'maxSize' => '5M',
-                        'mimeTypes' => [
-                            'video/mp4',
-                            'image/png',
-                        ],
-                        'mimeTypesMessage' => 'Please upload a valid image file (MP4, PNG)',
-                    ])
-                ]
-            ])
             ->add('medias', CollectionType::class, [
-                'entry_type' => MediaType::class,
+                'entry_type' => FileType::class,
+                'entry_options' => ['label' => false],
                 'allow_add' => true,
+                'allow_delete' => true,
                 'by_reference' => false,
-                'mapped' => true,
-                'label' => false
+                'mapped' => false,
+                'label_attr' => ['style' => 'display: none'],
+                'prototype_options' => [
+                    'label' => false
+                ],
+            ])
+            ->add('newTags', CollectionType::class, [
+                'entry_type' => TextType::class,
+                'entry_options' => ['label' => false],
+                'allow_add' => true,
+                'allow_delete' => true,
+                'by_reference' => false,
+                'mapped' => false,
+                'label_attr' => ['style' => 'display: none'],
+                'prototype_options' => [
+                    'label' => false
+                ],
             ])
             ->add('save', SubmitType::class, ['label' => 'Save']);
     }

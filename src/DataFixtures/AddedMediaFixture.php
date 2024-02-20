@@ -21,7 +21,6 @@ class AddedMediaFixture extends Fixture implements DependentFixtureInterface
 
     public function load(ObjectManager $manager): void
     {
-        $media = new Media();
         for ($j = 1; $j <= 4; $j++) {
             $image = new Image();
             $trick = $this->getReference('trick');
@@ -35,7 +34,7 @@ class AddedMediaFixture extends Fixture implements DependentFixtureInterface
             $video = new Video();
             $trick = $this->getReference('trick');
             $video->setTrick($trick);
-            $video->setFilename('50_50_Grinds_easy_snowboard.576d4151.mp4');
+            $video->setFilename('50_50_Grinds_easy_snowboard.mp4');
             $manager->persist($video);
         }
 
