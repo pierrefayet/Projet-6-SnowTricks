@@ -164,7 +164,6 @@ class UserController extends AbstractController
 
         if ($formUsername->isSubmitted() && $formUsername->isValid()) {
             $entityManager->flush();
-         // return $this->redirectToRoute('security_login');
         }
 
         if ($formEmail->isSubmitted() && $formEmail->isValid()) {

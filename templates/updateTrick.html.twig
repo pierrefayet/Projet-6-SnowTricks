@@ -43,8 +43,7 @@
                             <div>
                                 {{ form_row(trickForm.medias) }}
 
-                            </div>
-                            {# TODO cabler les icones avec la supression d'image #}
+                            </div>}
                             <img id="imagePreview" src="#" alt="Show adding image  or video"
                                  style="display: none; max-width: 200px; height: auto;"/>
                             <video controls id="videoPreview" style="display: none; max-width: 200px; height: auto;">
@@ -110,6 +109,7 @@
     </main>
     {% block javascripts %}
         <script>
+            /* Added preview file download */
             const mediaPrototype = document.querySelector('#trick_form_medias');
             const collectionHolder = document.querySelector('.addMedia');
             document.querySelector('.add_item_media').addEventListener('click', () => {
@@ -121,11 +121,8 @@
                         /__name__/g,
                         collectionHolder.dataset.index
                     );
-                console.log('item:', item);
                 item.addEventListener('change', function (event) {
-                    console.log('on rentre');
                     let reader = new FileReader();
-                    console.log('reader:', reader);
                     reader.onload = function () {
                         let outputImage = document.getElementById('imagePreview');
                         let outputVideo = document.getElementById('videoPreview');
@@ -148,6 +145,7 @@
             })
         </script>
         <script>
+            /* pushed tag of the select list */
             const tagPrototype = document.querySelector('#trick_form_newTags');
             const collectionTagHolder = document.querySelector('.content-tag');
             document.querySelector('.add_item_tags').addEventListener('click', () => {

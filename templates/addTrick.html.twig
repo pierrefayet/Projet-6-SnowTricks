@@ -46,9 +46,11 @@
                     </div>
                     <div class="information-actions">
                         <div class="select-group">
-                            <div class="delete">
-                                {{ form_row(trickForm.newTags, {'label':false }) }}
-                                {{ form_errors(trickForm.newTags) }}
+                            <div class="add-tag">
+                                {{ form_row(trickForm.addTags) }}
+                            </div>
+                            <div class="select-tag">
+                                {{ form_row(trickForm.newTags) }}
                             </div>
                             <label for="select-group"></label><select name="groups" id="select-group">
                                 {% for tag in trick.tags %}

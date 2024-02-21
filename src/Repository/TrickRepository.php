@@ -35,6 +35,7 @@ class TrickRepository extends ServiceEntityRepository
             ->getQuery()
             ->getOneOrNullResult();
     }
+
     public function paginateTrick(int $page, int $limit): PaginationInterface
     {
         return $this->paginator->paginate(

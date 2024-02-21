@@ -29,7 +29,7 @@ class AppTrickFixtures extends Fixture implements DependentFixtureInterface
             $tags[] = $tag;
         }
 
-        for ($i = 1; $i <= 10; $i++) {
+        for ($i = 1; $i <= 50; $i++) {
             $trick = new Trick();
             $trick->setAuthor($this->getReference('UserFixtures' . $i));
             $trick->setTitle($this->faker->sentence(2));

@@ -1,0 +1,24 @@
+{% for trick in tricks %}
+    <div class="card">
+        <div class="card-image">
+            <a href="{{ path('single_trick', {'slug': trick.slug }) }}">
+                <img src="{{ asset('build/images/50_50_Grinds.51e6a335.png') }}" alt="figure de snowboard">
+            </a>
+        </div>
+        <div class="card-content">
+            <div class="card-header">
+                <h4>{{ trick.title }}</h4>
+            </div>
+            {% if is_granted('ROLE_USER') and app.user == trick.author %}
+                <div class="card-icons">
+                            <span class="icon"><a href="/update_tricks/{{ trick.id }}"><i
+                                            class="fa-solid fa-pencil"></i></a></span>
+                </div>
+                <div class="card-icons">
+                            <span class="icon"><a href="/update_tricks/{{ trick.id }}"><i
+                                            class="fa-solid fa-trash-can"></i></a></span>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+{% endfor %}

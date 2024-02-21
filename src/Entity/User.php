@@ -20,15 +20,15 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private int $id;
 
     #[ORM\Column(nullable: true)]
-    private string $userName;
+    private ?string $userName;
 
     #[ORM\Column(nullable: true)]
-    private string $email;
+    private ?string $email;
 
     #[ORM\Column(nullable: true)]
     private ?string $password;
     #[ORM\Column(nullable: true)]
-    private ?array $roles = [];
+    private ?array $roles = ['ROLE_USER'];
 
     #[ORM\Column(type: 'boolean')]
     private bool $isVerified = false;
@@ -111,7 +111,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     }
 
     /**
-     * @param string ?$email
+     * @param string | null $email
      */
     public function setEmail(?string $email): void
     {

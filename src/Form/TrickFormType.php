@@ -22,6 +22,8 @@ class TrickFormType extends AbstractType
             ->add('intro', null, ['label' => false])
             ->add('content', TextareaType::class, ['label' => false])
             ->add('addTags', CollectionType::class, [
+                'entry_type' => TextType::class,
+                'entry_options' => ['label' => false],
                 'mapped' => false,
                 'required' => false,
                 'attr' => ['placeholder' => 'Saisir un nouveau tag']

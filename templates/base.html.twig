@@ -57,37 +57,15 @@
             </section>
         {% endif %}
         <section id="portfolio">
-            {% for trick in tricks %}
-                <div class="card">
-                    <div class="card-image">
-                        <a href="{{ path('single_trick', {'slug': trick.slug }) }}">
-                            <img src="{{ asset('build/images/50_50_Grinds.51e6a335.png') }}" alt="figure de snowboard">
-                        </a>
-                    </div>
-                    <div class="card-content">
-                        <div class="card-header">
-                            <h4>{{ trick.title }}</h4>
-                        </div>
-                        {% if is_granted('ROLE_USER') and app.user == trick.author %}
-                            <div class="card-icons">
-                            <span class="icon"><a href="/update_tricks/{{ trick.id }}"><i
-                                            class="fa-solid fa-pencil"></i></a></span>
-                            </div>
-                            <div class="card-icons">
-                            <span class="icon"><a href="/update_tricks/{{ trick.id }}"><i
-                                            class="fa-solid fa-trash-can"></i></a></span>
-                            </div>
-                        {% endif %}
-                    </div>
-                </div>
-            {% endfor %}
+            {% include 'tricks.html.twig'with {'tricks': tricks} %}
         </section>
-        <div id="expand">
-            <div>
-                <p><i class="fa-solid fa-spinner"></i></p>
-            </div>
-            <div>
-                <button>Load more</button>
+        <div id="expand" class="d-flex">
+            <div id="expand" class="d-flex">
+                {% if tricks.currentPageNumber < maxPage %}
+                        <button id="load-more" data-current-page="{{ tricks.currentPageNumber + 1 }}"
+                                data-max-page="{{ maxPage }}"> Load More
+                        </button>
+                {% endif %}
             </div>
         </div>
         <div class="scroll-arrow-up" id="scroll-up">
@@ -107,7 +85,29 @@
             </ul>
         </div>
     </main>
-    {% block javascripts %}{% endblock %}
+    {% block javascripts %}
+        <script>
+            document.addEventListener('DOMContentLoaded', () => {
+                const loadMoreButton = document.getElementById("load-more");
+                if (loadMoreButton) {
+                    loadMoreButton.addEventListener('click', () => {
+                        const currentPage = parseInt(loadMoreButton.getAttribute('data-current-page'), 10);
+                        loadMoreButton.setAttribute('data-current-page', (currentPage + 1).toString());
+                        const maxPage = parseInt(loadMoreButton.getAttribute('data-max-page'), 10);
+                        console.log(maxPage);
+                        fetch(`/get-tricks?page=${currentPage}`, { method: 'GET'})
+                            .then(response => response.text())
+                                .then(data => {
+                                    document.getElementById('portfolio').insertAdjacentHTML('beforeend', data);
+                                })
+                        if(currentPage > maxPage) {
+                            loadMoreButton.parentElement.parentElement.remove();
+                        }
+                    });
+                }
+
+            });
+        </script>
+    {% endblock %}
     {{ encore_entry_script_tags('app') }}
 {% endblock %}
-{# TODO faire une pagination sur load more des tricks en php #}
