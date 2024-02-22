@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Repository\MediaRepository;
 use App\Repository\TrickRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -11,15 +12,17 @@ use Symfony\Component\Routing\Annotation\Route;
 class HomePageController extends AbstractController
 {
     #[Route('/', name: 'home')]
-    public function home(TrickRepository $trickRepository, Request $request): Response
+    public function home(TrickRepository $trickRepository, MediaRepository $mediaRepository): Response
     {
+       // $trick = $doctrine->getRepository(Trick::class)->find($trickId);
         $page = 1;
         $tricks = $trickRepository->paginateTrick($page , 10);
         $maxPage = ceil($tricks->getTotalItemCount() / 10);
 
         return $this->render('base.html.twig', [
             'tricks' => $tricks,
-            'maxPage' => $maxPage
+            'maxPage' => $maxPage,
+
         ]);
     }
 
@@ -28,7 +31,6 @@ class HomePageController extends AbstractController
     {
         $page = $request->query->getInt('page', 2);
         $tricks = $trickRepository->paginateTrick($page, 10);
-        //$maxPage = $tricks->getTotalItemCount();
 
         return $this->render('tricks.html.twig', [
             'tricks' => $tricks

@@ -6,8 +6,14 @@
         </section>
         <section class="content">
             <div id="content-trick">
+
                 <div class="content-header"
-                     style="background-image: url({{ asset('build/images/50_50_Grinds.51e6a335.png') }});">
+                        {% if trick.medias|length > 0 %}
+                        {% set media = trick.medias|first %}
+                     style="background-image: url({{ asset(pathMediaImage  ~ '/' ~ media.filename) }});">
+                    {% else %}
+                        style="background-image: url({{ asset(pathMediaImage  ~ '/' ~ 'default.jpg') }});">
+                    {% endif %}
                     <div class="content-trick-image-title">
                         <h1>
                             {{ trick.title }}

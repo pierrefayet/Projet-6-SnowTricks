@@ -1,0 +1,18 @@
+{% for comment in comments %}
+    <div class="content-comment-items">
+        <div class="content-comment--icon">
+            {% if comment.commentUserId.userImage %}
+                <img height="50" src="{{ asset(pathMediaAvatar  ~ '/' ~  comment.commentUserId.userImage) }}"
+                     alt="profil image">
+            {% else %}
+                <i class="fa-solid fa-user"></i>
+            {% endif %}
+        </div>
+        <div class="content-comment--content">
+            <p>{{ comment.content }}</p>
+            <p>''</p>
+            <p>{{ comment.commentUserId.userName }}</p>
+            <p>{{ comment.creationDate|date('d/m/Y') }}</p>
+        </div>
+    </div>
+{% endfor %}
