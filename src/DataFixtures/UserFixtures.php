@@ -9,7 +9,7 @@ use Faker\Factory;
 use Faker\Generator;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
-class AddedUserFixtures extends Fixture
+class UserFixtures extends Fixture
 {
 
     private Generator $faker;
@@ -30,7 +30,7 @@ class AddedUserFixtures extends Fixture
             $user->setUserImage('');
             $user->setRoles(['ROLE_USER']);
             $manager->persist($user);
-            $this->addReference('UserFixtures' . $i, $user);
+            $this->addReference('users' . $i, $user);
         }
         $manager->flush();
     }

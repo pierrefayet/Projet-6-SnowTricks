@@ -33,7 +33,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(type: 'boolean')]
     private bool $isVerified = false;
     #[ORM\Column(nullable: true)]
-    private ?string $userImage = null;
+    private ?UploadMedia $userImage = null;
 
     /**
      * @return ?int
@@ -43,12 +43,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this->id;
     }
 
-    public function getUserImage(): ?string
+    public function getUserImage(): ?UploadMedia
     {
         return $this->userImage;
     }
 
-    public function setUserImage(?string $userImage): void
+    public function setUserImage(?UploadMedia $userImage): void
     {
         $this->userImage = $userImage;
     }

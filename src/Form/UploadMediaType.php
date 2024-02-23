@@ -2,13 +2,13 @@
 
 namespace App\Form;
 
-use App\Entity\Media;
+use App\Entity\UploadMedia;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class MediaType extends AbstractType
+class UploadMediaType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
@@ -21,7 +21,7 @@ class MediaType extends AbstractType
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            'data_class' => Media::class,
+            'data_class' => UploadMedia::class,
         ]);
     }
 }

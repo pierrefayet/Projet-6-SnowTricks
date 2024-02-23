@@ -6,7 +6,7 @@ use Doctrine\ORM\Mapping\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 #[Entity]
-class Image extends Media
+class Image extends UploadMedia
 {
     #[ORM\Column(nullable: true)]
     protected ?string $alt = null;

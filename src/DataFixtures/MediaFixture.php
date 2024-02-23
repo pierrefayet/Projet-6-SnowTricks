@@ -3,7 +3,6 @@
 namespace App\DataFixtures;
 
 use App\Entity\Image;
-use App\Entity\Media;
 use App\Entity\Video;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
@@ -11,7 +10,7 @@ use Doctrine\Persistence\ObjectManager;
 use Faker\Factory;
 use Faker\Generator;
 
-class AddedMediaFixture extends Fixture implements DependentFixtureInterface
+class MediaFixture extends Fixture implements DependentFixtureInterface
 {
     private Generator $faker;
     public function __construct()
@@ -23,7 +22,7 @@ class AddedMediaFixture extends Fixture implements DependentFixtureInterface
     {
         for ($j = 1; $j <= 4; $j++) {
             $image = new Image();
-            $trick = $this->getReference('trick');
+            $trick = $this->getReference('tricks');
             $image->setTrick($trick);
             $image->setFilename('50_50_Grinds.png');
             $image->setAlt($this->faker->sentence(2));
@@ -32,7 +31,7 @@ class AddedMediaFixture extends Fixture implements DependentFixtureInterface
 
         for ($j = 1; $j <= 2; $j++) {
             $video = new Video();
-            $trick = $this->getReference('trick');
+            $trick = $this->getReference('tricks');
             $video->setTrick($trick);
             $video->setFilename('50_50_Grinds_easy_snowboard.mp4');
             $manager->persist($video);
@@ -43,7 +42,7 @@ class AddedMediaFixture extends Fixture implements DependentFixtureInterface
     public function getDependencies(): array
     {
         return [
-            AppTrickFixtures::class,
+            TrickFixtures::class,
         ];
     }
 }

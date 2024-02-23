@@ -6,7 +6,7 @@ use Doctrine\ORM\Mapping\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 #[Entity]
-class Video extends Media
+class Video extends UploadMedia
 {
     public function getType(): string
     {

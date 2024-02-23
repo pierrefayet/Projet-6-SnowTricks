@@ -12,7 +12,7 @@ class Comment
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
-    #[ORM\Column(nullable: true)]
+    #[ORM\Column]
     private ?int $id;
     #[ORM\Column(nullable: true)]
     private ?string $content;

@@ -7,6 +7,7 @@ use App\Entity\Trick;
 use App\Form\CommentFormType;
 use App\Form\DeleteTrickForm;
 use App\Form\TrickFormType;
+use App\Repository\CommentRepository;
 use App\Services\HandleMedia;
 use App\Services\HandleTags;
 use Doctrine\ORM\EntityManagerInterface;
@@ -58,11 +59,7 @@ class TricksController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $file = $form->get('medias')->getData();
             if (isset($file)) {
-                try {
-                    $this->handleMedia->handleMediaUpload($file, $trick);
-                } catch (Exception $e) {
-                  //  throw new $e->getMessage();
-                }
+                $this->handleMedia->handleMediaUpload($file, $trick);
             }
 
             $newTagsString = $form->get('newTags')->getData();
@@ -80,18 +77,18 @@ class TricksController extends AbstractController
     }
 
     #[Route('/single_trick/{slug}', name: 'single_trick')]
-    public function showTrick(Trick $trick, EntityManagerInterface $entityManager,): Response
+    public function showTrick(Trick $trick, CommentRepository $commentRepository): Response
     {
         $comment = new Comment();
         $commentForm = $this->createForm(CommentFormType::class, $comment, ['action' => $this->generateUrl('add_comment', ['id' => $trick->getId()]),
             'method' => 'POST',]);
-        $comments = [];
-        if ($trick->getId() !== null) {
-            $comments = $entityManager->getRepository(Comment::class)->findBy(['trick' => $trick], ['creationDate' => 'DESC']);
-        }
+        $comments = $commentRepository->paginateTrick(1, 5);
+        $maxPage = ceil($comments->getTotalItemCount() / 5);
+
         return $this->render('singleTrick.html.twig', [
             'trick' => $trick,
             'comments' => $comments,
+            'maxPage' => $maxPage,
             'commentForm' => $commentForm->createView()
         ]);
     }

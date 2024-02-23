@@ -9,7 +9,7 @@ use Doctrine\Persistence\ObjectManager;
 use Faker\Factory;
 use Faker\Generator;
 
-class AppCommentFixtures extends Fixture implements DependentFixtureInterface
+class CommentFixtures extends Fixture implements DependentFixtureInterface
 {
     private Generator $faker;
     public function __construct()
@@ -21,8 +21,8 @@ class AppCommentFixtures extends Fixture implements DependentFixtureInterface
     {
         for ($i = 1; $i <= 20; $i++) {
             $comment = new Comment();
-            $comment->setTrick( $this->getReference('trick'));
-            $comment->setCommentUserId($this->getReference('user' . $i));
+            $comment->setTrick( $this->getReference('tricks'));
+            $comment->setCommentUserId($this->getReference('users' . $i));
             $comment->setContent($this->faker->paragraph);
             $manager->persist($comment);
         }
@@ -32,8 +32,8 @@ class AppCommentFixtures extends Fixture implements DependentFixtureInterface
     public function getDependencies(): array
     {
         return [
-            AppUserFixtures::class,
-            AppTrickFixtures::class
+            UserFixtures::class,
+            TrickFixtures::class
         ];
     }
 }

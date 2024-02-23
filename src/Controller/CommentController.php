@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Comment;
 use App\Entity\Trick;
 use App\Form\CommentFormType;
+use App\Repository\CommentRepository;
 use App\Repository\TrickRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -15,7 +16,7 @@ use Symfony\Component\HttpFoundation\Response;
 class CommentController extends AbstractController
 {
     #[Route('/add_comment/{id}', name: 'add_comment')]
-    public function AddComment(Request $request, EntityManagerInterface $entityManager,Trick $trick):Response
+    public function addComment(Request $request, EntityManagerInterface $entityManager,Trick $trick):Response
     {
         $comment = new Comment;
         $form = $this->createForm(CommentFormType::class, $comment);
@@ -47,7 +48,7 @@ class CommentController extends AbstractController
         return $this->redirectToRoute('single_trick', ['slug' => $trick->getSlug()]);
     }
 
-   /* #[\Symfony\Component\Routing\Annotation\Route('/get-comments', name: 'load_more_comment')]
+    #[\Symfony\Component\Routing\Annotation\Route('/get-comments', name: 'load_more_comment')]
     public function loadMore(CommentRepository $commentRepository, Request $request): Response
     {
         $page = $request->query->getInt('page', 2);
@@ -56,5 +57,5 @@ class CommentController extends AbstractController
         return $this->render('comments.html.twig', [
             'comments' => $comments
         ]);
-    }*/
+    }
 }

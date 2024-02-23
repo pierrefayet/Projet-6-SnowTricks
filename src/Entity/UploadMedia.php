@@ -12,7 +12,7 @@ use Doctrine\ORM\Mapping\InheritanceType;
 #[InheritanceType('JOINED')]
 #[DiscriminatorColumn(name: 'discr', type: 'string')]
 #[DiscriminatorMap(['image' => Image::class, 'video' => Video::class])]
-class Media
+class UploadMedia
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]

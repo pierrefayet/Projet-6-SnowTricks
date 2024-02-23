@@ -2,7 +2,7 @@
 
 namespace App\Controller;
 
-use App\Repository\MediaRepository;
+use App\Repository\UploadMediaRepository;
 use App\Repository\TrickRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -12,7 +12,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class HomePageController extends AbstractController
 {
     #[Route('/', name: 'home')]
-    public function home(TrickRepository $trickRepository, MediaRepository $mediaRepository): Response
+    public function home(TrickRepository $trickRepository): Response
     {
         $page = 1;
         $tricks = $trickRepository->paginateTrick($page , 10);

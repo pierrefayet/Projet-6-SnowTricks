@@ -34,10 +34,10 @@ class Trick
     #[ORM\ManyToOne(targetEntity: User::class)]
     private ?User $author = null;
 
-    #[ORM\ManyToMany(targetEntity: Tag::class, mappedBy: 'tricks')]
-    private Collection $tags;
+    #[ORM\ManyToOne(targetEntity: Category::class, inversedBy: 'tricks')]
+    private Category $category;
 
-    #[ORM\OneToMany(mappedBy: "trick", targetEntity: Media::class)]
+    #[ORM\OneToMany(mappedBy: "trick", targetEntity: UploadMedia::class)]
     private Collection $medias;
 
     #[ORM\OneToMany(mappedBy: 'trick', targetEntity: Comment::class, cascade: ['remove'])]
@@ -45,7 +45,6 @@ class Trick
 
     public function __construct()
     {
-        $this->tags = new ArrayCollection();
         $this->medias = new ArrayCollection();
         $this->comments = new ArrayCollection();
         $this->creation_date = new \DateTime();
@@ -157,31 +156,19 @@ class Trick
         $this->author = $author;
     }
 
-    public function getTags(): Collection
+    public function getCategory(): Category
     {
-        return $this->tags;
+        return $this->category;
     }
 
     /**
-     * @param Tag $tag
+     * @param Category $category
      */
-    public function addTag(Tag $tag): void
+    public function setCategory(Category $category): void
     {
-        if (!$this->tags->contains($tag)) {
-            $this->tags[] = $tag;
-            $tag->addTrick($this);
-        }
+        $this->category = $category;
     }
 
-    /**
-     * @param Tag $tag
-     */
-    public function removeTag(Tag $tag): void
-    {
-        if ($this->tags->removeElement($tag)) {
-            $tag->removeTrick($this);
-        }
-    }
 
     /**
      * @return Collection
@@ -192,9 +179,9 @@ class Trick
     }
 
     /**
-     * @param Media $media
+     * @param UploadMedia $media
      */
-    public function addMedia(Media $media): void
+    public function addMedia(UploadMedia $media): void
     {
         if (!$this->medias->contains($media)) {
             $this->medias[] = $media;
@@ -203,9 +190,9 @@ class Trick
     }
 
     /**
-     * @param Media $media
+     * @param UploadMedia $media
      */
-    public function removeMedia(Media $media): void
+    public function removeMedia(UploadMedia $media): void
     {
         if ($this->medias->removeElement($media)) {
             if ($media->getTrick() === $this) {

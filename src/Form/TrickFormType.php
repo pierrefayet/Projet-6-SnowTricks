@@ -3,6 +3,9 @@
 namespace App\Form;
 
 use App\Entity\Trick;
+use App\Entity\Category;
+use Doctrine\ORM\Mapping\Entity;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
@@ -21,27 +24,12 @@ class TrickFormType extends AbstractType
             ->add('title', null, ['label' => false])
             ->add('intro', null, ['label' => false])
             ->add('content', TextareaType::class, ['label' => false])
-            ->add('addTags', CollectionType::class, [
-                'entry_type' => TextType::class,
-                'entry_options' => ['label' => false],
-                'mapped' => false,
-                'required' => false,
-                'attr' => ['placeholder' => 'Saisir un nouveau tag']
+            ->add('group', EntityType::class, [
+                'class' => Category::class,
+                'choice_label' => 'Groupe'
             ])
             ->add('medias', CollectionType::class, [
                 'entry_type' => FileType::class,
-                'entry_options' => ['label' => false],
-                'allow_add' => true,
-                'allow_delete' => true,
-                'by_reference' => false,
-                'mapped' => false,
-                'label_attr' => ['style' => 'display: none'],
-                'prototype_options' => [
-                    'label' => false
-                ],
-            ])
-            ->add('newTags', CollectionType::class, [
-                'entry_type' => TextType::class,
                 'entry_options' => ['label' => false],
                 'allow_add' => true,
                 'allow_delete' => true,
