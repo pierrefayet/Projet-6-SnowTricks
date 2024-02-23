@@ -13,7 +13,7 @@ class ProfileEmailType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('email',EmailType::class)
+            ->add('email',EmailType::class, ['attr' => ['id' => 'email']])
         ;
     }
 

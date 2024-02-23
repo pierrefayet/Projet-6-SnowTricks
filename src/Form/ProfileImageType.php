@@ -17,6 +17,7 @@ class ProfileImageType extends AbstractType
             ->add('userImage',
                 FileType::class,
                 [
+                    'label' => false,
                     'mapped' => false,
                     'required' => false
                 ]

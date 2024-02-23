@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Comment;
 use App\Entity\Trick;
 use App\Form\CommentFormType;
+use App\Repository\TrickRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Attribute\Route;
@@ -45,4 +46,15 @@ class CommentController extends AbstractController
 
         return $this->redirectToRoute('single_trick', ['slug' => $trick->getSlug()]);
     }
+
+   /* #[\Symfony\Component\Routing\Annotation\Route('/get-comments', name: 'load_more_comment')]
+    public function loadMore(CommentRepository $commentRepository, Request $request): Response
+    {
+        $page = $request->query->getInt('page', 2);
+        $comments = $commentRepository->paginateTrick($page, 5);
+
+        return $this->render('comments.html.twig', [
+            'comments' => $comments
+        ]);
+    }*/
 }

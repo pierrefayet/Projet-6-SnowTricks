@@ -14,7 +14,6 @@ class HomePageController extends AbstractController
     #[Route('/', name: 'home')]
     public function home(TrickRepository $trickRepository, MediaRepository $mediaRepository): Response
     {
-       // $trick = $doctrine->getRepository(Trick::class)->find($trickId);
         $page = 1;
         $tricks = $trickRepository->paginateTrick($page , 10);
         $maxPage = ceil($tricks->getTotalItemCount() / 10);

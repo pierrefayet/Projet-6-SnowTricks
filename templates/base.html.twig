@@ -47,12 +47,10 @@
         </section>
         {% if is_granted('ROLE_USER') %}
             <section>
-                <div>
-                    <button class="btn btn-primary">
-                        <a href="{{ path('add_trick') }}">
-                            Add a new Trick
-                        </a>
-                    </button>
+                <div class="d-flex justify-content-center my-5">
+                    <a href="{{ path('add_trick') }}" class="btn btn-primary">
+                        Add a new Trick
+                    </a>
                 </div>
             </section>
         {% endif %}
@@ -73,18 +71,8 @@
                 <i class="fa-solid fa-arrow-up"></i>
             </a>
         </div>
-        <div class="navbar-mobile">
-            <ul>
-                <li><a href="{{ path('home') }}"><i class="fa-solid fa-house"></i></a></li>
-                <li><a href="/single_trick{id}"><i class="fa-solid fa-bookmark"></i></a></li>
-                {% if not is_granted('ROLE_USER') %}
-                    <li><a href="{{ path('security_login') }}"><i class="fa-solid fa-user"></i></a></li>
-                {% else %}
-                    <li><i class="fa-solid fa-right-from-bracket"></i></li>
-                {% endif %}
-            </ul>
-        </div>
     </main>
+    {% include 'navbar-mobile.html.twig' %}
     {% block javascripts %}
         <script>
             document.addEventListener('DOMContentLoaded', () => {
@@ -105,7 +93,6 @@
                         }
                     });
                 }
-
             });
         </script>
     {% endblock %}

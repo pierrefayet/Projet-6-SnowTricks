@@ -37,7 +37,7 @@ a {
   background-repeat: no-repeat;
   background-position: center center;
   margin-top: 50px;
-  height: 550px;
+  height: 700px;
   position: relative;
   box-shadow: rgba(20, 20, 37, 0.25) 0 6px 12px -2px, rgba(0, 0, 0, 0.3) 0 3px 7px -3px;
   border-top: cornflowerblue solid 5px;
@@ -51,12 +51,11 @@ a {
 
 .intro div p {
   width: 60%;
-  height: 100px;
   padding: 30px;
   background-color: white;
   box-shadow: 0 0 0 4px;
   color: #6982ec;
-  font-size: 36px;
+  font-size: 30px;
   font-weight: bold;
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
 }
@@ -105,7 +104,7 @@ a {
 }
 
 #portfolio .card .card-content {
-  height: 20%;
+  height: 30%;
   display: flex;
   flex-direction: row;
   justify-content: space-around;
@@ -390,7 +389,6 @@ footer p {
 
 .information-content .information-actions #select-group {
   width: 100px;
-  height: 25px;
   font-weight: bold;
 }
 

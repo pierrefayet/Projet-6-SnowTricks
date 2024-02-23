@@ -68,13 +68,6 @@
                 </div>
             </div>
         </section>
-        <div class="navbar-mobile">
-            <ul>
-                <li><a href="{{ path('home') }}"><i class="fa-solid fa-house"></i></a></li>
-                <li><a href="#portfolio"><i class="fa-solid fa-bookmark"></i></a></li>
-                <li><a href="{{ path('security_login') }}"><i class="fa-solid fa-user"></i></a></li>
-                <!-- <li><i class="fa-solid fa-right-from-bracket"></i></li> -->
-            </ul>
-        </div>
+        {% include 'navbar-mobile.html.twig' %}
     </main>
 {% endblock %}

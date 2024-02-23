@@ -24,18 +24,6 @@ class TrickRepository extends ServiceEntityRepository
         parent::__construct($registry, Trick::class);
     }
 
-    /**
-     * @throws NonUniqueResultException
-     */
-    public function findByTag($tag): ?Trick
-    {
-        return $this->createQueryBuilder('t')
-            ->innerJoin('t.tags', 'tag')
-            ->where('tag.name = :tag')
-            ->getQuery()
-            ->getOneOrNullResult();
-    }
-
     public function paginateTrick(int $page, int $limit): PaginationInterface
     {
         return $this->paginator->paginate(

@@ -5,8 +5,7 @@
             <div class="intro-trick" style="background-image: url({{ asset('build/images/surfeur.jpg') }});"></div>
         </section>
         <section class="content">
-            <div id="content-trick">
-
+            <div id="content-trick" class="content-trick-container">
                 <div class="content-header"
                         {% if trick.medias|length > 0 %}
                         {% set media = trick.medias|first %}
@@ -20,12 +19,13 @@
                         </h1>
                     </div>
                     {% if is_granted('ROLE_USER') and app.user == trick.author %}
-                    <div class="content-trick-image--icon">
-                        <div id="pencil"><a href="/update_tricks/{{ trick.id }}"><i class="fa-solid fa-pencil"></i></a>
+                        <div class="content-trick-image--icon">
+                            <div id="pencil"><a href="/update_tricks/{{ trick.id }}"><i class="fa-solid fa-pencil"></i></a>
+                            </div>
+                            <div id="trash-can"><a href="/delete_trick/{{ trick.id }}"><i
+                                            class="fa-solid fa-trash-can"></i></a>
+                            </div>
                         </div>
-                        <div id="trash-can"><a href="/delete_trick/{{ trick.id }}"><i class="fa-solid fa-trash-can"></i></a>
-                        </div>
-                    </div>
                     {% endif %}
                 </div>
                 <div>
@@ -60,14 +60,14 @@
                         {% endfor %}
                     </div>
                     {% if is_granted('ROLE_USER') %}
-                    <div class="content-form">
-                        <div class="content-form--content">
-                            {{ form_start(commentForm, {'action': path('add_comment', {'id': trick.id}), 'method': 'POST'}) }}
-                            {{ form_row(commentForm.content, {'label':false}) }}
-                            {{ form_row(commentForm.submit) }}
-                            {{ form_end(commentForm) }}
+                        <div class="content-form">
+                            <div class="content-form--content">
+                                {{ form_start(commentForm, {'action': path('add_comment', {'id': trick.id}), 'method': 'POST'}) }}
+                                {{ form_row(commentForm.content, {'label':false}) }}
+                                {{ form_row(commentForm.submit) }}
+                                {{ form_end(commentForm) }}
+                            </div>
                         </div>
-                    </div>
                     {% endif %}
                     <div class="content-comment-container">
                         <div class="content-comment">
@@ -76,7 +76,9 @@
                                     <div class="content-comment-items">
                                         <div class="content-comment--icon">
                                             {% if comment.commentUserId.userImage %}
-                                                <img  height="50" src="{{ asset(pathMediaAvatar  ~ '/' ~  comment.commentUserId.userImage) }}" alt="profil image">
+                                                <img height="50"
+                                                     src="{{ asset(pathMediaAvatar  ~ '/' ~  comment.commentUserId.userImage) }}"
+                                                     alt="profil image">
                                             {% else %}
                                                 <i class="fa-solid fa-user"></i>
                                             {% endif %}
@@ -89,11 +91,6 @@
                                         </div>
                                     </div>
                                 {% endfor %}
-                            {% else %}
-                                {# debug #}
-                                <div class="no-comments">
-                                    <p>No comments yet.</p>
-                                </div>
                             {% endif %}
                         </div>
                         <div class="container-expand">
@@ -111,13 +108,29 @@
             </div>
         </section>
     </main>
-    <div class="navbar-mobile">
-        <ul>
-            <li><a href="{{ path('home') }}"><i class="fa-solid fa-house"></i></a></li>
-            <li><a href="/single_trick"><i class="fa-solid fa-bookmark"></i></a></li>
-            <li><a href="{{ path('security_login') }}"><i class="fa-solid fa-user"></i></a></li>
-            <!-- <li><i class="fa-solid fa-right-from-bracket"></i></li> -->
-        </ul>
-    </div>
+    {% include 'navbar-mobile.html.twig' %}
+    {% block javascripts %}
+        <script>
+            document.addEventListener('DOMContentLoaded', () => {
+                const loadMoreButton = document.getElementById("load-more");
+                if (loadMoreButton) {
+                    loadMoreButton.addEventListener('click', () => {
+                        const currentPage = parseInt(loadMoreButton.getAttribute('data-current-page'), 10);
+                        loadMoreButton.setAttribute('data-current-page', (currentPage + 1).toString());
+                        const maxPage = parseInt(loadMoreButton.getAttribute('data-max-page'), 10);
+                        console.log(maxPage);
+                        fetch(`/get-comments?page=${currentPage}`, { method: 'GET'})
+                            .then(response => response.text())
+                            .then(data => {
+                                document.getElementById('portfolio').insertAdjacentHTML('beforeend', data);
+                            })
+                        if(currentPage > maxPage) {
+                            loadMoreButton.parentElement.parentElement.remove();
+                        }
+                    });
+                }
+            });
+        </script>
+    {% endblock %}
 {% endblock %}
-{# TODO faire une pagination sur load more des comments en php  réutilisé ce qu'on a fait sur le homepage #}
+{# TODO faire une pagination sur load more des comments en php  réutilisé comme sur le homepage #}

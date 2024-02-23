@@ -19,12 +19,13 @@
                      style="background-image: url({{ asset('build/images/50_50_Grinds.51e6a335.png') }});">
                     <div class="content-trick-image-title">
                         <h1>
-                            {{ form_row(trickForm.title, {'label':false }) }}
+                            {{ form_row(trickForm.title, {'label':false, 'attr': {'class': 'form-control'}}) }}
                         </h1>
                     </div>
                 </div>
                 <div class="addMedia" data-index="0">
-                    <button type="button" class="add_item_media" data-collection-holder-class="media">Add a media
+                    <button type="button" class="btn btn-primary add_item_media mx-auto" data-collection-holder-class="media">
+                        Add a media
                     </button>
                 </div>
                 <div class="content-media">
@@ -33,20 +34,20 @@
                             {% for media in trick.medias %}
                                 {% if media.type == 'image' %}
                                     <img src="{{ asset(pathMediaImage ~ '/' ~ media.filename) }}"
-                                         alt="surfer">
+                                         alt="surfer" class="img-fluid">
                                 {% elseif media.type == 'video' %}
-                                    <video controls>
+                                    <video controls class="img-fluid">
                                         <source src="{{ asset(pathMediaVideo ~ '/' ~ media.filename) }}"/>
                                     </video>
                                 {% endif %}
                             {% endfor %}
                             <div>
-                                {{ form_row(trickForm.medias) }}
-
-                            </div>}
+                                {{ form_row(trickForm.medias, {'attr': {'class': 'form-control-file'}}) }}
+                            </div>
                             <img id="imagePreview" src="#" alt="Show adding image  or video"
-                                 style="display: none; max-width: 200px; height: auto;"/>
-                            <video controls id="videoPreview" style="display: none; max-width: 200px; height: auto;">
+                                 style="display: none; max-width: 200px; height: auto;" class="img-fluid"/>
+                            <video controls id="videoPreview" style="display: none; max-width: 200px; height: auto;"
+                                   class="img-fluid">
                                 <source src="#"/>
                             </video>
 
@@ -56,28 +57,28 @@
                 <div class="media-expand">
                     <div class="media-expand-content">See medias</div>
                 </div>
-                <div class="content-intro">
+                <div class="content-intro mx-auto" style="width: 50%">
                     <p>
-                        {{ form_row(trickForm.intro, {'label':false }) }}
+                        {{ form_row(trickForm.intro, {'label':false, 'attr': {'class': 'form-control'}}) }}
                     </p>
                 </div>
                 <div class="information-content">
                     <div class="content-description-scroll">
                         <p>
-                            {{ form_row(trickForm.content, {'label':false }) }}
+                            {{ form_row(trickForm.content, {'label':false, 'attr': {'class': 'form-control'}}) }}
                         </p>
                     </div>
                     <div class="information-actions">
                         <div class="addTag">
-                            <button type="button" class="add_item_tags" data-collection-holder-class="tag">Add a tag
+                            <button type="button" class="btn btn-primary add_item_tags"
+                                    data-collection-holder-class="tag">Add a tag
                             </button>
                         </div>
                         <div class="select-group">
                             <div class="content-tag" data-index="0">
-                                {{ form_row(trickForm.newTags, {'label':false }) }}
-                                {{ form_errors(trickForm.newTags) }}
+                                {{ form_row(trickForm.newTags, {'label':false, 'attr': {'class': 'form-control'}}) }}
                             </div>
-                            <label for="select-group"></label><select name="groups" id="select-group">
+                            <label for="select-group"></label><select name="groups" id="select-group" class="form-control">
                                 {% for tag in trick.tags %}
                                     <option value="{{ tag.id }}">{{ tag.name }}</option>
                                 {% endfor %}
@@ -86,80 +87,73 @@
                     </div>
                     <div class="button-content">
                         <div class="save">
-                            {{ form_row(trickForm.save) }}
+                            {{ form_row(trickForm.save, {'attr': {'class': 'btn btn-primary'}}) }}
                         </div>
                     </div>
                     {{ form_end(trickForm) }}
                     <form action="{{ path('delete_trick', {'id': trick.id}) }}" method="POST">
                         <div class="delete">
-                            <button type="submit">Supprimer</button>
+                            <button type="submit" class="btn btn-danger">Supprimer</button>
                         </div>
                     </form>
                 </div>
             </div>
         </section>
-        <div class="navbar-mobile">
-            <ul>
-                <li><a href="{{ path('home') }}"><i class="fa-solid fa-house"></i></a></li>
-                <li><a href="/single_trick"><i class="fa-solid fa-bookmark"></i></a></li>
-                <li><a href="{{ path('security_login') }}"><i class="fa-solid fa-user"></i></a></li>
-                <!-- <li><i class="fa-solid fa-right-from-bracket"></i></li> -->
-            </ul>
-        </div>
+        {% include 'navbar-mobile.html.twig' %}
     </main>
-    {% block javascripts %}
-        <script>
-            /* Added preview file download */
-            const mediaPrototype = document.querySelector('#trick_form_medias');
-            const collectionHolder = document.querySelector('.addMedia');
-            document.querySelector('.add_item_media').addEventListener('click', () => {
-                const item = document.createElement('li');
-                item.innerHTML = mediaPrototype
-                    .dataset
-                    .prototype
-                    .replace(
-                        /__name__/g,
-                        collectionHolder.dataset.index
-                    );
-                item.addEventListener('change', function (event) {
-                    let reader = new FileReader();
-                    reader.onload = function () {
-                        let outputImage = document.getElementById('imagePreview');
-                        let outputVideo = document.getElementById('videoPreview');
-                        if (/png|jpeg|jpg/.test(event.target.files[0].name)) {
-                            outputImage.src = reader.result;
-                            outputImage.style.display = 'block';
-                            outputVideo.style.display = 'none'
-                            return;
-                        }
-                        outputVideo.src = reader.result;
-                        outputVideo.style.display = 'block';
-                        outputImage.style.display = 'none'
+{% endblock %}
+{% block javascripts %}
+    <script>
+        /* Added preview file download */
+        const mediaPrototype = document.querySelector('#trick_form_medias');
+        const collectionHolder = document.querySelector('.addMedia');
+        document.querySelector('.add_item_media').addEventListener('click', () => {
+            const item = document.createElement('li');
+            item.innerHTML = mediaPrototype
+                .dataset
+                .prototype
+                .replace(
+                    /__name__/g,
+                    collectionHolder.dataset.index
+                );
+            item.addEventListener('change', function (event) {
+                let reader = new FileReader();
+                reader.onload = function () {
+                    let outputImage = document.getElementById('imagePreview');
+                    let outputVideo = document.getElementById('videoPreview');
+                    if (/png|jpeg|jpg/.test(event.target.files[0].name)) {
+                        outputImage.src = reader.result;
+                        outputImage.style.display = 'block';
+                        outputVideo.style.display = 'none'
+                        return;
                     }
-                    console.log('event.target.files[0]:', event.target.files[0]);
-                    reader.readAsDataURL(event.target.files[0]);
-                });
-                collectionHolder.appendChild(item);
+                    outputVideo.src = reader.result;
+                    outputVideo.style.display = 'block';
+                    outputImage.style.display = 'none'
+                }
+                console.log('event.target.files[0]:', event.target.files[0]);
+                reader.readAsDataURL(event.target.files[0]);
+            });
+            collectionHolder.appendChild(item);
 
-                collectionHolder.dataset.index++;
-            })
-        </script>
-        <script>
-            /* pushed tag of the select list */
-            const tagPrototype = document.querySelector('#trick_form_newTags');
-            const collectionTagHolder = document.querySelector('.content-tag');
-            document.querySelector('.add_item_tags').addEventListener('click', () => {
-                const item = document.createElement('li');
-                item.innerHTML = tagPrototype
-                    .dataset
-                    .prototype
-                    .replace(
-                        /__name__/g,
-                        collectionTagHolder.dataset.index
-                    );
-                collectionTagHolder.appendChild(item);
-                collectionTagHolder.dataset.index++;
-            })
-        </script>
-    {% endblock %}
+            collectionHolder.dataset.index++;
+        })
+    </script>
+    <script>
+        /* pushed tag of the select list */
+        const tagPrototype = document.querySelector('#trick_form_newTags');
+        const collectionTagHolder = document.querySelector('.content-tag');
+        document.querySelector('.add_item_tags').addEventListener('click', () => {
+            const item = document.createElement('li');
+            item.innerHTML = tagPrototype
+                .dataset
+                .prototype
+                .replace(
+                    /__name__/g,
+                    collectionTagHolder.dataset.index
+                );
+            collectionTagHolder.appendChild(item);
+            collectionTagHolder.dataset.index++;
+        })
+    </script>
 {% endblock %}
