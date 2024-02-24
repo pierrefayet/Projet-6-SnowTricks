@@ -3,79 +3,98 @@
     <header>
         <div id="header">
             <div class="header-picture">
-                <img src="{{ asset('build/images/logo.69cbb78a.png') }}" alt="surfer">
+                <img src="{{ asset('build/images/logo.png') }}" alt="surfer">
             </div>
             <div class="navbar">
-                <ul>
-                    <li><a href="/">Home</a></li>
-                    <li><a href="#portfolio">Trick</a></li>
-                    <li><a href="/create_account">Sign in</a></li>
-                    <li><a href="/login">Sign up</a></li>
-                </ul>
+                {% if not is_granted('ROLE_USER') %}
+                    <ul>
+                        <li><a href="{{ path('home') }}">Home</a></li>
+                        <li><a href="#portfolio">Trick</a></li>
+                        <li><a href="{{ path('registration') }}">Sign in</a></li>
+                        <li><a href="{{ path('security_login') }}">Sign up</a></li>
+                    </ul>
+                {% else %}
+                    <ul>
+                        <li><a href="{{ path('home') }}">Home</a></li>
+                        <li><a href="#portfolio">Trick</a></li>
+                        <li><a href="{{ path('profile') }}">Profile</a></li>
+                        <li><a href="{{ path('security_logout') }}">Log out</a></li>
+                    </ul>
+                {% endif %}
             </div>
         </div>
     </header>
 {% endblock %}
 {% block main %}
-// TODO: ajouter une icone log out si l'utilisateur est connecté.
-<main>
-    <section class="intro" style="background-image: url({{ asset('build/images/surfeur.jpg') }})">
-        <div>
-            <p>
-                Rejoignez la communauté Snow tricks la plus cool sur la neige et partagez votre passion pour le snow
-                avec des riders du monde entier !
-            </p>
+    {% for message in app.flashes('success') %}
+        <div class="alert alert-success">
+            {{ message }}
         </div>
-        <div class="scroll-arrow-down" id="scroll-down">
-            <a href="#expand">
-                <i class="fa-solid fa-arrow-down"></i>
-            </a>
-        </div>
-    </section>
-    <section id="portfolio">
-        {% for trick in tricks %}
-        <div class="card">
-            <div class="card-image">
-                <a href="/single_trick/{{ trick.id }}">
-                    <img src="{{ asset('build/images/50_50_Grinds.51e6a335.png') }}" alt="figure de snowboard">
+    {% endfor %}
+    <main>
+        <section class="intro" style="background-image: url({{ asset('build/images/surfeur.jpg') }})">
+            <div>
+                <p>
+                    Rejoignez la communauté Snow tricks la plus cool sur la neige et partagez votre passion pour le snow
+                    avec des riders du monde entier !
+                </p>
+            </div>
+            <div class="scroll-arrow-down" id="scroll-down">
+                <a href="#expand">
+                    <i class="fa-solid fa-arrow-down"></i>
                 </a>
             </div>
-            <div class="card-content">
-                <div class="card-header">
-                    <h4>{{ trick.title }}</h4>
+        </section>
+        {% if is_granted('ROLE_USER') %}
+            <section>
+                <div class="d-flex justify-content-center my-5">
+                    <a href="{{ path('add_trick') }}" class="btn btn-primary">
+                        Add a new Trick
+                    </a>
                 </div>
-                <div class="card-icons">
-                    <span class="icon"><a href="/update_tricks/{{ trick.id }}"><i class="fa-solid fa-pencil"></i></a></span>
-                </div>
-                <div class="card-icons">
-                    <span class="icon"><a href="/update_tricks/{{ trick.id }}"><i class="fa-solid fa-trash-can"></i></a></span>
-                </div>
+            </section>
+        {% endif %}
+        <section id="portfolio">
+            {% include 'tricks.html.twig'with {'tricks': tricks} %}
+        </section>
+        <div id="expand" class="d-flex">
+            <div id="expand" class="d-flex">
+                {% if tricks.currentPageNumber < maxPage %}
+                        <button id="load-more" data-current-page="{{ tricks.currentPageNumber + 1 }}"
+                                data-max-page="{{ maxPage }}"> Load More
+                        </button>
+                {% endif %}
             </div>
         </div>
-        {% endfor %}
-    </section>
-    <div id="expand">
-        <div>
-            <p><i class="fa-solid fa-spinner"></i></p>
+        <div class="scroll-arrow-up" id="scroll-up">
+            <a href="#portfolio">
+                <i class="fa-solid fa-arrow-up"></i>
+            </a>
         </div>
-        <div>
-            <p>Load more</p>
-        </div>
-    </div>
-    <div class="scroll-arrow-up" id="scroll-up">
-        <a href="#portfolio">
-            <i class="fa-solid fa-arrow-up"></i>
-        </a>
-    </div>
-    <div class="navbar-mobile">
-        <ul>
-            <li><a href="/"><i class="fa-solid fa-house"></i></a></li>
-            <li><a href="/single_trick{id}"><i class="fa-solid fa-bookmark"></i></a></li>
-            <li><a href="/login"><i class="fa-solid fa-user"></i></a></li>
-            <!-- <li><i class="fa-solid fa-right-from-bracket"></i></li> -->
-        </ul>
-    </div>
-</main>
-{% block javascripts %}{% endblock %}
-            {{ encore_entry_script_tags('app') }}
+    </main>
+    {% include 'navbar-mobile.html.twig' %}
+    {% block javascripts %}
+        <script>
+            document.addEventListener('DOMContentLoaded', () => {
+                const loadMoreButton = document.getElementById("load-more");
+                if (loadMoreButton) {
+                    loadMoreButton.addEventListener('click', () => {
+                        const currentPage = parseInt(loadMoreButton.getAttribute('data-current-page'), 10);
+                        loadMoreButton.setAttribute('data-current-page', (currentPage + 1).toString());
+                        const maxPage = parseInt(loadMoreButton.getAttribute('data-max-page'), 10);
+                        console.log(maxPage);
+                        fetch(`/get-tricks?page=${currentPage}`, { method: 'GET'})
+                            .then(response => response.text())
+                                .then(data => {
+                                    document.getElementById('portfolio').insertAdjacentHTML('beforeend', data);
+                                })
+                        if(currentPage > maxPage) {
+                            loadMoreButton.parentElement.parentElement.remove();
+                        }
+                    });
+                }
+            });
+        </script>
+    {% endblock %}
+    {{ encore_entry_script_tags('app') }}
 {% endblock %}

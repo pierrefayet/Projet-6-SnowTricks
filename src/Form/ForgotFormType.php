@@ -1,18 +1,18 @@
 <?php
 
-declare(strict_types=1);
-
 namespace App\Form;
 
+use App\Entity\User;
+use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class ForgotFormType extends UserFormType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->remove('userName')
-            ->add('email')
-            ->remove('password');
+            ->add('user_name');
     }
 }
+

@@ -1,0 +1,73 @@
+{% extends 'layout.html.twig' %}
+{% block main %}
+    <main>
+        <section class="intro-background">
+            <div class="intro-trick"
+                 style="background-image: url({{ asset('build/images/50_50_Grinds.51e6a335.png') }});"></div>
+        </section>
+        <section class="content">
+            {{ form_start(trickForm) }}
+            <div id="content-trick">
+                <div class="content-header"
+                     style="background-image: url({{ asset('build/images/50_50_Grinds.51e6a335.png') }});">
+                    <div class="content-trick-image-title">
+                        <h1>
+                            {{ form_row(trickForm.title, {'label':false }) }}
+                        </h1>
+                    </div>
+                </div>
+                <div class="content-media">
+                    <div class="media-tricks--modifier">
+                        <div class="media-tricks-modifier-content">
+                            {% for media in trick.medias %}
+                                {% if media.type == 'image' %}
+                                    <img src="{{ asset('path/to/uploads/medias/image' ~ media.filename) }}" alt="surfer">
+                                {% elseif media.type == 'video' %}
+                                    <video src="{{ asset('path/to/uploads/medias/video' ~ media.filename) }}"></video>
+                                {% endif %}
+                            {% endfor %}
+                            {{ form_row(trickForm.medias) }}
+                        </div>
+                    </div>
+                </div>
+                <div class="media-expand">
+                    <div class="media-expand-content">See medias</div>
+                </div>
+                <div class="information-content">
+                    <div class="content-intro">
+                        <p>
+                            {{ form_row(trickForm.intro, {'label':false }) }}
+                        </p>
+                    </div>
+                    <div class="content-description-scroll">
+                        <p>
+                            {{ form_row(trickForm.content, {'label':false }) }}
+                        </p>
+                    </div>
+                    <div class="information-actions">
+                        <div class="select-group">
+                            <div class="add-tag">
+                                {{ form_row(trickForm.addTags) }}
+                            </div>
+                            <div class="select-tag">
+                                {{ form_row(trickForm.newTags) }}
+                            </div>
+                            <label for="select-group"></label><select name="groups" id="select-group">
+                                {% for tag in trick.tags %}
+                                    <option value="{{ tag.id }}">{{ tag.name }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+                    <div class="button-content">
+                        <div class="save">
+                            {{ form_row(trickForm.save) }}
+                        </div>
+                    </div>
+                    {{ form_end(trickForm) }}
+                </div>
+            </div>
+        </section>
+        {% include 'navbar-mobile.html.twig' %}
+    </main>
+{% endblock %}

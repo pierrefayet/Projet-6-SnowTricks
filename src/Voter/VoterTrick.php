@@ -1,8 +1,6 @@
 <?php
 
-declare(strict_types=1);
-
-namespace App;
+namespace App\Voter;
 
 use App\Entity\Trick;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
@@ -15,19 +13,17 @@ class VoterTrick extends Voter
         if ('edit' === $attribute && $subject instanceof Trick) {
             return true;
         }
+
         if ('delete' === $attribute && $subject instanceof Trick) {
             return true;
         }
-
         return false;
     }
 
     protected function voteOnAttribute(string $attribute, mixed $subject, TokenInterface $token): bool
     {
-        if ($subject->getAuthor() === $token->getUser()) {
-            return true;
-        }
 
-        return false;
+        return $subject->getAuthor() === $token->getUser();
+
     }
 }

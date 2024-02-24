@@ -8,9 +8,10 @@
     <title>{% block titre %}Snow Tricks{% endblock %}</title>
     {% block stylesheets %}
         <link rel="stylesheet" href="{{ asset('build/assets_styles_app_scss.css') }}">
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet">
         <script src="https://kit.fontawesome.com/a4ca8720ca.js" crossorigin="anonymous"></script>
     {% endblock %}
-    <link rel="icon" type="image/png" href="{{ asset('build/images/favicon.ico') }}"/>
+    <link rel="icon" type="image/png" href="{{ asset('favicon.ico') }}"/>
 </head>
 <body>
 {# TODO: changer le signup par log out si l'user est connecté #}
@@ -21,12 +22,21 @@
                 <img src="{{ asset('build/images/logo.png') }}" alt="surfer">
             </div>
             <div class="navbar">
-                <ul>
-                    <li><a href="/">Home</a></li>
-                    <li><a href="/#portfolio">Trick</a></li>
-                    <li><a href="/create_account">Sign in</a></li>
-                    <li><a href="/login">Sign up</a></li>
-                </ul>
+                {% if not is_granted('ROLE_USER') %}
+                    <ul>
+                        <li><a href="{{ path('home') }}">Home</a></li>
+                        <li><a href="#portfolio">Trick</a></li>
+                        <li><a href="{{ path('registration') }}">Sign in</a></li>
+                        <li><a href="{{ path('security_login') }}">Sign up</a></li>
+                    </ul>
+                {% else %}
+                    <ul>
+                        <li><a href="{{ path('home') }}">Home</a></li>
+                        <li><a href="#portfolio">Trick</a></li>
+                        <li><a href="{{ path('profile') }}">Profile</a></li>
+                        <li><a href="{{ path('security_logout') }}">Log out</a></li>
+                    </ul>
+                {% endif %}
             </div>
         </div>
     </header>

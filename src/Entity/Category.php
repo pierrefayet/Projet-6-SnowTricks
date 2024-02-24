@@ -8,9 +8,10 @@ use App\Repository\TagRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 #[ORM\Entity(repositoryClass: TagRepository::class)]
-class Tag
+#[UniqueEntity('name')]
+class Category
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -19,7 +20,7 @@ class Tag
 
     #[ORM\Column(nullable: true)]
     private ?string $name;
-    #[ORM\ManyToMany(targetEntity: Trick::class, inversedBy: 'tags')]
+    #[ORM\OneToMany(mappedBy: 'category', targetEntity: Trick::class)]
     private Collection $tricks;
 
     public function __construct()

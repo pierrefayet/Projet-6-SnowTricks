@@ -1,47 +1,61 @@
 <?php
 
-declare(strict_types=1);
-
 namespace App\Controller;
 
 use App\Entity\Comment;
 use App\Entity\Trick;
 use App\Form\CommentFormType;
+use App\Repository\CommentRepository;
+use App\Repository\TrickRepository;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Response;
 
 class CommentController extends AbstractController
 {
     #[Route('/add_comment/{id}', name: 'add_comment')]
-    public function AddComment(Request $request, EntityManagerInterface $entityManager, Trick $trick): Response
+    public function addComment(Request $request, EntityManagerInterface $entityManager,Trick $trick):Response
     {
-        $comment = new Comment();
-        $form    = $this->createForm(CommentFormType::class, $comment);
+        $comment = new Comment;
+        $form = $this->createForm(CommentFormType::class, $comment);
         $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $comment->setCommentPostId($trick);
+        if($form->isSubmitted() && $form->isValid()) {
+            $comment->setTrick($trick);
             $comment->setCommentUserId($this->getUser());
+
             $entityManager->persist($comment);
             $entityManager->flush();
 
-            return $this->redirectToRoute('single_trick', ['id' => $trick->getId()]);
+            return $this->redirectToRoute('single_trick', ['slug' => $trick->getSlug()]);
         }
 
         return $this->render('singleTrick.html.twig', [
-            'comment' => $form->createView(),
+            'commentForm' => $form->createView(),
+            'addTrick' => $form
         ]);
     }
 
     #[Route('/delete_comment/{id}', name: 'delete_comment')]
-    public function deleteComment(Comment $comment, EntityManagerInterface $entityManager): Response
+    public function deleteTrick(Comment $comment, EntityManagerInterface $entityManager, Trick $trick): Response
     {
+
         $entityManager->remove($comment);
         $entityManager->flush();
 
-        return $this->redirectToRoute('single_trick');
+        return $this->redirectToRoute('single_trick', ['slug' => $trick->getSlug()]);
+    }
+
+    #[\Symfony\Component\Routing\Annotation\Route('/get-comments', name: 'load_more_comment')]
+    public function loadMore(CommentRepository $commentRepository, Request $request): Response
+    {
+        $page = $request->query->getInt('page', 2);
+        $comments = $commentRepository->paginateTrick($page, 5);
+
+        return $this->render('comments.html.twig', [
+            'comments' => $comments
+        ]);
     }
 }

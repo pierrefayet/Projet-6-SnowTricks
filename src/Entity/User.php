@@ -1,56 +1,152 @@
 <?php
 
-declare(strict_types=1);
-
 namespace App\Entity;
 
 use App\Repository\UserRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use FOS\UserBundle\Model\User as BaseUser;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
-class User extends BaseUser implements PasswordAuthenticatedUserInterface
+#[UniqueEntity(fields: ['userName'], message: 'There is already an account with this name')]
+#[UniqueEntity(fields: ['email'], message: 'There is already an account with this email')]
+
+class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
-    #[ORM\Column(type: 'integer')]
-    protected $id;
+    #[ORM\Column]
+    private int $id;
 
-    #[ORM\Column(type: 'string', length: 255, nullable: true)]
-    private ?string $avatar = null;
+    #[ORM\Column(nullable: true)]
+    private ?string $userName;
 
-    #[ORM\Column(type: 'string', length: 100, nullable: true)]
-    private ?string $resetToken = null;
+    #[ORM\Column(nullable: true)]
+    private ?string $email;
 
-    public function __construct()
+    #[ORM\Column(nullable: true)]
+    private ?string $password;
+    #[ORM\Column(nullable: true)]
+    private ?array $roles = ['ROLE_USER'];
+
+    #[ORM\Column(type: 'boolean')]
+    private bool $isVerified = false;
+    #[ORM\Column(nullable: true)]
+    private ?UploadMedia $userImage = null;
+
+    /**
+     * @return ?int
+     */
+    public function getId(): ?int
     {
-        parent::__construct();
-        $this->avatar = 'default_avatar.png';
-        $this->resetToken = null;
-        $this->addRole("ROLE_USER");
+        return $this->id;
     }
 
-    public function getAvatar(): ?string
+    public function getUserImage(): ?UploadMedia
     {
-        return $this->avatar;
+        return $this->userImage;
     }
 
-    public function setAvatar(?string $avatar): self
+    public function setUserImage(?UploadMedia $userImage): void
     {
-        $this->avatar = $avatar;
-        return $this;
+        $this->userImage = $userImage;
     }
 
-    public function getResetToken(): ?string
+    /**
+     * @param int | null $id
+     */
+    public function setId(?int $id): void
     {
-        return $this->resetToken;
+        $this->id = $id;
     }
 
-    public function setResetToken(?string $resetToken): self
+    /**
+     * @return ?string
+     */
+    public function getUserName(): ?string
     {
-        $this->resetToken = $resetToken;
+        return $this->userName;
+    }
+
+    /**
+     * @return string
+     */
+    public function getUserIdentifier(): string
+    {
+        return $this->userName;
+    }
+
+    /**
+     * @param ?string $userName
+     */
+    public function setUserName(?string $userName): void
+    {
+        $this->userName = $userName;
+    }
+
+    /**
+     * @return ?string
+     */
+    public function getPassword(): ?string
+    {
+        return $this->password;
+    }
+
+
+    /**
+     * @param ?string $password
+     */
+    public function setPassword(?string $password): void
+    {
+        $this->password = $password;
+    }
+
+    /**
+     * @return ?string
+     */
+    public function getEmail(): ?string
+    {
+        return $this->email;
+    }
+
+    /**
+     * @param string | null $email
+     */
+    public function setEmail(?string $email): void
+    {
+        $this->email = $email;
+    }
+
+    /**
+     * @return  array
+     */
+    public function getRoles(): array
+    {
+        return $this->roles;
+    }
+
+    /**
+     * @param array $roles
+     */
+    public function setRoles(array $roles): void
+    {
+        $this->roles = $roles;
+    }
+
+    public function eraseCredentials(): void
+    {
+    }
+
+    public function isVerified(): bool
+    {
+        return $this->isVerified;
+    }
+
+    public function setIsVerified(bool $isVerified): static
+    {
+        $this->isVerified = $isVerified;
+
         return $this;
     }
 }

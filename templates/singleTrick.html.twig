@@ -5,39 +5,47 @@
             <div class="intro-trick" style="background-image: url({{ asset('build/images/surfeur.jpg') }});"></div>
         </section>
         <section class="content">
-            <div id="content-trick">
+            <div id="content-trick" class="content-trick-container">
                 <div class="content-header"
-                     style="background-image: url({{ asset('build/images/50_50_Grinds.51e6a335.png') }});">
+                        {% if trick.medias|length > 0 %}
+                        {% set media = trick.medias|first %}
+                     style="background-image: url({{ asset(pathMediaImage  ~ '/' ~ media.filename) }});">
+                    {% else %}
+                        style="background-image: url({{ asset(pathMediaImage  ~ '/' ~ 'default.jpg') }});">
+                    {% endif %}
                     <div class="content-trick-image-title">
                         <h1>
                             {{ trick.title }}
                         </h1>
                     </div>
-                    <div class="content-trick-image--icon">
-                        <div id="pencil"><a href="/update_tricks/{{ trick.id }}"><i class="fa-solid fa-pencil"></i></a>
+                    {% if is_granted('ROLE_USER') and app.user == trick.author %}
+                        <div class="content-trick-image--icon">
+                            <div id="pencil"><a href="/update_tricks/{{ trick.id }}"><i class="fa-solid fa-pencil"></i></a>
+                            </div>
+                            <div id="trash-can"><a href="/delete_trick/{{ trick.id }}"><i
+                                            class="fa-solid fa-trash-can"></i></a>
+                            </div>
                         </div>
-                        <div id="trash-can"><a href="/delete_trick/{{ trick.id }}"><i class="fa-solid fa-trash-can"></i></a>
-                        </div>
-                    </div>
+                    {% endif %}
                 </div>
                 <div>
-                    {#TODO: créer un portfolio acceptant autant d'image et video que l'on veut#}
                     <div class="content-media-tricks">
                         {% set image_count = 0 %}
                         {% set video_count = 0 %}
                         {% for media in trick.medias %}
                             {% if media.type == 'image' and image_count < 3 %}
                                 {% set image_count = image_count + 1 %}
-                                <img src="{{ asset('build/images/' ~ media.filename) }}" alt="{{ media.alt }}">
+                                <img src="{{ asset(pathMediaImage  ~ '/' ~ media.filename) }}" alt="{{ media.alt }}">
                             {% elseif media.type == 'video' and video_count < 2 %}
                                 <video controls>
-                                    <source src="{{ asset('build/media/' ~ media.filename) }}"
+                                    <source src="{{ asset(pathMediaVideo  ~ '/' ~ media.filename) }}"
                                             type="video/mp4">
                                     Votre navigateur ne prend pas en charge la balise vidéo.
                                 </video>
                                 {% set image_count = image_count + 1 %}
                             {% endif %}
                         {% endfor %}
+
                     </div>
                     <div class="media-expand">
                         <div class="media-expand-content">See medias</div>
@@ -47,59 +55,27 @@
                             {{ trick.content }}
                         </p>
                     </div>
-                    <div class="content-information">
-                        {% set tag_count = 4 %}
-                        {% for tag in trick.tags %}
-                            <div class="content-information-item">{{ tag.name }}</div>
-                            {% set tag_count = tag_count + 1 %}
-                        {% endfor %}
-                    </div>
-                    <div class="content-form">
-                        <div class="content-form--content">
-                            <form action="{{ path('add_comment', { 'id': trick.id  }) }}" method="post">
-                                {{ form_start(comment, {'attr': {'id': 'comment_form_content'}}) }}
-                                {{ form_row(comment.content) }}
-                                {{ form_rest(comment) }}
-                                <button type="submit">Leave a comment</button>
-                                {{ form_end(comment) }}
-                            </form>
+                    {% if is_granted('ROLE_USER') %}
+                        <div class="content-form">
+                            <div class="content-form--content">
+                                {{ form_start(commentForm, {'action': path('add_comment', {'id': trick.id}), 'method': 'POST'}) }}
+                                {{ form_row(commentForm.content, {'label':false}) }}
+                                {{ form_row(commentForm.submit) }}
+                                {{ form_end(commentForm) }}
+                            </div>
                         </div>
-                    </div>
+                    {% endif %}
                     <div class="content-comment-container">
                         <div class="content-comment">
-                            <div class="content-comment-items">
-                                <div class="content-comment--icon">
-                                    <i class="fa-solid fa-user"></i>
-                                </div>
-                                <div class="content-comment--content">
-                                    <p>Anteposuit anteibat omnes nostro ille Maximum in se parem erat.</p>
-                                </div>
-                            </div>
-                            <div class="content-comment-items">
-                                <div class="content-comment--icon">
-                                    <i class="fa-solid fa-user"></i>
-                                </div>
-                                <div class="content-comment--content">
-                                    <p>Anteposuit anteibat omnes nostro ille Maximum in se parem erat.</p>
-                                </div>
-                            </div>
-                            <div class="content-comment-items">
-                                <div class="content-comment--icon">
-                                    <i class="fa-solid fa-user"></i>
-                                </div>
-                                <div class="content-comment--content">
-                                    <p>Anteposuit anteibat omnes nostro ille Maximum in se parem erat.</p>
-                                </div>
-                            </div>
+                            {% include 'comments.html.twig' with {'comments': comments} %}
                         </div>
-                        <div class="container-expand">
-                            <div id="expand">
-                                <div>
-                                    <p><i class="fa-solid fa-spinner"></i></p>
-                                </div>
-                                <div>
-                                    <p>Load more</p>
-                                </div>
+                        <div id="expand" class="d-flex">
+                            <div id="expand" class="d-flex">
+                                {% if comments.currentPageNumber < maxPage %}
+                                    <button id="load-more" data-current-page="{{ comments.currentPageNumber + 1 }}"
+                                            data-max-page="{{ maxPage }}"> Load More
+                                    </button>
+                                {% endif %}
                             </div>
                         </div>
                     </div>
@@ -107,12 +83,29 @@
             </div>
         </section>
     </main>
-    <div class="navbar-mobile">
-        <ul>
-            <li><a href="/"><i class="fa-solid fa-house"></i></a></li>
-            <li><a href="/single_trick"><i class="fa-solid fa-bookmark"></i></a></li>
-            <li><a href="/login"><i class="fa-solid fa-user"></i></a></li>
-            <!-- <li><i class="fa-solid fa-right-from-bracket"></i></li> -->
-        </ul>
-    </div>
+    {% include 'navbar-mobile.html.twig' %}
+    {% block javascripts %}
+        <script>
+            document.addEventListener('DOMContentLoaded', () => {
+                const loadMoreButton = document.getElementById("load-more");
+                if (loadMoreButton) {
+                    loadMoreButton.addEventListener('click', () => {
+                        const currentPage = parseInt(loadMoreButton.getAttribute('data-current-page'), 10);
+                        loadMoreButton.setAttribute('data-current-page', (currentPage + 1).toString());
+                        const maxPage = parseInt(loadMoreButton.getAttribute('data-max-page'), 10);
+                        console.log(maxPage);
+                        fetch(`/get-comments?page=${currentPage}`, { method: 'GET'})
+                            .then(response => response.text())
+                            .then(data => {
+                                document.querySelector('.content-comment').insertAdjacentHTML('beforeend', data);
+                            })
+                        if(currentPage > maxPage) {
+                            loadMoreButton.parentElement.parentElement.remove();
+                        }
+                    });
+                }
+            });
+        </script>
+    {% endblock %}
 {% endblock %}
+{# TODO faire une pagination sur load more des comments en php  réutilisé comme sur le homepage #}

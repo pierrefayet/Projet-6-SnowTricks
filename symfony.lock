@@ -38,20 +38,8 @@
             "migrations/.gitignore"
         ]
     },
-    "friendsofsymfony/user-bundle": {
-        "version": "v3.2.1"
-    },
-    "phpstan/phpstan": {
-        "version": "1.10",
-        "recipe": {
-            "repo": "github.com/symfony/recipes-contrib",
-            "branch": "main",
-            "version": "1.0",
-            "ref": "5e490cc197fb6bb1ae22e5abbc531ddc633b6767"
-        },
-        "files": [
-            "phpstan.dist.neon"
-        ]
+    "knplabs/knp-paginator-bundle": {
+        "version": "v6.3.0"
     },
     "phpunit/phpunit": {
         "version": "9.6",
@@ -327,6 +315,9 @@
             "package.json",
             "webpack.config.js"
         ]
+    },
+    "symfonycasts/verify-email-bundle": {
+        "version": "v1.16.1"
     },
     "twig/extra-bundle": {
         "version": "v3.8.0"

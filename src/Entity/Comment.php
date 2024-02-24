@@ -1,32 +1,32 @@
 <?php
 
-declare(strict_types=1);
-
 namespace App\Entity;
+
 
 use App\Repository\CommentRepository;
 use Doctrine\ORM\Mapping as ORM;
+use DateTime;
 
 #[ORM\Entity(repositoryClass: CommentRepository::class)]
 class Comment
 {
-    public function __construct()
-    {
-        $this->setCreationDate(new \DateTime());
-    }
     #[ORM\Id]
     #[ORM\GeneratedValue]
-    #[ORM\Column(nullable: true)]
+    #[ORM\Column]
     private ?int $id;
     #[ORM\Column(nullable: true)]
     private ?string $content;
-    #[ORM\Column(options: ['default' => 'CURRENT_TIMESTAMP'])]
-    private \DateTime $creationDate;
-    #[ORM\ManyToOne(targetEntity: Trick::class)]
-    private ?Trick $commentPostId;
+    #[ORM\Column(nullable: true)]
+    private DateTime $creationDate;
+    #[ORM\ManyToOne(targetEntity: Trick::class, inversedBy: 'comments')]
+    private ?Trick $trick;
     #[ORM\ManyToOne(targetEntity: User::class)]
     private ?User $commentUserId;
 
+    public function __construct()
+    {
+        $this->creationDate = new \DateTime();
+    }
     /**
      * @return ?int
      */
@@ -35,6 +35,9 @@ class Comment
         return $this->id;
     }
 
+    /**
+     * @param int  | null $id
+     */
     public function setId(?int $id): void
     {
         $this->id = $id;
@@ -48,35 +51,38 @@ class Comment
         return $this->content;
     }
 
+    /**
+     * @param string | null $content
+     */
     public function setContent(?string $content): void
     {
         $this->content = $content;
     }
 
-    public function getCreationDate(): \DateTime
+    /**
+     * @return DateTime
+     */
+    public function getCreationDate(): DateTime
     {
         return $this->creationDate;
     }
 
-    public function setCreationDate(\DateTime $creationDate): void
+    /**
+     * @param DateTime $creationDate
+     */
+    public function setCreationDate(DateTime $creationDate): void
     {
         $this->creationDate = $creationDate;
     }
 
-    /**
-     * @return ?Trick
-     */
-    public function getCommentPostId(): ?Trick
+    public function getTrick(): ?Trick
     {
-        return $this->commentPostId;
+        return $this->trick;
     }
 
-    /**
-     * @param ?Trick $commentPostId
-     */
-    public function setCommentPostId(?Trick $commentPostId): void
+    public function setTrick(?Trick $trick): void
     {
-        $this->commentPostId = $commentPostId;
+        $this->trick = $trick;
     }
 
     /**
@@ -87,6 +93,9 @@ class Comment
         return $this->commentUserId;
     }
 
+    /**
+     * @param User | null $commentUserId
+     */
     public function setCommentUserId(?User $commentUserId): void
     {
         $this->commentUserId = $commentUserId;

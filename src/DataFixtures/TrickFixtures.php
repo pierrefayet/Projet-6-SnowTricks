@@ -1,21 +1,19 @@
 <?php
 
-declare(strict_types=1);
-
 namespace App\DataFixtures;
 
-use App\Entity\Tag;
+use App\Entity\Category;
+use Faker\Factory;
+use Faker\Generator;
 use App\Entity\Trick;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
-use Faker\Factory;
-use Faker\Generator;
+use Symfony\Component\String\Slugger\AsciiSlugger;
 
-class AppTrickFixtures extends Fixture implements DependentFixtureInterface
+class TrickFixtures extends Fixture implements DependentFixtureInterface
 {
     private Generator $faker;
-
     public function __construct()
     {
         $this->faker = Factory::create('fr_FR');
@@ -23,35 +21,34 @@ class AppTrickFixtures extends Fixture implements DependentFixtureInterface
 
     public function load(ObjectManager $manager): void
     {
-        for ($i = 1; $i <= 4; ++$i) {
-            $tag = new Tag();
-            $tag->setName($this->faker->word);
-            $manager->persist($tag);
-            $tags[] = $tag;
+        $groups = [];
+        for ($i = 1; $i <= 4; $i++) {
+            $group = new Category();
+            $group->setName($this->faker->word);
+            $manager->persist($group);
+            $groups[] = $group;
         }
 
-        for ($i = 1; $i <= 10; ++$i) {
+        for ($i = 1; $i <= 50; $i++) {
             $trick = new Trick();
-            $trick->setAuthor($this->getReference('UserFixtures' . $i));
+            $trick->setAuthor($this->getReference('users' . $i));
             $trick->setTitle($this->faker->sentence(2));
+            $trick->setSlug((new AsciiSlugger())->slug(strtolower($trick->getTitle())));
             $trick->setIntro($this->faker->sentence(3));
             $trick->setContent($this->faker->paragraph);
             $trick->setCreationDate($this->faker->dateTime());
-
-            foreach ($tags as $tag) {
-                $trick->addTag($tag);
-            }
+            $trick->setCategory($groups[$i % count($groups)]);
 
             $manager->persist($trick);
         }
         $manager->flush();
-        $this->addReference('trick', $trick);
+        $this->addReference('tricks', $trick);
     }
 
     public function getDependencies(): array
     {
         return [
-            AddedUserFixtures::class,
+            UserFixtures::class
         ];
     }
 }
