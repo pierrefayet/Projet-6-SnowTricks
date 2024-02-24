@@ -9,11 +9,11 @@ use Doctrine\ORM\EntityManagerInterface;
 use Exception;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
-readonly class HandleMedia
+class HandleMedia
 {
     public function __construct(
-        private string $mediaDirectory,
-        private EntityManagerInterface $entitymanager)
+        private readonly string $mediaDirectory,
+        private readonly EntityManagerInterface $entitymanager)
     {
     }
 
