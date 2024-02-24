@@ -24,7 +24,7 @@ class UploadMedia
 
     #[ORM\ManyToOne(targetEntity: Trick::class, inversedBy: "medias")]
     #[ORM\JoinColumn(name: "trick_id", referencedColumnName: "id")]
-    private Trick $trick;
+    private ?Trick $trick;
 
 
     public function getId(): ?int
