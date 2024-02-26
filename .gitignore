@@ -13,11 +13,7 @@
 ###> phpunit/phpunit ###
 /phpunit.xml
 .phpunit.result.cache
-###< phpunit/phpunit ###
 
-###> symfony/phpunit-bridge ###
-.phpunit.result.cache
-/phpunit.xml
 ###< symfony/phpunit-bridge ###
 
 ###> symfony/asset-mapper ###
@@ -31,4 +27,8 @@
 npm-debug.log
 yarn-error.log
 ###< symfony/webpack-encore-bundle ###
-/public/uploads
+/public/uploads/medias/image/*
+/public/uploads/medias/video/*
+!/public/uploads/medias/image/default.jpg
+!/public/uploads/medias/image/50_50_Grinds.png
+!/public/uploads/medias/video/50_50_Grinds_easy_snowboard.mp4

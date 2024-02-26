@@ -13,8 +13,8 @@ class TrickSubscriber
 {
     public function __construct(private readonly Security $security)
     {
-
     }
+
     public function prePersist(PrePersistEventArgs $args): void
     {
         $entity = $args->getObject();

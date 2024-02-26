@@ -8,9 +8,10 @@ Encore
     .setOutputPath('public/build/')
     .setPublicPath('/build')
     .enableSassLoader()
-
     .addEntry('app', './assets/app.js')
-    .addStyleEntry('style', './assets/styles/app.scss')
+    .addEntry('preview', './assets/preview.js')
+    .addEntry('externalMedia', './assets/externalMedia.js')
+    .addEntry('paginateComment', './assets/paginateComment.js')
     .copyFiles({
         from: './assets/img',
         to: 'media/[path][name].[hash:8].[ext]'

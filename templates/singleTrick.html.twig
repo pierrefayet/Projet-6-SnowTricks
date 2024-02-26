@@ -45,7 +45,17 @@
                                 {% set image_count = image_count + 1 %}
                             {% endif %}
                         {% endfor %}
-
+                    </div>
+                    <div class="content-media-tricks">
+                        {% for externalVideo in trick.externalVideo %}
+                            {% if externalVideo.platformId == 1 %}
+                            <iframe  type="text/html" width="640" height="360"
+                                    src="{{ externalVideo.url }}">
+                            </iframe>
+                            {% else %}
+                                <iframe style="width:100%;height:100%;position:absolute;left:0px;top:0px;overflow:hidden" frameborder="0" type="text/html" src="https://www.dailymotion.com/embed/video/x8taqhw?autoplay=1" width="100%" height="100%" allowfullscreen title="Dailymotion Video Player" allow="autoplay"> </iframe>
+                            {% endif %}
+                        {% endfor %}
                     </div>
                     <div class="media-expand">
                         <div class="media-expand-content">See medias</div>
@@ -58,7 +68,7 @@
                     {% if is_granted('ROLE_USER') %}
                         <div class="content-form">
                             <div class="content-form--content">
-                                {{ form_start(commentForm, {'action': path('add_comment', {'id': trick.id}), 'method': 'POST'}) }}
+                                {{ form_start(commentForm) }}
                                 {{ form_row(commentForm.content, {'label':false}) }}
                                 {{ form_row(commentForm.submit) }}
                                 {{ form_end(commentForm) }}
@@ -84,28 +94,5 @@
         </section>
     </main>
     {% include 'navbar-mobile.html.twig' %}
-    {% block javascripts %}
-        <script>
-            document.addEventListener('DOMContentLoaded', () => {
-                const loadMoreButton = document.getElementById("load-more");
-                if (loadMoreButton) {
-                    loadMoreButton.addEventListener('click', () => {
-                        const currentPage = parseInt(loadMoreButton.getAttribute('data-current-page'), 10);
-                        loadMoreButton.setAttribute('data-current-page', (currentPage + 1).toString());
-                        const maxPage = parseInt(loadMoreButton.getAttribute('data-max-page'), 10);
-                        console.log(maxPage);
-                        fetch(`/get-comments?page=${currentPage}`, { method: 'GET'})
-                            .then(response => response.text())
-                            .then(data => {
-                                document.querySelector('.content-comment').insertAdjacentHTML('beforeend', data);
-                            })
-                        if(currentPage > maxPage) {
-                            loadMoreButton.parentElement.parentElement.remove();
-                        }
-                    });
-                }
-            });
-        </script>
-    {% endblock %}
+    {{ encore_entry_script_tags('paginateComment') }}
 {% endblock %}
-{# TODO faire une pagination sur load more des comments en php  réutilisé comme sur le homepage #}

@@ -1,73 +1,87 @@
 {% extends 'layout.html.twig' %}
 {% block main %}
     <main>
+        {% for message in app.flashes('error') %}
+            <div class="alert alert-danger">{{ message }}</div>
+        {% endfor %}
+
+        {% for message in app.flashes('success') %}
+            <div class="alert alert-success">{{ message }}</div>
+        {% endfor %}
         <section class="intro-background">
             <div class="intro-trick"
-                 style="background-image: url({{ asset('build/images/50_50_Grinds.51e6a335.png') }});"></div>
+                 style="background-image: url({{ asset('build/images/surfeur.08d91665.jpg') }});">
+            </div>
         </section>
         <section class="content">
-            {{ form_start(trickForm) }}
+            {{ form_start(trickForm, {'attr': {'enctype':'multipart/form-data'}}) }}
             <div id="content-trick">
-                <div class="content-header"
-                     style="background-image: url({{ asset('build/images/50_50_Grinds.51e6a335.png') }});">
+                <div class="content-header">
                     <div class="content-trick-image-title">
                         <h1>
-                            {{ form_row(trickForm.title, {'label':false }) }}
+                            {{ form_row(trickForm.title, {'label':false, 'attr': {'class': 'form-control'}}) }}
                         </h1>
                     </div>
+                </div>
+                <div class="addMedia" data-index="0">
+                    <button type="button" class="btn btn-primary add_item_media mx-auto" data-collection-holder-class="media">
+                        Add a media
+                    </button>
+                </div>
+                <div class="addExternalMedia" data-index="0">
+                    <button type="button" class="btn btn-primary add_item__external_media mx-auto" data-collection-holder-class="externalMedia">
+                        Add a external media
+                    </button>
                 </div>
                 <div class="content-media">
                     <div class="media-tricks--modifier">
                         <div class="media-tricks-modifier-content">
-                            {% for media in trick.medias %}
-                                {% if media.type == 'image' %}
-                                    <img src="{{ asset('path/to/uploads/medias/image' ~ media.filename) }}" alt="surfer">
-                                {% elseif media.type == 'video' %}
-                                    <video src="{{ asset('path/to/uploads/medias/video' ~ media.filename) }}"></video>
-                                {% endif %}
-                            {% endfor %}
-                            {{ form_row(trickForm.medias) }}
+                            <div>
+                                {{ form_row(trickForm.medias, {'attr': {'class': 'form-control-file'}}) }}
+                            </div>
+                            <img id="imagePreview" src="#" alt="Show adding image  or video"
+                                 style="display: none; max-width: 200px; height: auto;" class="img-fluid"/>
+                            <video controls id="videoPreview" style="display: none; max-width: 200px; height: auto;"
+                                   class="img-fluid">
+                                <source src="#"/>
+                            </video>
                         </div>
                     </div>
                 </div>
                 <div class="media-expand">
                     <div class="media-expand-content">See medias</div>
                 </div>
+                <div class="content-intro mx-auto" style="width: 50%">
+                    <p>
+                        {{ form_row(trickForm.intro, {'label':false, 'attr': {'class': 'form-control'}}) }}
+                    </p>
+                </div>
                 <div class="information-content">
-                    <div class="content-intro">
-                        <p>
-                            {{ form_row(trickForm.intro, {'label':false }) }}
-                        </p>
-                    </div>
                     <div class="content-description-scroll">
                         <p>
-                            {{ form_row(trickForm.content, {'label':false }) }}
+                            {{ form_row(trickForm.content, {'label':false, 'attr': {'class': 'form-control'}}) }}
                         </p>
                     </div>
                     <div class="information-actions">
                         <div class="select-group">
-                            <div class="add-tag">
-                                {{ form_row(trickForm.addTags) }}
+                            <div class="content-tag" data-index="0">
+                                {{ form_row(trickForm.category, {'label':false, 'attr': {'class': 'form-control'}}) }}
                             </div>
-                            <div class="select-tag">
-                                {{ form_row(trickForm.newTags) }}
-                            </div>
-                            <label for="select-group"></label><select name="groups" id="select-group">
-                                {% for tag in trick.tags %}
-                                    <option value="{{ tag.id }}">{{ tag.name }}</option>
-                                {% endfor %}
-                            </select>
                         </div>
                     </div>
-                    <div class="button-content">
+                    <form action="{{ path('add_trick') }}" method="POST">
                         <div class="save">
-                            {{ form_row(trickForm.save) }}
+                            <button type="submit" class="btn btn-success">Save</button>
                         </div>
-                    </div>
+                    </form>
                     {{ form_end(trickForm) }}
                 </div>
             </div>
         </section>
         {% include 'navbar-mobile.html.twig' %}
     </main>
+    {% block javascripts %}
+        {{ encore_entry_script_tags('preview') }}
+        {{ encore_entry_script_tags('externalMedia') }}
+    {% endblock %}
 {% endblock %}

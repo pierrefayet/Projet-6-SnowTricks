@@ -2,42 +2,46 @@
 
 namespace App\Controller;
 
-use App\Entity\Comment;
 use App\Entity\Trick;
-use App\Form\CommentFormType;
 use App\Form\DeleteTrickForm;
 use App\Form\TrickFormType;
 use App\Repository\CommentRepository;
 use App\Services\HandleMedia;
-use App\Services\HandleTags;
+use App\Services\Manager\CommentManager;
 use Doctrine\ORM\EntityManagerInterface;
-use Exception;
-use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 class TricksController extends AbstractController
 {
-    public function __construct(private readonly HandleMedia $handleMedia, private readonly HandleTags $handleTags)
+    public function __construct(
+        private readonly HandleMedia         $handleMedia,
+        private readonly TranslatorInterface $translator
+    )
     {
     }
 
     #[Route('/add_trick', name: 'add_trick')]
-    public function addTrick(Request $request, EntityManagerInterface $entityManager, Security $security): Response
+    public function addTrick(Request $request, EntityManagerInterface $entityManager): Response
     {
         $trick = new Trick();
         $form = $this->createForm(TrickFormType::class, $trick);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-
             $entityManager->persist($trick);
+            $file = $form->get('medias')->getData();
+            if (isset($file)) {
+                $this->handleMedia->handleMediaUpload($file, $trick);
+            }
+
             $entityManager->flush();
+            $request->getSession()->getFlashBag()->add('success', $this->translator->trans('tricks.success.add'));
 
             return $this->redirectToRoute('single_trick', ['slug' => $trick->getSlug()]);
         }
@@ -62,10 +66,8 @@ class TricksController extends AbstractController
                 $this->handleMedia->handleMediaUpload($file, $trick);
             }
 
-            $newTagsString = $form->get('newTags')->getData();
-            $this->handleTags->handleTags($newTagsString, $trick, $entityManager);
-
             $entityManager->flush();
+            $request->getSession()->getFlashBag()->add('success', $this->translator->trans('tricks.success.update'));
 
             return $this->redirectToRoute('single_trick', ['slug' => $trick->getSlug()]);
         }
@@ -77,11 +79,10 @@ class TricksController extends AbstractController
     }
 
     #[Route('/single_trick/{slug}', name: 'single_trick')]
-    public function showTrick(Trick $trick, CommentRepository $commentRepository): Response
+    public function showTrick(Trick $trick, CommentRepository $commentRepository, CommentManager $commentManager): Response
     {
-        $comment = new Comment();
-        $commentForm = $this->createForm(CommentFormType::class, $comment, ['action' => $this->generateUrl('add_comment', ['id' => $trick->getId()]),
-            'method' => 'POST',]);
+
+        $commentForm = $commentManager->addComment($trick);
         $comments = $commentRepository->paginateTrick(1, 5);
         $maxPage = ceil($comments->getTotalItemCount() / 5);
 
@@ -96,24 +97,17 @@ class TricksController extends AbstractController
     #[IsGranted('delete', 'trick')]
     #[Route('/delete_trick/{id}', name: 'delete_trick')]
     public function deleteTrick(
-        Request                       $request,
-        Trick                         $trick,
-        EntityManagerInterface        $entityManager,
-        AuthorizationCheckerInterface $authorizationChecker,
-        SessionInterface              $session
+        Request                $request,
+        Trick                  $trick,
+        EntityManagerInterface $entityManager
     ): Response
     {
-        if (!$authorizationChecker->isGranted('delete', $trick)) {
-            $session->getFlashBag()->add('error', 'Vous ne pouvez supprimer que les figures que vous avez créées.');
-
-            return $this->redirectToRoute('home');
-        }
 
         $form = $this->createForm(DeleteTrickForm::class, $trick);
         $form->handleRequest($request);
         $entityManager->remove($trick);
         $entityManager->flush();
-        $session->getFlashBag()->add('success', 'La figure a été supprimée avec succès.');
+        $request->getSession()->getFlashBag()->add('success', $this->translator->trans('tricks.success.delete'));
 
         return $this->redirectToRoute('home');
     }

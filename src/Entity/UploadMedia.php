@@ -20,11 +20,12 @@ class UploadMedia
     private ?int $id = null;
 
     #[ORM\Column(length: 255, nullable: true)]
-    private ?string $filename = null;
+    protected ?string $filename = null;
 
     #[ORM\ManyToOne(targetEntity: Trick::class, inversedBy: "medias")]
     #[ORM\JoinColumn(name: "trick_id", referencedColumnName: "id")]
-    private ?Trick $trick;
+    protected ?Trick $trick = null;
+
 
     public function getId(): ?int
     {

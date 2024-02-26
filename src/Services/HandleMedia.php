@@ -12,7 +12,7 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
 class HandleMedia
 {
     public function __construct(
-        private readonly string $mediaDirectory,
+        private readonly string                 $mediaDirectory,
         private readonly EntityManagerInterface $entitymanager)
     {
     }
@@ -33,10 +33,8 @@ class HandleMedia
                 };
 
                 $directory = $media instanceof Image ? 'image/' : 'video/';
-
                 $newFilename = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME) . uniqid() . '.' . $file->guessExtension();
                 $targetDirectory = $this->mediaDirectory . '/' . $directory;
-
                 $file->move($targetDirectory, $newFilename);
                 $media->setFilename($newFilename);
                 $media->setTrick($trick);

@@ -3,7 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\TrickRepository;
-use DateTime;
+use DateTimeImmutable;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
@@ -12,6 +12,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 #[ORM\Entity(repositoryClass: TrickRepository::class)]
 #[UniqueEntity('title')]
+#[ORM\HasLifecycleCallbacks]
 class Trick
 {
     #[ORM\Id]
@@ -28,8 +29,8 @@ class Trick
     private ?string $intro = null;
     #[ORM\Column(type: Types::TEXT)]
     private ?string $content;
-    #[ORM\Column(options: ["default" => "CURRENT_TIMESTAMP"])]
-    private DateTime $creation_date;
+    #[ORM\Column]
+    private DateTimeImmutable $creation_date;
 
     #[ORM\ManyToOne(targetEntity: User::class)]
     private ?User $author = null;
@@ -42,12 +43,18 @@ class Trick
 
     #[ORM\OneToMany(mappedBy: 'trick', targetEntity: Comment::class, cascade: ['remove'])]
     private Collection $comments;
+    #[ORM\OneToMany(mappedBy: 'trick', targetEntity: ExternalVideo::class, cascade: ['persist', 'remove'])]
+    private Collection $externalVideo;
+
+    #[ORM\Column]
+    private ?DateTimeImmutable $updateAt = null;
 
     public function __construct()
     {
         $this->medias = new ArrayCollection();
         $this->comments = new ArrayCollection();
-        $this->creation_date = new \DateTime();
+        $this->creation_date = new DateTimeImmutable();
+        $this->externalVideo = new ArrayCollection();
     }
 
     public function getSlug(): string
@@ -125,19 +132,30 @@ class Trick
     }
 
     /**
-     * @return DateTime
+     * @return DateTimeImmutable
      */
-    public function getCreationDate(): DateTime
+    public function getCreationDate(): DateTimeImmutable
     {
         return $this->creation_date;
     }
 
     /**
-     * @param DateTime $creation_date
+     * @param DateTimeImmutable $creation_date
      */
-    public function setCreationDate(DateTime $creation_date): void
+    public function setCreationDate(DateTimeImmutable $creation_date): void
     {
         $this->creation_date = $creation_date;
+    }
+
+    #[ORM\PrePersist]
+    #[ORM\PreUpdate]
+    public function updatedTimestamps(): void
+    {
+        $this->setUpdateAt(new DateTimeImmutable('now'));
+
+        if ($this->getCreationDate() === null) {
+            $this->setCreationDate(new DateTimeImmutable('now'));
+        }
     }
 
     /**
@@ -226,6 +244,49 @@ class Trick
                 $comment->setTrick(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getExternalVideo(): Collection
+    {
+        return $this->externalVideo;
+    }
+
+    public function setExternalVideo(Collection $externalVideo): void
+    {
+        $this->externalVideo = $externalVideo;
+    }
+
+    public function addExternalVideo(ExternalVideo $externalVideo): static
+    {
+        if (!$this->externalVideo->contains($externalVideo)) {
+            $this->externalVideo->add($externalVideo);
+            $externalVideo->setTrick($this);
+        }
+
+        return $this;
+    }
+
+    public function removeExternalVideo(ExternalVideo $externalVideo): static
+    {
+        if ($this->externalVideo->removeElement($externalVideo)) {
+            if ($externalVideo->getTrick() === $this) {
+                $externalVideo->setTrick(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getUpdateAt(): ?\DateTimeImmutable
+    {
+        return $this->updateAt;
+    }
+
+    public function setUpdateAt(\DateTimeImmutable $updateAt): static
+    {
+        $this->updateAt = $updateAt;
 
         return $this;
     }

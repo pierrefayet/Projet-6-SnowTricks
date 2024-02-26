@@ -23,7 +23,7 @@ class CommentFixtures extends Fixture implements DependentFixtureInterface
             $comment = new Comment();
             $comment->setTrick( $this->getReference('tricks'));
             $comment->setCommentUserId($this->getReference('users' . $i));
-            $comment->setContent($this->faker->paragraph);
+            $comment->setContent($this->faker->sentence(10));
             $manager->persist($comment);
         }
 

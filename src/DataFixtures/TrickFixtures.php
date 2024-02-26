@@ -3,6 +3,7 @@
 namespace App\DataFixtures;
 
 use App\Entity\Category;
+use DateTimeImmutable;
 use Faker\Factory;
 use Faker\Generator;
 use App\Entity\Trick;
@@ -36,7 +37,6 @@ class TrickFixtures extends Fixture implements DependentFixtureInterface
             $trick->setSlug((new AsciiSlugger())->slug(strtolower($trick->getTitle())));
             $trick->setIntro($this->faker->sentence(3));
             $trick->setContent($this->faker->paragraph);
-            $trick->setCreationDate($this->faker->dateTime());
             $trick->setCategory($groups[$i % count($groups)]);
 
             $manager->persist($trick);
