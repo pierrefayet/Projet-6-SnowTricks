@@ -1,9 +1,10 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Entity;
 
 use App\Repository\ExternalVideoRepository;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: ExternalVideoRepository::class)]
@@ -19,8 +20,8 @@ class ExternalVideo
     #[ORM\Column]
     private ?int $platformId = null;
 
-    #[ORM\ManyToOne(targetEntity: Trick::class, inversedBy: "externalVideo")]
-    #[ORM\JoinColumn(name: "trick_id", referencedColumnName: "id")]
+    #[ORM\ManyToOne(targetEntity: Trick::class, inversedBy: 'externalVideo')]
+    #[ORM\JoinColumn(name: 'trick_id', referencedColumnName: 'id')]
     protected ?Trick $trick = null;
 
     public function getTrick(): ?Trick
@@ -37,6 +38,7 @@ class ExternalVideo
     {
         return $this->id;
     }
+
     public function getPlatformId(): ?int
     {
         return $this->platformId;

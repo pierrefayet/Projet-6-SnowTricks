@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Services\Manager;
 
 use App\Entity\Comment;
@@ -17,15 +19,14 @@ class CommentManager
         private readonly RequestStack $request,
         private readonly FormFactoryInterface $formFactory,
         private readonly Security $security,
-        private readonly EntityManagerInterface $entityManager
-    )
-    {
+        private readonly EntityManagerInterface $entityManager,
+    ) {
     }
 
-    public function addComment(Trick $trick):FormInterface
+    public function addComment(Trick $trick): FormInterface
     {
-        $comment = new Comment;
-        $form = $this->formFactory->create(CommentFormType::class, $comment);
+        $comment = new Comment();
+        $form    = $this->formFactory->create(CommentFormType::class, $comment);
         $form->handleRequest($this->request->getCurrentRequest());
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -37,4 +38,4 @@ class CommentManager
 
         return $form;
     }
-    }
+}

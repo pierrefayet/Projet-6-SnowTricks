@@ -1,22 +1,23 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Controller;
 
 use App\Entity\Comment;
 use App\Entity\Trick;
 use App\Repository\CommentRepository;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Routing\Attribute\Route;
 
 class CommentController extends AbstractController
 {
     #[Route('/delete_comment/{id}', name: 'delete_comment')]
     public function deleteTrick(Comment $comment, EntityManagerInterface $entityManager, Trick $trick): Response
     {
-
         $entityManager->remove($comment);
         $entityManager->flush();
 
@@ -26,11 +27,11 @@ class CommentController extends AbstractController
     #[\Symfony\Component\Routing\Annotation\Route('/get-comments', name: 'load_more_comment')]
     public function loadMore(CommentRepository $commentRepository, Request $request): Response
     {
-        $page = $request->query->getInt('page', 2);
+        $page     = $request->query->getInt('page', 2);
         $comments = $commentRepository->paginateTrick($page, 5);
 
         return $this->render('comments.html.twig', [
-            'comments' => $comments
+            'comments' => $comments,
         ]);
     }
 }

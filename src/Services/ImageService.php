@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Services;
 
 class ImageService
@@ -10,7 +12,7 @@ class ImageService
 
     public function buildImage($file, $directory): string
     {
-        $newFilename = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME) . uniqid() . '.' . $file->guessExtension();
+        $newFilename     = pathinfo($file->getClientOriginalName(), \PATHINFO_FILENAME) . uniqid() . '.' . $file->guessExtension();
         $targetDirectory = $this->mediaDirectory . '/' . $directory;
         $file->move($targetDirectory, $newFilename);
 

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Controller;
 
 use App\Entity\User;
@@ -9,7 +11,6 @@ use App\Form\ProfileEmailType;
 use App\Form\ProfileImageType;
 use App\Form\ProfileUserNameType;
 use App\Form\RegistrationType;
-use App\Form\ResetFormType;
 use App\Repository\UserRepository;
 use App\Security\FormLoginAuthenticator;
 use App\Services\ImageService;
@@ -31,22 +32,22 @@ use SymfonyCasts\Bundle\VerifyEmail\Exception\VerifyEmailExceptionInterface;
 class UserController extends AbstractController
 {
     public function __construct(
-        private readonly EmailVerifier       $emailVerifier,
-        private readonly TranslatorInterface $translator
-    )
-    {
+        private readonly EmailVerifier $emailVerifier,
+        private readonly TranslatorInterface $translator,
+    ) {
     }
 
     #[Route('/login', name: 'security_login')]
     public function loginUser(Request $request, AuthenticationUtils $authenticationUtils): Response
     {
-        $user = new User();
+        $user      = new User();
         $loginForm = $this->createForm(LoginFormType::class, $user);
         $loginForm->handleRequest($request);
+
         return $this->render('login.html.twig', [
-            'connection' => $loginForm->createView(),
-            'error' => $authenticationUtils->getLastAuthenticationError(),
-            'lastUserName' => $authenticationUtils->getLastUsername()
+            'connection'   => $loginForm->createView(),
+            'error'        => $authenticationUtils->getLastAuthenticationError(),
+            'lastUserName' => $authenticationUtils->getLastUsername(),
         ]);
     }
 
@@ -60,24 +61,23 @@ class UserController extends AbstractController
      */
     #[Route('/forgot_password', name: 'forgot_password')]
     public function forgotPassword(
-        Request        $request,
-        EmailVerifier  $emailVerifier,
-        UserRepository $userRepository
-    ): Response
-    {
-        $user = new User();
+        Request $request,
+        EmailVerifier $emailVerifier,
+        UserRepository $userRepository,
+    ): Response {
+        $user       = new User();
         $forgotForm = $this->createForm(ForgotFormType::class, $user);
         $forgotForm->handleRequest($request);
         if ($forgotForm->isSubmitted()) {
             $userEmail = $forgotForm->get('email')->getData();
-            $user = $userRepository->findOneByEmail($userEmail);
+            $user      = $userRepository->findOneByEmail($userEmail);
             if ($user) {
                 $emailVerifier->sendEmailConfirmation('app_verify_email', $user,
                     (new TemplatedEmail())
                         ->from(new Address('snowtrick@gmail.com', 'admin'))
                         ->to($user->getEmail())
                         ->subject('Please Confirm your Email')
-                        ->htmlTemplate('registration/confirmation_email.html.twig')
+                        ->htmlTemplate('registration/confirmation_email.html.twig'),
                 );
 
                 $request->getSession()->getFlashBag()->add(
@@ -89,17 +89,15 @@ class UserController extends AbstractController
         return $this->render('forgotPassword.html.twig', ['forgotPassword' => $forgotForm->createView()]);
     }
 
-
     #[Route('/create_account', name: 'registration')]
     public function registrationUser(
-        Request                    $request, UserPasswordHasherInterface $passwordEncoder,
-        EntityManagerInterface     $entityManager,
+        Request $request, UserPasswordHasherInterface $passwordEncoder,
+        EntityManagerInterface $entityManager,
         UserAuthenticatorInterface $userAuthenticator,
-        FormLoginAuthenticator     $authenticator,
-        EmailVerifier  $emailVerifier
-    ): Response
-    {
-        $user = new User();
+        FormLoginAuthenticator $authenticator,
+        EmailVerifier $emailVerifier,
+    ): Response {
+        $user       = new User();
         $createForm = $this->createForm(RegistrationType::class, $user);
         $createForm->handleRequest($request);
         if ($createForm->isSubmitted() && $createForm->isValid()) {
@@ -113,7 +111,7 @@ class UserController extends AbstractController
                     ->from(new Address('snowtrick@gmail.com', 'admin'))
                     ->to($user->getEmail())
                     ->subject('Please Confirm your Email')
-                    ->htmlTemplate('registration/confirmation_email.html.twig')
+                    ->htmlTemplate('registration/confirmation_email.html.twig'),
             );
 
             $request->getSession()->getFlashBag()->add('success', $this->translator->trans('user.success.create_account'));
@@ -121,9 +119,8 @@ class UserController extends AbstractController
             return $userAuthenticator->authenticateUser(
                 $user,
                 $authenticator,
-                $request
+                $request,
             );
-
         }
 
         return $this->render('registration.html.twig', ['registration' => $createForm->createView()]);
@@ -159,11 +156,10 @@ class UserController extends AbstractController
 
     #[Route('/profile', name: 'profile')]
     public function modifyProfile(
-        Request                $request,
-        EntityManagerInterface $entityManager, ImageService $imageService
-    ): Response
-    {
-        $user = $this->getUser();
+        Request $request,
+        EntityManagerInterface $entityManager, ImageService $imageService,
+    ): Response {
+        $user         = $this->getUser();
         $formUsername = $this->createForm(ProfileUserNameType::class, $user);
         $formUsername->handleRequest($request);
         $emailForm = $this->createForm(ProfileEmailType::class, $user);
@@ -191,9 +187,8 @@ class UserController extends AbstractController
 
         return $this->render('profile.html.twig', [
             'profileUsername' => $formUsername->createView(),
-            'profileEmail' => $emailForm->createView(),
-            'profileImage' => $imageForm->createView()
-
+            'profileEmail'    => $emailForm->createView(),
+            'profileImage'    => $imageForm->createView(),
         ]);
     }
 }

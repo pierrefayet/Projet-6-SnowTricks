@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Services\Security;
 
 use Doctrine\ORM\EntityManagerInterface;
@@ -15,8 +17,8 @@ class EmailVerifier
 {
     public function __construct(
         private readonly VerifyEmailHelperInterface $verifyEmailHelper,
-        private readonly MailerInterface            $mailer,
-        private readonly EntityManagerInterface $entityManager
+        private readonly MailerInterface $mailer,
+        private readonly EntityManagerInterface $entityManager,
     ) {
     }
 
@@ -29,12 +31,12 @@ class EmailVerifier
             $verifyEmailRouteName,
             $user->getId(),
             $user->getEmail(),
-            ['id' => $user->getId()]
+            ['id' => $user->getId()],
         );
 
-        $context = $email->getContext();
-        $context['signedUrl'] = $signatureComponents->getSignedUrl();
-        $context['expiresAtMessageKey'] = $signatureComponents->getExpirationMessageKey();
+        $context                         = $email->getContext();
+        $context['signedUrl']            = $signatureComponents->getSignedUrl();
+        $context['expiresAtMessageKey']  = $signatureComponents->getExpirationMessageKey();
         $context['expiresAtMessageData'] = $signatureComponents->getExpirationMessageData();
 
         $email->context($context);

@@ -12,6 +12,7 @@ class Image extends UploadMedia
 {
     #[ORM\Column(nullable: true)]
     protected ?string $alt = null;
+
     public function getType(): string
     {
         return 'image';

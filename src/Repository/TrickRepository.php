@@ -6,7 +6,6 @@ namespace App\Repository;
 
 use App\Entity\Trick;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\Persistence\ManagerRegistry;
 use Knp\Component\Pager\Pagination\PaginationInterface;
 use Knp\Component\Pager\PaginatorInterface;
@@ -31,7 +30,7 @@ class TrickRepository extends ServiceEntityRepository
         return $this->paginator->paginate(
             $this->createQueryBuilder('t'),
             $page,
-            $limit
+            $limit,
         );
     }
 }

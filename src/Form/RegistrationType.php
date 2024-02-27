@@ -1,13 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Form;
 
-use App\Entity\User;
-use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class RegistrationType extends UserFormType
 {
@@ -15,11 +14,11 @@ class RegistrationType extends UserFormType
     {
         parent::buildForm($builder, $options);
         $builder
-            ->add('userName', null, ['attr' => ['id' => 'Username']
+            ->add('userName', null, ['attr' => ['id' => 'Username'],
             ])
-            ->add('email', EmailType::class, ['attr' => ['id' => 'email']
+            ->add('email', EmailType::class, ['attr' => ['id' => 'email'],
             ])
-            ->add('password', PasswordType::class, ['attr' => ['id' => 'passsword']
+            ->add('password', PasswordType::class, ['attr' => ['id' => 'passsword'],
             ]);
     }
 }

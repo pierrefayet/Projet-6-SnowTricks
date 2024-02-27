@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Form;
 
 use App\Entity\UploadMedia;
@@ -14,7 +16,7 @@ class UploadMediaType extends AbstractType
     {
         $builder
             ->add('filename', FileType::class, [
-                'label' => 'false'
+                'label' => 'false',
             ]);
     }
 

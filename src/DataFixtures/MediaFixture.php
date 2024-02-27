@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\DataFixtures;
 
 use App\Entity\Image;
@@ -13,6 +15,7 @@ use Faker\Generator;
 class MediaFixture extends Fixture implements DependentFixtureInterface
 {
     private Generator $faker;
+
     public function __construct()
     {
         $this->faker = Factory::create('fr_FR');
@@ -20,7 +23,7 @@ class MediaFixture extends Fixture implements DependentFixtureInterface
 
     public function load(ObjectManager $manager): void
     {
-        for ($j = 1; $j <= 4; $j++) {
+        for ($j = 1; $j <= 4; ++$j) {
             $image = new Image();
             $trick = $this->getReference('tricks');
             $image->setTrick($trick);
@@ -29,7 +32,7 @@ class MediaFixture extends Fixture implements DependentFixtureInterface
             $manager->persist($image);
         }
 
-        for ($j = 1; $j <= 2; $j++) {
+        for ($j = 1; $j <= 2; ++$j) {
             $video = new Video();
             $trick = $this->getReference('tricks');
             $video->setTrick($trick);
@@ -39,6 +42,7 @@ class MediaFixture extends Fixture implements DependentFixtureInterface
 
         $manager->flush();
     }
+
     public function getDependencies(): array
     {
         return [

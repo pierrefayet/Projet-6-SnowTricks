@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Voter;
 
 use App\Entity\Trick;
@@ -17,13 +19,12 @@ class VoterTrick extends Voter
         if ('delete' === $attribute && $subject instanceof Trick) {
             return true;
         }
+
         return false;
     }
 
     protected function voteOnAttribute(string $attribute, mixed $subject, TokenInterface $token): bool
     {
-
         return $subject->getAuthor() === $token->getUser();
-
     }
 }

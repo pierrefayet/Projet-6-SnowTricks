@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\EventListener;
 
 use App\Entity\ExternalVideo;
@@ -19,7 +21,7 @@ class ExternalVideoSubscriber
     {
         $entity = $args->getObject();
 
-        if (!$entity instanceof ExternalVideo || null === $this->security->getUser()) {
+        if (! $entity instanceof ExternalVideo || null === $this->security->getUser()) {
             return;
         }
 
@@ -30,28 +32,28 @@ class ExternalVideoSubscriber
         if (2 === $entity->getPlatformId()) {
             $entity->setUrl($this->getDailymotionEmbedUrl($entity->getUrl()));
         }
-
     }
 
-    function getYoutubeEmbedUrl($url): string
+    public function getYoutubeEmbedUrl($url): string
     {
         $shortUrlRegex = '/youtu.be\/([a-zA-Z0-9_-]+)\??/i';
-        $longUrlRegex = '/youtube.com\/((?:embed)|(?:watch))((?:\?v\=)|(?:\/))([a-zA-Z0-9_-]+)/i';
+        $longUrlRegex  = '/youtube.com\/((?:embed)|(?:watch))((?:\?v\=)|(?:\/))([a-zA-Z0-9_-]+)/i';
 
         if (preg_match($longUrlRegex, $url, $matches)) {
-            $youtube_id = $matches[count($matches) - 1];
+            $youtube_id = $matches[\count($matches) - 1];
         }
 
         if (preg_match($shortUrlRegex, $url, $matches)) {
-            $youtube_id = $matches[count($matches) - 1];
+            $youtube_id = $matches[\count($matches) - 1];
         }
+
         return 'https://www.youtube.com/embed/' . $youtube_id;
     }
 
-    function getDailymotionEmbedUrl($url): string
+    public function getDailymotionEmbedUrl($url): string
     {
         $shortUrlRegex = '/dai.ly\/([a-zA-Z0-9]+)/i';
-        $longUrlRegex = '/dailymotion.com\/video\/([a-zA-Z0-9]+)/i';
+        $longUrlRegex  = '/dailymotion.com\/video\/([a-zA-Z0-9]+)/i';
 
         if (preg_match($longUrlRegex, $url, $matches)) {
             $dailymotion_id = $matches[1];
@@ -63,5 +65,4 @@ class ExternalVideoSubscriber
 
         return 'https://www.dailymotion.com/embed/video/' . $dailymotion_id;
     }
-
 }

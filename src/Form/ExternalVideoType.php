@@ -1,10 +1,10 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Form;
 
 use App\Entity\ExternalVideo;
-use App\Entity\Trick;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -16,11 +16,11 @@ class ExternalVideoType extends AbstractType
     {
         $builder
             ->add('url')
-            ->add('platformId',ChoiceType::class, [
+            ->add('platformId', ChoiceType::class, [
                 'choices' => [
-                    'Youtube' => 1,
-                    'DailyMotion' => 2
-                ]
+                    'Youtube'     => 1,
+                    'DailyMotion' => 2,
+                ],
             ]);
     }
 

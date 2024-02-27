@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Form;
 
 use App\Entity\Comment;
@@ -8,16 +10,15 @@ use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-
 class CommentFormType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('content', null, ['attr' => ['id' => 'form-comment']
+            ->add('content', null, ['attr' => ['id' => 'form-comment'],
             ])
             ->
-            add('submit', SubmitType::class, ['label' => 'Laisser un commentaire']
+            add('submit', SubmitType::class, ['label' => 'Laisser un commentaire'],
             );
     }
 
@@ -25,7 +26,7 @@ class CommentFormType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => Comment::class,
-            'attr' => ['class' => 'comment']
+            'attr'       => ['class' => 'comment'],
         ]);
     }
 }

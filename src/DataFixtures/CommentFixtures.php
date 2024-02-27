@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\DataFixtures;
 
 use App\Entity\Comment;
@@ -12,6 +14,7 @@ use Faker\Generator;
 class CommentFixtures extends Fixture implements DependentFixtureInterface
 {
     private Generator $faker;
+
     public function __construct()
     {
         $this->faker = Factory::create('fr_FR');
@@ -19,9 +22,9 @@ class CommentFixtures extends Fixture implements DependentFixtureInterface
 
     public function load(ObjectManager $manager): void
     {
-        for ($i = 1; $i <= 20; $i++) {
+        for ($i = 1; $i <= 20; ++$i) {
             $comment = new Comment();
-            $comment->setTrick( $this->getReference('tricks'));
+            $comment->setTrick($this->getReference('tricks'));
             $comment->setCommentUserId($this->getReference('users' . $i));
             $comment->setContent($this->faker->sentence(10));
             $manager->persist($comment);
@@ -29,11 +32,12 @@ class CommentFixtures extends Fixture implements DependentFixtureInterface
 
         $manager->flush();
     }
+
     public function getDependencies(): array
     {
         return [
             UserFixtures::class,
-            TrickFixtures::class
+            TrickFixtures::class,
         ];
     }
 }

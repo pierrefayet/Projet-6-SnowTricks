@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Form;
 
 use App\Entity\User;
@@ -13,7 +15,7 @@ class ProfileEmailType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('email',EmailType::class, ['attr' => ['id' => 'email']]);
+            ->add('email', EmailType::class, ['attr' => ['id' => 'email']]);
     }
 
     public function configureOptions(OptionsResolver $resolver): void

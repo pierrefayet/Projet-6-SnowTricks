@@ -17,9 +17,7 @@ use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Mime\Address;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Attribute\Route;
-use Symfony\Component\Routing\Generator\UrlGenerator;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
-use Symfony\Component\Translation\TranslatableMessage;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use SymfonyCasts\Bundle\ResetPassword\Controller\ResetPasswordControllerTrait;
 use SymfonyCasts\Bundle\ResetPassword\Exception\ResetPasswordExceptionInterface;
@@ -32,9 +30,8 @@ class ResetPasswordController extends AbstractController
 
     public function __construct(
         private readonly ResetPasswordHelperInterface $resetPasswordHelper,
-        private readonly EntityManagerInterface       $entityManager,
-    )
-    {
+        private readonly EntityManagerInterface $entityManager,
+    ) {
     }
 
     /**
@@ -142,20 +139,18 @@ class ResetPasswordController extends AbstractController
         ]);
 
         // Do not reveal whether a user account was found or not.
-        if (!$user) {
+        if (! $user) {
             return $this->redirectToRoute('app_check_email');
         }
 
         try {
             $resetToken = $this->resetPasswordHelper->generateResetToken($user);
         } catch (ResetPasswordExceptionInterface $e) {
-
-
             return $this->redirectToRoute('app_check_email');
         }
 
         $resetLink = $this->generateUrl('app_reset_password', ['token' => $resetToken->getToken()], UrlGeneratorInterface::ABSOLUTE_URL);
-        $htmlLink = $translator->trans('email.success', ['resetPasswordLink' => $resetLink]);
+        $htmlLink  = $translator->trans('email.success', ['resetPasswordLink' => $resetLink]);
 
         $email = (new TemplatedEmail())
             ->from(new Address('piero69450@gmail.com', 'Contact-snowtrick'))

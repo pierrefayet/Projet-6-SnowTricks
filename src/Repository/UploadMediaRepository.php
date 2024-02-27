@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Repository;
 
 use App\Entity\UploadMedia;
@@ -11,8 +13,8 @@ use Doctrine\Persistence\ManagerRegistry;
  *
  * @method UploadMedia|null find($id, $lockMode = null, $lockVersion = null)
  * @method UploadMedia|null findOneBy(array $criteria, array $orderBy = null)
- * @method UploadMedia[]    findAll()
- * @method UploadMedia[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method UploadMedia[] findAll()
+ * @method UploadMedia[] findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
 class UploadMediaRepository extends ServiceEntityRepository
 {

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Form;
 
 use App\Entity\Trick;
@@ -19,7 +21,7 @@ class DeleteTrickForm extends AbstractType
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            'data_class' => Trick::class
+            'data_class' => Trick::class,
         ]);
     }
 }

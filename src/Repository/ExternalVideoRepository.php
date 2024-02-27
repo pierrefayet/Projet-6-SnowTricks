@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Repository;
 
 use App\Entity\ExternalMedia;
@@ -11,8 +13,8 @@ use Doctrine\Persistence\ManagerRegistry;
  *
  * @method ExternalMedia|null find($id, $lockMode = null, $lockVersion = null)
  * @method ExternalMedia|null findOneBy(array $criteria, array $orderBy = null)
- * @method ExternalMedia[]    findAll()
- * @method ExternalMedia[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method ExternalMedia[] findAll()
+ * @method ExternalMedia[] findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
 class ExternalVideoRepository extends ServiceEntityRepository
 {
@@ -21,28 +23,28 @@ class ExternalVideoRepository extends ServiceEntityRepository
         parent::__construct($registry, ExternalMedia::class);
     }
 
-//    /**
-//     * @return ExternalMedia[] Returns an array of ExternalMedia objects
-//     */
-//    public function findByExampleField($value): array
-//    {
-//        return $this->createQueryBuilder('e')
-//            ->andWhere('e.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->orderBy('e.id', 'ASC')
-//            ->setMaxResults(10)
-//            ->getQuery()
-//            ->getResult()
-//        ;
-//    }
+    //    /**
+    //     * @return ExternalMedia[] Returns an array of ExternalMedia objects
+    //     */
+    //    public function findByExampleField($value): array
+    //    {
+    //        return $this->createQueryBuilder('e')
+    //            ->andWhere('e.exampleField = :val')
+    //            ->setParameter('val', $value)
+    //            ->orderBy('e.id', 'ASC')
+    //            ->setMaxResults(10)
+    //            ->getQuery()
+    //            ->getResult()
+    //        ;
+    //    }
 
-//    public function findOneBySomeField($value): ?ExternalMedia
-//    {
-//        return $this->createQueryBuilder('e')
-//            ->andWhere('e.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->getQuery()
-//            ->getOneOrNullResult()
-//        ;
-//    }
+    //    public function findOneBySomeField($value): ?ExternalMedia
+    //    {
+    //        return $this->createQueryBuilder('e')
+    //            ->andWhere('e.exampleField = :val')
+    //            ->setParameter('val', $value)
+    //            ->getQuery()
+    //            ->getOneOrNullResult()
+    //        ;
+    //    }
 }
