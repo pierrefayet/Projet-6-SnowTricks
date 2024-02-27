@@ -8,9 +8,6 @@
     {% endfor %}
 
     <h1>Register</h1>
-
-    {{ form_errors(registrationForm) }}
-
     {{ form_start(registrationForm) }}
         {{ form_row(registrationForm.userName) }}
         {{ form_row(registrationForm.plainPassword, {

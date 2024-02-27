@@ -2,3 +2,17 @@ tricks.success.add: 'La  figure a bien été ajoutée.'
 tricks.success.update: 'La  figure a bien été mise à jour.'
 tricks.success.delete: 'La  figure a bien été supprimée.'
 home.intro: 'Rejoignez la communauté Snow tricks la plus cool sur la neige et partagez votre passion pour le snow avec des riders du monde entier !'
+user:
+    success:
+        create_account: 'Votre compte a été créé.'
+        verify_email : 'Votre email a bien été verifié.'
+        update_profile : 'Votre profil a bien été mis à jour'
+        login : 'Vous êtes connecté !'
+email:
+    success: |
+        <h1>Bonjour!</h1>
+        <p>Pour reset votre mot de passe cliquer sur ce lien</p>
+        <a href="{resetPasswordLink}">Reset votre mot de passe</a>
+        <p>ce lien expire dans 1 heure.</p>
+        <p>cordialement!</p>
+

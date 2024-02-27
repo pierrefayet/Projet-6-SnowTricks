@@ -31,7 +31,6 @@ class ExternalVideoSubscriber
             $entity->setUrl($this->getDailymotionEmbedUrl($entity->getUrl()));
         }
 
-
     }
 
     function getYoutubeEmbedUrl($url): string

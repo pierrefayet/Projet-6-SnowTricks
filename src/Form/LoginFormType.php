@@ -2,6 +2,7 @@
 
 namespace App\Form;
 
+use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\FormBuilderInterface;
 use App\Form\UserFormType;
 class LoginFormType extends UserFormType
@@ -11,7 +12,7 @@ class LoginFormType extends UserFormType
         $builder
             ->add('userName', null, ['attr' => ['id' => 'Username']
             ])
-            ->add('password', null, ['attr' => ['id' => 'passsword']
+            ->add('password', PasswordType::class, ['attr' => ['id' => 'passsword']
             ]);
     }
 }

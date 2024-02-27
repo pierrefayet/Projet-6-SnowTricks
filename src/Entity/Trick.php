@@ -38,7 +38,7 @@ class Trick
     #[ORM\ManyToOne(targetEntity: Category::class, inversedBy: 'tricks')]
     private Category $category;
 
-    #[ORM\OneToMany(mappedBy: "trick", targetEntity: UploadMedia::class)]
+    #[ORM\OneToMany(mappedBy: "trick", targetEntity: UploadMedia::class, cascade: ['remove'])]
     private Collection $medias;
 
     #[ORM\OneToMany(mappedBy: 'trick', targetEntity: Comment::class, cascade: ['remove'])]
