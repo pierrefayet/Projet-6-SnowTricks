@@ -2,7 +2,7 @@
 
 namespace App\Services;
 
-readonly class ImageService
+class ImageService
 {
     public function __construct(private string $mediaDirectory)
     {
