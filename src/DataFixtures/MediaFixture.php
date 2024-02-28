@@ -25,7 +25,7 @@ class MediaFixture extends Fixture implements DependentFixtureInterface
     {
         for ($j = 1; $j <= 4; ++$j) {
             $image = new Image();
-            $trick = $this->getReference('tricks');
+            $trick = $this->getReference('tricks' . $j);
             $image->setTrick($trick);
             $image->setFilename('50_50_Grinds.png');
             $image->setAlt($this->faker->sentence(2));
@@ -34,11 +34,24 @@ class MediaFixture extends Fixture implements DependentFixtureInterface
 
         for ($j = 1; $j <= 2; ++$j) {
             $video = new Video();
-            $trick = $this->getReference('tricks');
+            $trick = $this->getReference('tricks' . $j);
             $video->setTrick($trick);
-            $video->setFilename('50_50_Grinds_easy_snowboard.mp4');
+            $video->setFilename('50_50.mp4');
             $manager->persist($video);
         }
+
+        $imageCustom = new Image();
+        $trick       = $this->getReference('trickCustom');
+        $imageCustom->setTrick($trick);
+        $imageCustom->setFilename('50_50_Grinds.png');
+        $imageCustom->setAlt($this->faker->sentence(2));
+        $manager->persist($imageCustom);
+
+        $videoCustom = new Video();
+        $trick       = $this->getReference('trickCustom');
+        $videoCustom->setTrick($trick);
+        $videoCustom->setFilename('50_50.mp4');
+        $manager->persist($videoCustom);
 
         $manager->flush();
     }

@@ -32,8 +32,7 @@ class ChangePasswordFormType extends AbstractType
                         new Length([
                             'min'        => 6,
                             'minMessage' => 'Your password should be at least {{ limit }} characters',
-                            // max length allowed by Symfony for security reasons
-                            'max' => 4096,
+                            'max'        => 4096,
                         ]),
                     ],
                     'label' => 'New password',
@@ -42,9 +41,7 @@ class ChangePasswordFormType extends AbstractType
                     'label' => 'Repeat Password',
                 ],
                 'invalid_message' => 'The password fields must match.',
-                // Instead of being set onto the object directly,
-                // this is read and encoded in the controller
-                'mapped' => false,
+                'mapped'          => false,
             ])
         ;
     }

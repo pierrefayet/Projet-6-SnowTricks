@@ -21,22 +21,22 @@ class Trick
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(type: 'string')]
-    private string $slug;
+    #[ORM\Column(type: 'string', nullable: true)]
+    private ?string $slug;
 
-    #[ORM\Column(type: 'string', length: 255)]
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
     private ?string $title = null;
-    #[ORM\Column]
+    #[ORM\Column(nullable: true)]
     private ?string $intro = null;
     #[ORM\Column(type: Types::TEXT)]
     private ?string $content;
     #[ORM\Column]
     private \DateTimeImmutable $creation_date;
 
-    #[ORM\ManyToOne(targetEntity: User::class)]
+    #[ORM\ManyToOne(targetEntity: User::class, cascade: ['persist'])]
     private ?User $author = null;
 
-    #[ORM\ManyToOne(targetEntity: Category::class, inversedBy: 'tricks')]
+    #[ORM\ManyToOne(targetEntity: Category::class, cascade: ['persist'], inversedBy: 'tricks')]
     private Category $category;
 
     #[ORM\OneToMany(mappedBy: 'trick', targetEntity: UploadMedia::class, cascade: ['remove'])]
@@ -58,12 +58,12 @@ class Trick
         $this->externalVideo = new ArrayCollection();
     }
 
-    public function getSlug(): string
+    public function getSlug(): ?string
     {
         return $this->slug;
     }
 
-    public function setSlug(string $slug): void
+    public function setSlug(?string $slug): void
     {
         $this->slug = $slug;
     }

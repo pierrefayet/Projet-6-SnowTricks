@@ -24,7 +24,7 @@ class UploadMedia
     #[ORM\Column(length: 255, nullable: true)]
     protected ?string $filename = null;
 
-    #[ORM\ManyToOne(targetEntity: Trick::class, inversedBy: 'medias')]
+    #[ORM\ManyToOne(targetEntity: Trick::class, cascade: ['persist'], inversedBy: 'medias')]
     #[ORM\JoinColumn(name: 'trick_id', referencedColumnName: 'id')]
     protected ?Trick $trick = null;
 

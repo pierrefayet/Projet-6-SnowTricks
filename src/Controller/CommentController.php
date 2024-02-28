@@ -30,7 +30,7 @@ class CommentController extends AbstractController
         $page     = $request->query->getInt('page', 2);
         $comments = $commentRepository->paginateTrick($page, 5);
 
-        return $this->render('comments.html.twig', [
+        return $this->render('comment/comments.html.twig', [
             'comments' => $comments,
         ]);
     }

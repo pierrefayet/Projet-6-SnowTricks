@@ -31,7 +31,7 @@ class HomePageController extends AbstractController
         $page   = $request->query->getInt('page', 2);
         $tricks = $trickRepository->paginateTrick($page, 10);
 
-        return $this->render('tricks.html.twig', [
+        return $this->render('trick/tricks.html.twig', [
             'tricks' => $tricks,
         ]);
     }

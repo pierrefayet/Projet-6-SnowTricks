@@ -36,17 +36,17 @@ class TricksController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->persist($trick);
             $file = $form->get('medias')->getData();
-            if (isset($file)) {
-                $this->handleMedia->handleMediaUpload($file, $trick);
+            if (null !== $file) {
+                $this->handleMedia->handleMediaUpload([$file], $trick);
             }
 
             $entityManager->flush();
-            $request->getSession()->getFlashBag()->add('success', $this->translator->trans('tricks.success.add'));
+            $this->addFlash('success', $this->translator->trans('tricks.success.add'));
 
             return $this->redirectToRoute('single_trick', ['slug' => $trick->getSlug()]);
         }
 
-        return $this->render('addTrick.html.twig', [
+        return $this->render('trick/addTrick.html.twig', [
             'trick'     => $trick,
             'trickForm' => $form->createView(),
             'MediaType' => $form->createView(),
@@ -62,17 +62,17 @@ class TricksController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $file = $form->get('medias')->getData();
-            if (isset($file)) {
-                $this->handleMedia->handleMediaUpload($file, $trick);
+            if (null !== $file) {
+                $this->handleMedia->handleMediaUpload([$file], $trick);
             }
 
             $entityManager->flush();
-            $request->getSession()->getFlashBag()->add('success', $this->translator->trans('tricks.success.update'));
+            $this->addFlash('success', $this->translator->trans('tricks.success.update'));
 
             return $this->redirectToRoute('single_trick', ['slug' => $trick->getSlug()]);
         }
 
-        return $this->render('updateTrick.html.twig', [
+        return $this->render('trick/updateTrick.html.twig', [
             'trickForm' => $form->createView(),
             'trick'     => $trick,
         ]);
@@ -85,7 +85,7 @@ class TricksController extends AbstractController
         $comments    = $commentRepository->paginateTrick(1, 5);
         $maxPage     = ceil($comments->getTotalItemCount() / 5);
 
-        return $this->render('singleTrick.html.twig', [
+        return $this->render('trick/singleTrick.html.twig', [
             'trick'       => $trick,
             'comments'    => $comments,
             'maxPage'     => $maxPage,
@@ -104,7 +104,7 @@ class TricksController extends AbstractController
         $form->handleRequest($request);
         $entityManager->remove($trick);
         $entityManager->flush();
-        $request->getSession()->getFlashBag()->add('success', $this->translator->trans('tricks.success.delete'));
+        $this->addFlash('success', $this->translator->trans('tricks.success.delete'));
 
         return $this->redirectToRoute('home');
     }

@@ -24,11 +24,17 @@ class CommentFixtures extends Fixture implements DependentFixtureInterface
     {
         for ($i = 1; $i <= 20; ++$i) {
             $comment = new Comment();
-            $comment->setTrick($this->getReference('tricks'));
+            $comment->setTrick($this->getReference('tricks' . $i));
             $comment->setCommentUserId($this->getReference('users' . $i));
             $comment->setContent($this->faker->sentence(10));
             $manager->persist($comment);
         }
+
+        $commentCustom = new Comment();
+        $commentCustom->setTrick($this->getReference('trickCustom'));
+        $commentCustom->setCommentUserId($this->getReference('userCustom'));
+        $commentCustom->setContent($this->faker->sentence(10));
+        $manager->persist($commentCustom);
 
         $manager->flush();
     }

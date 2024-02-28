@@ -36,7 +36,7 @@ class TrickFixtures extends Fixture implements DependentFixtureInterface
             $trick = new Trick();
             $trick->setAuthor($this->getReference('users' . $i));
             $trick->setTitle($this->faker->sentence(2));
-            $trick->setSlug((new AsciiSlugger())->slug(strtolower($trick->getTitle())));
+            $trick->setSlug((new AsciiSlugger())->slug(strtolower($trick->getTitle()))->toString());
             $trick->setIntro($this->faker->sentence(3));
             $trick->setContent($this->faker->paragraph);
             $trick->setCategory($groups[$i % \count($groups)]);
@@ -46,16 +46,16 @@ class TrickFixtures extends Fixture implements DependentFixtureInterface
         }
 
         $trickCustom = new Trick();
-        $trick->setAuthor($this->getReference('users' . $i));
-        $trick->setTitle('toto');
-        $trick->setSlug((new AsciiSlugger())->slug(strtolower($trick->getTitle())));
-        $trick->setIntro($this->faker->sentence(3));
-        $trick->setContent($this->faker->paragraph);
-        $trick->setCategory($groups[$i % \count($groups)]);
+        $trickCustom->setAuthor($this->getReference('userCustom'));
+        $trickCustom->setTitle('test');
+        $trickCustom->setSlug((new AsciiSlugger())->slug(strtolower($trick->getTitle()))->toString());
+        $trickCustom->setIntro($this->faker->sentence(3));
+        $trickCustom->setContent($this->faker->paragraph);
+        $trickCustom->setCategory($groups[$i % \count($groups)]);
 
-        $manager->persist($trickCustom);
-        $manager->flush();
+        $manager->persist($trick);
         $this->addReference('trickCustom', $trickCustom);
+        $manager->flush();
     }
 
     public function getDependencies(): array

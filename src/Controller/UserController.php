@@ -44,7 +44,7 @@ class UserController extends AbstractController
         $loginForm = $this->createForm(LoginFormType::class, $user);
         $loginForm->handleRequest($request);
 
-        return $this->render('login.html.twig', [
+        return $this->render('user/login.html.twig', [
             'connection'   => $loginForm->createView(),
             'error'        => $authenticationUtils->getLastAuthenticationError(),
             'lastUserName' => $authenticationUtils->getLastUsername(),
@@ -80,13 +80,11 @@ class UserController extends AbstractController
                         ->htmlTemplate('registration/confirmation_email.html.twig'),
                 );
 
-                $request->getSession()->getFlashBag()->add(
-                    'success',
-                    $this->translator->trans('tricks.success.add'));
+                $this->addFlash('success', $this->translator->trans('user.success.login'));
             }
         }
 
-        return $this->render('forgotPassword.html.twig', ['forgotPassword' => $forgotForm->createView()]);
+        return $this->render('user/forgotPassword.html.twig', ['forgotPassword' => $forgotForm->createView()]);
     }
 
     #[Route('/create_account', name: 'registration')]
@@ -100,30 +98,31 @@ class UserController extends AbstractController
         $user       = new User();
         $createForm = $this->createForm(RegistrationType::class, $user);
         $createForm->handleRequest($request);
-        if ($createForm->isSubmitted() && $createForm->isValid()) {
+        if ($createForm->isSubmitted() && $createForm->isValid() && $user->getPassword()) {
             $hashedPassword = $passwordEncoder->hashPassword($user, $user->getPassword());
             $user->setPassword($hashedPassword);
             $entityManager->persist($user);
             $entityManager->flush();
+            if ($user->getEmail()) {
+                $emailVerifier->sendEmailConfirmation('app_verify_email', $user,
+                    (new TemplatedEmail())
+                        ->from(new Address('snowtrick@gmail.com', 'admin'))
+                        ->to($user->getEmail())
+                        ->subject('Please Confirm your Email')
+                        ->htmlTemplate('registration/confirmation_email.html.twig'),
+                );
 
-            $emailVerifier->sendEmailConfirmation('app_verify_email', $user,
-                (new TemplatedEmail())
-                    ->from(new Address('snowtrick@gmail.com', 'admin'))
-                    ->to($user->getEmail())
-                    ->subject('Please Confirm your Email')
-                    ->htmlTemplate('registration/confirmation_email.html.twig'),
-            );
+                $this->addFlash('success', $this->translator->trans('user.success.create_account'));
 
-            $request->getSession()->getFlashBag()->add('success', $this->translator->trans('user.success.create_account'));
-
-            return $userAuthenticator->authenticateUser(
-                $user,
-                $authenticator,
-                $request,
-            );
+                return $userAuthenticator->authenticateUser(
+                    $user,
+                    $authenticator,
+                    $request,
+                );
+            }
         }
 
-        return $this->render('registration.html.twig', ['registration' => $createForm->createView()]);
+        return $this->render('user/registration.html.twig', ['registration' => $createForm->createView()]);
     }
 
     #[Route('/verify/email', name: 'app_verify_email')]
@@ -149,7 +148,7 @@ class UserController extends AbstractController
             return $this->redirectToRoute('forgot_password');
         }
 
-        $request->getSession()->getFlashBag()->add('success', $this->translator->trans('user.success.verify_email'));
+        $this->addFlash('success', $this->translator->trans('user.success.verify_email'));
 
         return $this->redirectToRoute('home');
     }
@@ -182,7 +181,7 @@ class UserController extends AbstractController
             }
 
             $entityManager->flush();
-            $request->getSession()->getFlashBag()->add('success', $this->translator->trans('user.success.update_profile'));
+            $this->addFlash('success', $this->translator->trans('user.success.update_profile'));
         }
 
         return $this->render('profile.html.twig', [

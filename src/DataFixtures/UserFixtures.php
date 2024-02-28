@@ -34,6 +34,16 @@ class UserFixtures extends Fixture
             $manager->persist($user);
             $this->addReference('users' . $i, $user);
         }
+
+        $userCustom = new User();
+        $userCustom->setUserName($this->faker->word());
+        $userCustom->setEmail($this->faker->email());
+        $userCustom->setPassword($this->passwordEncoder->hashPassword($user, 'TEST'));
+        $userCustom->setUserImage('');
+        $userCustom->setRoles(['ROLE_USER']);
+        $manager->persist($user);
+        $this->addReference('userCustom', $userCustom);
+
         $manager->flush();
     }
 }
