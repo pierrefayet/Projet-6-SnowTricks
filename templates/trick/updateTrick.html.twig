@@ -27,6 +27,11 @@
                         Add a media
                     </button>
                 </div>
+                <div class="addExternalMedia" data-index="0">
+                    <button type="button" class="btn btn-primary add_item__external_media mx-auto" data-collection-holder-class="externalMedia">
+                        Add a external media
+                    </button>
+                </div>
                 <div class="content-media">
                     <div class="media-tricks--modifier">
                         <div class="media-tricks-modifier-content">
@@ -64,11 +69,10 @@
                             </div>
                         </div>
                     </div>
-                    <form action="{{ path('add_trick') }}" method="POST">
+                    {{ form_rest(trickForm) }}
                         <div class="save">
                             <button type="submit" class="btn btn-success">Save</button>
                         </div>
-                    </form>
                     {{ form_end(trickForm) }}
                     <form action="{{ path('delete_trick', {'id': trick.id}) }}" method="POST">
                         <div class="delete">
@@ -81,42 +85,7 @@
         {% include 'navbar-mobile.html.twig' %}
     </main>
     {% block javascripts %}
-        <script>
-            /* Added preview file download */
-            const mediaPrototype = document.querySelector('#trick_form_medias');
-            const collectionHolder = document.querySelector('.addMedia');
-            document.querySelector('.add_item_media').addEventListener('click', () => {
-                const item = document.createElement('li');
-                item.innerHTML = mediaPrototype
-                    .dataset
-                    .prototype
-                    .replace(
-                        /__name__/g,
-                        collectionHolder.dataset.index
-                    );
-                item.addEventListener('change', function (event) {
-                    let reader = new FileReader();
-                    reader.onload = function () {
-                        let outputImage = document.getElementById('imagePreview');
-                        let outputVideo = document.getElementById('videoPreview');
-                        if (/png|jpeg|jpg/.test(event.target.files[0].name)) {
-                            outputImage.src = reader.result;
-                            outputImage.style.display = 'block';
-                            outputVideo.style.display = 'none'
-                            return;
-                        }
-                        outputVideo.src = reader.result;
-                        outputVideo.style.display = 'block';
-                        outputImage.style.display = 'none'
-                    }
-                    console.log('event.target.files[0]:', event.target.files[0]);
-                    reader.readAsDataURL(event.target.files[0]);
-                });
-                collectionHolder.appendChild(item);
-
-                collectionHolder.dataset.index++;
-            })
-        </script>
         {{ encore_entry_script_tags('preview') }}
+        {{ encore_entry_script_tags('externalMedia') }}
     {% endblock %}
 {% endblock %}

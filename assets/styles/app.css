@@ -142,6 +142,403 @@ footer p {
   display: none;
 }
 
+/* singleTrick */
+.intro-background {
+  height: 150px;
+}
+
+.intro-background .intro-trick {
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center center;
+  margin-top: 50px;
+  height: 1200px;
+  box-shadow: 0 -5px 10px rgba(0, 0, 0, 0.5), 0 5px 10px rgba(0, 0, 0, 0.5);
+  border: 2px solid rgb(100, 149, 237);
+}
+
+.content {
+  display: flex;
+  justify-content: center;
+}
+
+.content #content-trick {
+  width: 800px;
+  background-color: #6982ec;
+  border: cornflowerblue solid 2px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5), inset 0 0 10px rgba(255, 255, 255, 0.5);
+}
+
+.content #content-trick .content-header {
+  height: 720px;
+  background-image: url("/public/uploads/medias/image/50_50_Grinds.png");
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center center;
+  border-bottom: #c1d5de solid 2px;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.content #content-trick .content-header .content-trick-image--icon {
+  margin: 10px;
+  background-color: aliceblue;
+  border: cornflowerblue solid 2px;
+  width: 100px;
+  height: 50px;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.content #content-trick .content-header .content-trick-image--icon i {
+  font-size: 20px;
+}
+
+.content #content-trick .content-trick-image-title {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
+
+.content #content-trick .content-trick-image-title h1 {
+  height: 10%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: aliceblue;
+  font-size: 50px;
+  border: cornflowerblue solid 2px;
+}
+
+.content #content-trick .content-media-tricks {
+  display: flex;
+}
+
+.content #content-trick .content-media-tricks img, .content #content-trick .content-media-tricks video {
+  margin: 1%;
+  width: 18%;
+  height: 18%;
+}
+
+.content #content-trick .content-description p {
+  margin: 50px 0 20px 0;
+  padding: 0 50px 0 50px;
+}
+
+.content #content-trick .content-information {
+  display: flex;
+  justify-content: center;
+}
+
+.content #content-trick .content-information div {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 2%;
+  width: 20%;
+  height: 50px;
+  border: 2px solid black;
+  background-color: aliceblue;
+}
+
+.content #content-trick .content-form {
+  display: flex;
+  justify-content: center;
+}
+
+.content #content-trick .content-form .content-form--content {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 60%;
+  height: 70px;
+  border-bottom: 2px solid aliceblue;
+  border-top: 2px solid aliceblue;
+}
+.content #content-trick .content-form .content-form--content form {
+  display: flex;
+}
+.content #content-trick .content-form .content-form--content #comment_form_content {
+  height: 24px;
+}
+.content #content-trick .content-form .content-form--content #form-comment {
+  height: 30px;
+}
+.content #content-trick .content-form .content-form--content button {
+  height: 30px;
+}
+
+.content #content-trick .content-comment-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.content #content-trick .content-comment-container .content-comment {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.content #content-trick .content-comment-container .content-comment .content-comment-items {
+  display: flex;
+  justify-content: center;
+  margin: 20px 0 20px 0;
+}
+
+.content #content-trick .content-comment-container .content-comment .content-comment-items .content-comment--icon {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 30px;
+  background-color: #251d1d;
+  border-radius: 60px;
+  margin: 20px;
+  width: 5%;
+}
+
+.content #content-trick .content-comment-container .content-comment .content-comment-items .content-comment--icon i {
+  color: aliceblue;
+}
+
+.content #content-trick .content-comment-container .content-comment .content-comment-items .content-comment--content {
+  background-color: #e5dada;
+  display: flex;
+  align-items: center;
+  padding: 10px;
+  width: 80%;
+}
+
+.content .container-expand {
+  display: flex;
+  justify-content: center;
+}
+
+.content .container-expand #expand {
+  display: flex;
+  align-items: center;
+  height: 30px;
+  width: 120px;
+  background-color: #e5dada;
+  margin: 30px;
+  font-size: 15px;
+}
+
+.media-expand {
+  display: none;
+}
+
+/* modifier.html */
+.content-description-scroll {
+  overflow-y: scroll;
+  margin: 2%;
+  border: 2px solid aliceblue;
+  padding: 1%;
+  margin-top: 100px;
+}
+
+.information-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.information-content .information-actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  width: 80%;
+  margin-top: 50px;
+}
+
+.information-content .information-actions #select-group {
+  width: 100px;
+  font-weight: bold;
+}
+
+.information-content .button-content {
+  display: flex;
+  width: 200px;
+  justify-content: flex-end;
+  align-items: center;
+  height: 300px;
+  margin-left: 500px;
+}
+
+.information-content .button-content .delete button {
+  width: 70px;
+  height: 30px;
+  background-color: #e01e1e;
+  font-weight: bold;
+}
+
+.information-content .button-content .save button {
+  width: 70px;
+  height: 30px;
+  font-weight: bold;
+}
+
+.content-media {
+  display: flex;
+}
+
+.content-media .media-tricks--modifier {
+  width: 20%;
+  margin: 1%;
+}
+
+.content-media .media-tricks--modifier .media-tricks-modifier-content {
+  display: flex;
+  flex-direction: column;
+  margin: 1%;
+}
+
+.content-media .media-tricks--modifier .media-tricks-modifier-content img {
+  width: 100%;
+}
+
+.content-media .media-tricks--modifier .media-tricks-modifier-content .media-item {
+  width: 100%;
+}
+
+.content-media .media-tricks--modifier .modifier-icons {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.content-media .media-tricks--modifier .modifier-icons .modifier-icons-content {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 10px;
+  background-color: aliceblue;
+  width: 60px;
+  height: 30px;
+}
+
+.content-media .media-tricks--modifier .modifier-icons .modifier-icons-content div {
+  margin-right: 10px;
+}
+
+/* registrationPassword.html */
+.connection-title {
+  display: flex;
+  justify-content: center;
+  margin: 150px 0 90px 0;
+}
+
+.connection-title .connection-title-content {
+  font-size: 40px;
+}
+
+.connection-form {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.connection-form .connection-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border: 2px solid cornflowerblue;
+  width: 40%;
+  margin-bottom: 200px;
+}
+
+.connection-form .connection-content #user_name {
+  border-bottom: 2px solid cornflowerblue;
+  margin: 50px 0 20px 0;
+}
+
+.connection-form .connection-content #user_name label {
+  margin-bottom: 10px;
+  font-size: 20px;
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.connection-form .connection-content #user_name input {
+  border: transparent;
+}
+
+.connection-form .connection-content #email {
+  border-bottom: 2px solid cornflowerblue;
+  margin-bottom: 20px;
+}
+
+.connection-form .connection-content #email label {
+  margin-bottom: 10px;
+  font-size: 20px;
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.connection-form .connection-content #email input {
+  border: transparent;
+}
+
+.connection-form .connection-content #user_password {
+  border-bottom: 2px solid cornflowerblue;
+  margin-bottom: 20px;
+}
+
+.connection-form .connection-content #user_password label {
+  margin-bottom: 10px;
+  font-size: 20px;
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.connection-form .connection-content #user_password input {
+  border: transparent;
+}
+
+.connection-form .connection-content button {
+  border: 2px solid #2a2121;
+  background-color: cornflowerblue;
+  margin: 20px 0 50px 0;
+  height: 30px;
+}
+
+.delete {
+  margin-right: 20px;
+}
+
+.save {
+  margin-right: 20px;
+}
+
+.connection-form .link-login {
+  display: none;
+}
+
+.connection-form .button-mobil {
+  display: none;
+}
+
+.connection-form .button-reset button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100px;
+  font-size: 15px;
+}
+
+.connection-form .link-registration {
+  display: none;
+}
+
+.connection-form .link-reset {
+  margin: 20px 0 20px 0;
+}
+
 @media screen and (max-width: 1440px) {
   #portfolio {
     grid-template-columns: repeat(2, 1fr);

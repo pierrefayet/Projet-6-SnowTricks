@@ -63,7 +63,7 @@ class TricksController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $file = $form->get('medias')->getData();
             if (null !== $file) {
-                $this->handleMedia->handleMediaUpload([$file], $trick);
+                $this->handleMedia->handleMediaUpload($file, $trick);
             }
 
             $entityManager->flush();
