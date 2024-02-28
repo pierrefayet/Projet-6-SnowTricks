@@ -94,7 +94,7 @@ class UserController extends AbstractController
         UserAuthenticatorInterface $userAuthenticator,
         FormLoginAuthenticator $authenticator,
         EmailVerifier $emailVerifier,
-    ): Response {
+    ): ?Response {
         $user       = new User();
         $createForm = $this->createForm(RegistrationType::class, $user);
         $createForm->handleRequest($request);
@@ -176,7 +176,7 @@ class UserController extends AbstractController
 
         if ($imageForm->isSubmitted() && $imageForm->isValid()) {
             $file = $imageForm->get('userImage')->getData();
-            if ($file) {
+            if ($file && $user instanceof User) {
                 $user->setUserImage($imageService->buildImage($file, '/avatar'));
             }
 
@@ -184,7 +184,7 @@ class UserController extends AbstractController
             $this->addFlash('success', $this->translator->trans('user.success.update_profile'));
         }
 
-        return $this->render('profile.html.twig', [
+        return $this->render('user/profile.html.twig', [
             'profileUsername' => $formUsername->createView(),
             'profileEmail'    => $emailForm->createView(),
             'profileImage'    => $imageForm->createView(),
