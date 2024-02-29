@@ -485,7 +485,18 @@ footer p {
   margin: 20px 0 20px 0;
 }
 
-/*  addTrick */
+.information-widget {
+  margin-top: 10px;
+  display: flex;
+  justify-content: space-around;
+}
+.information-widget p {
+  padding: 10px;
+  background: aliceblue;
+  border-radius: 5px;
+  border: 2px solid black;
+}
+
 @media screen and (max-width: 1440px) {
   #portfolio {
     grid-template-columns: repeat(2, 1fr);
@@ -537,6 +548,9 @@ footer p {
   }
   .connection-form .link-registration {
     display: block;
+  }
+  .information-widget {
+    display: none;
   }
 }
 

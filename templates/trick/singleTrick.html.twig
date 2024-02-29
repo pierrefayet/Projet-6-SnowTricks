@@ -75,11 +75,24 @@
                         </div>
                     </div>
                 </div>
-                <div class="text-center">
+                <div class="text-center m-3">
                     <button type="button" class="btn btn-primary d-inline-block d-sm-none " data-bs-toggle="modal"
                             data-bs-target="#exampleModal">
-                        Launch demo modal
+                        Voir plus de media
                     </button>
+                </div>
+                <div class="information-widget">
+                        <p>
+                            {{ trick.category.name }}
+                        </p>
+                        <p>
+                            {{ trick.creationDate|date("d/m/y/ H:i") }}
+                        </p>
+                        {% if trick.updateAt is not null %}
+                            <p>
+                                {{ trick.updateAt|date("d/m/y/ H:i") }}
+                            </p>
+                        {% endif %}
                 </div>
                 <div class="content-description">
                     <p>
@@ -93,8 +106,8 @@
                                 <div class="content-form--content w-100">
                                     {{ form_start(commentForm) }}
                                     <div class="row">
-                                        <div class="col-sm-7 col-12">
-                                            {{ form_row(commentForm.content, {'label':false, 'attr': {'class': 'w-100'}}) }}
+                                        <div class="col-sm-7 col-12 ">
+                                            {{ form_widget(commentForm.content, {'label':false, 'attr': {'class': 'h-100 w-100'}}) }}
                                         </div>
                                         <div class="col-sm-5 col-12">
                                             {{ form_row(commentForm.submit, {'attr': {'class': 'w-100'}}) }}

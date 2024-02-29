@@ -5,7 +5,8 @@ twig:
         pathMediaVideo: '%env(MEDIA_UPLOAD_PATH)%/video'
         pathMediaAvatar: '%env(MEDIA_UPLOAD_PATH)%/avatar'
 
-
+    date:
+        timezone: Europe/Paris
 when@test:
     twig:
         strict_variables: true

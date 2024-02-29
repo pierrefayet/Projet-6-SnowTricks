@@ -507,11 +507,17 @@ footer {
   margin: 20px 0 20px 0;
 }
 
-
-/*  addTrick */
-
-
-
+.information-widget {
+  margin-top: 10px;
+  display: flex;
+  justify-content: space-around;
+  p {
+    padding: 10px;
+    background: aliceblue;
+    border-radius: 5px;
+    border: 2px solid black
+  }
+}
 @media screen and (max-width: 1440px) {
   #portfolio {
     grid-template-columns: repeat(2, 1fr);
@@ -577,8 +583,7 @@ footer {
     display: block;
   }
 
-  .content-form--content {
-
+  .information-widget {
+    display: none;
   }
-
 }
