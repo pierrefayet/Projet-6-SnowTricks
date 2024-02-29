@@ -15,7 +15,7 @@ use Symfony\Component\Routing\Attribute\Route;
 
 class CommentController extends AbstractController
 {
-    #[Route('/delete_comment/{id}', name: 'delete_comment')]
+    #[Route('/comment/delete/{id}', name: 'delete_comment')]
     public function deleteTrick(Comment $comment, EntityManagerInterface $entityManager, Trick $trick): Response
     {
         $entityManager->remove($comment);

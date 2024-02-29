@@ -9,8 +9,12 @@ a {
 #header {
   display: flex;
   justify-content: space-between;
-  margin: 10px;
   font-size: 22px;
+
+  .header-picture img{
+    width: 130px;
+  }
+
 
   .navbar {
     margin-right: 30px;
@@ -128,26 +132,23 @@ a {
   }
 }
 
-#expand {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-around;
-  margin-left: auto;
-  margin-right: auto;
-  width: 200px;
-  padding: 5px;
-  border: cornflowerblue 5px solid;
-  position: relative;
-}
 
 footer {
   display: flex;
-  align-items: center;
-  margin-top: 50px;
-  border-top: cornflowerblue solid 5px;
+  justify-content: center;
+  border-top: cornflowerblue solid 2px;
+  height: 50px;
+  margin-top: 30px;
+  div {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 80px;
+  }
 
   p {
     font-size: 16px;
+    font-weight: 400;
   }
 }
 
@@ -172,6 +173,7 @@ footer {
 
 .content {
   display: flex;
+
   justify-content: center;
 }
 
@@ -344,17 +346,51 @@ footer {
   font-size: 15px;
 }
 
-.media-expand {
-  display: none;
+.modal-container {
+  position: fixed;
+  top: 0;
+  width: 100vw;
+  height: 100vh;
 }
 
-/* modifier.html */
+.overlay {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: #333333d3;
+}
+
+
+
+.modal {
+  width: 95%;
+  max-width: 500px;
+  min-width: 300px;
+  padding: 30px;
+  background: #fff;
+  border-radius: 5px;
+  position: absolute;
+  top: 40%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+
+  //display: none;
+}
+
+.modal-btn {
+  padding: 10px 14px;
+  font-size: 18px;
+  margin: 100px auto;
+  display: block;
+  min-width: 150px;
+  cursor: pointer;
+}
+
 .content-description-scroll {
   overflow-y: scroll;
-  margin: 2%;
   border: 2px solid aliceblue;
   padding: 1%;
-  margin-top: 100px;
+  margin: 100px 2% 2%;
 }
 
 .information-content {
@@ -386,9 +422,9 @@ footer {
 }
 
 .information-content .button-content .delete button {
-  width: 70px;
+  width: 270px;
   height: 30px;
-  background-color: #e01e1e;
+  background-color: #836f6f;
   font-weight: bold;
 }
 
@@ -440,11 +476,13 @@ footer {
   margin-right: 10px;
 }
 
-/* registrationPassword.html */
+
+/* registration */
+
 .connection-title {
   display: flex;
   justify-content: center;
-  margin: 150px 0 90px 0;
+  margin: 10px 0 10px 0;
 }
 
 .connection-title .connection-title-content {
@@ -463,7 +501,7 @@ footer {
   align-items: center;
   border: 2px solid cornflowerblue;
   width: 40%;
-  margin-bottom: 200px;
+  margin-bottom: 20px;
 }
 
 .connection-form .connection-content #user_name {
@@ -554,6 +592,11 @@ footer {
   margin: 20px 0 20px 0;
 }
 
+
+/*  addTrick */
+
+
+
 @media screen and (max-width: 1440px) {
   #portfolio {
     grid-template-columns: repeat(2, 1fr);
@@ -587,6 +630,7 @@ footer {
   .navbar-mobile {
     display: block;
     border-top: cornflowerblue solid 5px;
+    padding: 10px;
 
     ul {
       display: flex;
@@ -602,6 +646,10 @@ footer {
     font-size: 20px;
   }
 
+  .connection-form .connection-content {
+    width: 90%;
+  }
+
   .intro {
     margin: 0;
 
@@ -612,5 +660,9 @@ footer {
 
   #expand {
     display: none;
+  }
+
+  .connection-form .link-registration {
+    display: block;
   }
 }

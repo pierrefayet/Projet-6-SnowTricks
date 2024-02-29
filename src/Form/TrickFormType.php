@@ -11,20 +11,18 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-/**TODO: ajouter les champs pour creer un tricks avec tous les champs et utiliser le meme form que update mais avoir une seconde vue
-*   ajouter un champs pour les images et les vidéos
- */
 class TrickFormType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('title', null, ['label' => false])
-            ->add('intro', null, ['label' => false])
-            ->add('content', TextareaType::class, ['label' => false])
+            ->add('title', TextType::class)
+            ->add('intro', TextType::class)
+            ->add('content', TextareaType::class)
             ->add('category', EntityType::class, [
                 'class'        => Category::class,
                 'choice_label' => 'name',

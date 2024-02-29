@@ -6,21 +6,31 @@ namespace App\EventListener;
 
 use App\Entity\ExternalVideo;
 use Doctrine\Bundle\DoctrineBundle\Attribute\AsDoctrineListener;
-use Doctrine\ORM\Event\PostPersistEventArgs;
+use Doctrine\ORM\Event\PrePersistEventArgs;
+use Doctrine\ORM\Event\PreUpdateEventArgs;
 use Doctrine\ORM\Events;
 use Symfony\Bundle\SecurityBundle\Security;
 
-#[AsDoctrineListener(event: Events::postPersist, priority: 500, connection: 'default')]
+#[AsDoctrineListener(event: Events::preUpdate, priority: 500, connection: 'default')]
+#[AsDoctrineListener(event: Events::prePersist, priority: 500, connection: 'default')]
 class ExternalVideoSubscriber
 {
     public function __construct(private readonly Security $security)
     {
     }
 
-    public function postPersist(PostPersistEventArgs $args): void
+    public function prePersist(PrePersistEventArgs $args): void
     {
-        $entity = $args->getObject();
+        $this->applyExternalVideoEmbeddedUrl($args->getObject());
+    }
 
+    public function preUpdate(PreUpdateEventArgs $args): void
+    {
+        $this->applyExternalVideoEmbeddedUrl($args->getObject());
+    }
+
+    private function applyExternalVideoEmbeddedUrl(object $entity): void
+    {
         if (! $entity instanceof ExternalVideo || null === $this->security->getUser()) {
             return;
         }
@@ -40,10 +50,12 @@ class ExternalVideoSubscriber
         $longUrlRegex  = '/youtube.com\/((?:embed)|(?:watch))((?:\?v\=)|(?:\/))([a-zA-Z0-9_-]+)/i';
 
         if (preg_match($longUrlRegex, $url, $matches)) {
+            dump('ici');
             $youtube_id = $matches[\count($matches) - 1];
         }
 
         if (preg_match($shortUrlRegex, $url, $matches)) {
+            dump('ici');
             $youtube_id = $matches[\count($matches) - 1];
         }
 

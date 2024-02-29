@@ -1,0 +1,27 @@
+{% block header %}
+    <header>
+        <div id="header">
+            <div class="header-picture">
+                <img src="{{ asset('build/images/logo.jpg') }}" alt="surfer">
+            </div>
+            <div class="navbar">
+                {% if not is_granted('ROLE_USER') %}
+                    <ul>
+                        <li><a href="{{ path('home') }}">Accueil</a></li>
+                        <li><a href="#portfolio">Figures</a></li>
+                        <li><a href="{{ path('registration') }}">Inscription</a></li>
+                        <li><a href="{{ path('security_login') }}">Déconnection</a></li>
+                    </ul>
+                {% else %}
+                    <ul>
+                        <li>Bienvenue {{ app.user.username }} !</li>
+                        <li><a href="{{ path('home') }}">Accueil</a></li>
+                        <li><a href="#portfolio">Figures</a></li>
+                        <li><a href="{{ path('profile') }}">Profil</a></li>
+                        <li><a href="{{ path('security_logout') }}">Déconnection</a></li>
+                    </ul>
+                {% endif %}
+            </div>
+        </div>
+    </header>
+{% endblock %}

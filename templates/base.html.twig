@@ -1,29 +1,6 @@
 {% extends 'layout.html.twig' %}
 {% block header %}
-    <header>
-        <div id="header">
-            <div class="header-picture">
-                <img src="{{ asset('build/images/logo.png') }}" alt="surfer">
-            </div>
-            <div class="navbar">
-                {% if not is_granted('ROLE_USER') %}
-                    <ul>
-                        <li><a href="{{ path('home') }}">Home</a></li>
-                        <li><a href="#portfolio">Trick</a></li>
-                        <li><a href="{{ path('registration') }}">Sign in</a></li>
-                        <li><a href="{{ path('security_login') }}">Sign up</a></li>
-                    </ul>
-                {% else %}
-                    <ul>
-                        <li><a href="{{ path('home') }}">Home</a></li>
-                        <li><a href="#portfolio">Trick</a></li>
-                        <li><a href="{{ path('profile') }}">Profile</a></li>
-                        <li><a href="{{ path('security_logout') }}">Log out</a></li>
-                    </ul>
-                {% endif %}
-            </div>
-        </div>
-    </header>
+    {% include 'headerHome.html.twig' %}
 {% endblock %}
 {% block main %}
     {% for message in app.flashes('success') %}
@@ -60,7 +37,7 @@
             <div id="expand" class="d-flex">
                 {% if tricks.currentPageNumber < maxPage %}
                         <button id="load-more" data-current-page="{{ tricks.currentPageNumber + 1 }}"
-                                data-max-page="{{ maxPage }}"> Load More
+                                data-max-page="{{ maxPage }}"> Plus de figure
                         </button>
                 {% endif %}
             </div>
@@ -72,28 +49,6 @@
         </div>
     </main>
     {% include 'navbar-mobile.html.twig' %}
-    {% block javascripts %}
-        <script>
-            document.addEventListener('DOMContentLoaded', () => {
-                const loadMoreButton = document.getElementById("load-more");
-                if (loadMoreButton) {
-                    loadMoreButton.addEventListener('click', () => {
-                        const currentPage = parseInt(loadMoreButton.getAttribute('data-current-page'), 10);
-                        loadMoreButton.setAttribute('data-current-page', (currentPage + 1).toString());
-                        const maxPage = parseInt(loadMoreButton.getAttribute('data-max-page'), 10);
-                        console.log(maxPage);
-                        fetch(`/get-tricks?page=${currentPage}`, { method: 'GET'})
-                            .then(response => response.text())
-                                .then(data => {
-                                    document.getElementById('portfolio').insertAdjacentHTML('beforeend', data);
-                                })
-                        if(currentPage > maxPage) {
-                            loadMoreButton.parentElement.parentElement.remove();
-                        }
-                    });
-                }
-            });
-        </script>
-    {% endblock %}
     {{ encore_entry_script_tags('app') }}
+    {{ encore_entry_script_tags('paginateHome') }}
 {% endblock %}

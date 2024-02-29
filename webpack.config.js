@@ -11,11 +11,8 @@ Encore
     .addEntry('app', './assets/app.js')
     .addEntry('preview', './assets/preview.js')
     .addEntry('externalMedia', './assets/externalMedia.js')
+    .addEntry('paginateHome', './assets/paginateHome.js')
     .addEntry('paginateComment', './assets/paginateComment.js')
-    .copyFiles({
-        from: './assets/img',
-        to: 'media/[path][name].[hash:8].[ext]'
-    })
     .copyFiles({
         from: './assets/img',
         to: 'images/[path][name].[hash:8].[ext]'

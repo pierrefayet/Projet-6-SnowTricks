@@ -48,7 +48,7 @@ class TrickFixtures extends Fixture implements DependentFixtureInterface
         $trickCustom = new Trick();
         $trickCustom->setAuthor($this->getReference('userCustom'));
         $trickCustom->setTitle('test');
-        $trickCustom->setSlug((new AsciiSlugger())->slug(strtolower($trick->getTitle()))->toString());
+        $trickCustom->setSlug((new AsciiSlugger())->slug(strtolower($trickCustom->getTitle()))->toString());
         $trickCustom->setIntro($this->faker->sentence(3));
         $trickCustom->setContent($this->faker->paragraph);
         $trickCustom->setCategory($groups[$i % \count($groups)]);

@@ -22,29 +22,35 @@
                         </h1>
                     </div>
                 </div>
-                <div class="addMedia" data-index="0">
-                    <button type="button" class="btn btn-primary add_item_media mx-auto" data-collection-holder-class="media">
+                <div class="addMedia mb-3" data-index="0">
+                    <button type="button" class="btn btn-primary add_item_media mx-auto"
+                            data-collection-holder-class="media">
                         Add a media
                     </button>
                 </div>
-                <div class="addExternalMedia" data-index="0">
-                    <button type="button" class="btn btn-primary add_item__external_media mx-auto" data-collection-holder-class="externalMedia">
+                <div class="addExternalMedia mb-3" data-index="0">
+                    <button type="button" class="btn btn-primary add_item__external_media mx-auto"
+                            data-collection-holder-class="externalMedia">
                         Add a external media
                     </button>
                 </div>
-                <div class="content-media">
+                <div class="content-media container">
                     <div class="media-tricks--modifier">
-                        <div class="media-tricks-modifier-content">
-
-                            <div>
-                                {{ form_row(trickForm.medias, {'attr': {'class': 'form-control-file'}}) }}
+                        <div class="media-tricks-modifier-content row">
+                            <div class="col-md-6 mb-3">
+                                {{ form_row(trickForm.medias, {'label_attr': {'class': 'form-label'}}) }}
                             </div>
-                            <img id="imagePreview" src="#" alt="Show adding image  or video"
-                                 style="display: none; max-width: 200px; height: auto;" class="img-fluid"/>
-                            <video controls id="videoPreview" style="display: none; max-width: 200px; height: auto;"
-                                   class="img-fluid">
-                                <source src="#"/>
-                            </video>
+                            <div class="col-md-6 mb-3">
+                                {{ form_row(trickForm.externalVideo, {'attr': {'class': 'form-control-file'}}) }}
+                            </div>
+                            <div class="col-12">
+                                <img id="imagePreview" src="#" alt="Show adding image or video"
+                                     style="display: none; max-width: 100px; height: auto;" class="img-fluid"/>
+                                <video controls id="videoPreview" style="display: none; max-width: 100px; height: auto;"
+                                       class="img-fluid">
+                                    <source src="#"/>
+                                </video>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -53,32 +59,33 @@
                 </div>
                 <div class="content-intro mx-auto" style="width: 50%">
                     <p>
-                        {{ form_row(trickForm.intro, {'label':false, 'attr': {'class': 'form-control'}}) }}
+                        {{ form_row(trickForm.intro, { 'attr': {'class': 'form-control'}}) }}
                     </p>
                 </div>
                 <div class="information-content">
                     <div class="content-description-scroll">
                         <p>
-                            {{ form_row(trickForm.content, {'label':false, 'attr': {'class': 'form-control'}}) }}
+                            {{ form_row(trickForm.content, { 'attr': {'class': 'form-control'}}) }}
                         </p>
                     </div>
                     <div class="information-actions">
                         <div class="select-group">
                             <div class="content-tag" data-index="0">
-                                {{ form_row(trickForm.category, {'label':false, 'attr': {'class': 'form-control'}}) }}
+                                {{ form_row(trickForm.category, { 'attr': {'class': 'form-control'}}) }}
                             </div>
                         </div>
                     </div>
-                    {{ form_rest(trickForm) }}
-                        <div class="save">
-                            <button type="submit" class="btn btn-success">Save</button>
+                    <div class="d-flex justify-content-end mt-3">
+                        <div class="save me-2">
+                            <button type="submit" class="btn btn-success btn-md">Save</button>
                         </div>
-                    {{ form_end(trickForm) }}
-                    <form action="{{ path('delete_trick', {'id': trick.id}) }}" method="POST">
-                        <div class="delete">
-                            <button type="submit" class="btn btn-danger">Supprimer</button>
-                        </div>
-                    </form>
+                        {{ form_end(trickForm) }}
+                        <form action="{{ path('delete_trick', {'id': trick.id}) }}" method="POST">
+                            <div class="delete me-2">
+                                <button type="submit" class="btn btn-danger btn-group-sm">Supprimer</button>
+                            </div>
+                        </form>
+                    </div>
                 </div>
             </div>
         </section>

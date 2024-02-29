@@ -19,7 +19,7 @@
                 <div class="content-header">
                     <div class="content-trick-image-title">
                         <h1>
-                            {{ form_row(trickForm.title, {'label':false, 'attr': {'class': 'form-control'}}) }}
+                            {{ form_row(trickForm.title, { 'attr': {'class': 'form-control'}}) }}
                         </h1>
                     </div>
                 </div>
@@ -37,7 +37,7 @@
                     <div class="media-tricks--modifier">
                         <div class="media-tricks-modifier-content">
                             <div>
-                                {{ form_row(trickForm.medias, {'attr': {'class': 'form-control-file'}}) }}
+                                {{ form_row(trickForm.medias, { 'attr': {'class': 'form-control-file'}}) }}
                             </div>
                             <img id="imagePreview" src="#" alt="Show adding image  or video"
                                  style="display: none; max-width: 200px; height: auto;" class="img-fluid"/>
@@ -53,19 +53,19 @@
                 </div>
                 <div class="content-intro mx-auto" style="width: 50%">
                     <p>
-                        {{ form_row(trickForm.intro, {'label':false, 'attr': {'class': 'form-control'}}) }}
+                        {{ form_row(trickForm.intro, { 'attr': {'class': 'form-control'}}) }}
                     </p>
                 </div>
                 <div class="information-content">
                     <div class="content-description-scroll">
                         <p>
-                            {{ form_row(trickForm.content, {'label':false, 'attr': {'class': 'form-control'}}) }}
+                            {{ form_row(trickForm.content, {'attr': {'class': 'form-control'}}) }}
                         </p>
                     </div>
                     <div class="information-actions">
                         <div class="select-group">
                             <div class="content-tag" data-index="0">
-                                {{ form_row(trickForm.category, {'label':false, 'attr': {'class': 'form-control'}}) }}
+                                {{ form_row(trickForm.category, { 'attr': {'class': 'form-control'}}) }}
                             </div>
                         </div>
                     </div>

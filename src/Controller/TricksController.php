@@ -18,6 +18,7 @@ use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
+#[Route('/trick')]
 class TricksController extends AbstractController
 {
     public function __construct(
@@ -26,7 +27,7 @@ class TricksController extends AbstractController
     ) {
     }
 
-    #[Route('/add_trick', name: 'add_trick')]
+    #[Route('/add', name: 'add_trick')]
     public function addTrick(Request $request, EntityManagerInterface $entityManager): Response
     {
         $trick = new Trick();
@@ -36,7 +37,7 @@ class TricksController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->persist($trick);
             $file = $form->get('medias')->getData();
-            if (null !== $file) {
+            if (\is_array($file)) {
                 $this->handleMedia->handleMediaUpload([$file], $trick);
             }
 
@@ -54,7 +55,7 @@ class TricksController extends AbstractController
     }
 
     #[IsGranted('edit', 'trick')]
-    #[Route('/update_tricks/{id}', name: 'update_tricks')]
+    #[Route('/update/{id}', name: 'update_tricks')]
     public function modifyArticle(Request $request, EntityManagerInterface $entityManager, Trick $trick): Response
     {
         $form = $this->createForm(TrickFormType::class, $trick);
@@ -62,7 +63,7 @@ class TricksController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $file = $form->get('medias')->getData();
-            if (null !== $file) {
+            if (\is_array($file)) {
                 $this->handleMedia->handleMediaUpload($file, $trick);
             }
 
@@ -78,7 +79,7 @@ class TricksController extends AbstractController
         ]);
     }
 
-    #[Route('/single_trick/{slug}', name: 'single_trick')]
+    #[Route('/single/{slug}', name: 'single_trick')]
     public function showTrick(Trick $trick, CommentRepository $commentRepository, CommentManager $commentManager): Response
     {
         $commentForm = $commentManager->addComment($trick);
@@ -94,7 +95,7 @@ class TricksController extends AbstractController
     }
 
     #[IsGranted('delete', 'trick')]
-    #[Route('/delete_trick/{id}', name: 'delete_trick')]
+    #[Route('/delete/{id}', name: 'delete_trick')]
     public function deleteTrick(
         Request $request,
         Trick $trick,

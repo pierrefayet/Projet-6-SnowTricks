@@ -59,7 +59,7 @@ class UserController extends AbstractController
     /**
      * @throws TransportExceptionInterface
      */
-    #[Route('/forgot_password', name: 'forgot_password')]
+    #[Route('/forgot', name: 'forgot_password')]
     public function forgotPassword(
         Request $request,
         EmailVerifier $emailVerifier,
@@ -87,7 +87,7 @@ class UserController extends AbstractController
         return $this->render('user/forgotPassword.html.twig', ['forgotPassword' => $forgotForm->createView()]);
     }
 
-    #[Route('/create_account', name: 'registration')]
+    #[Route('/inscription', name: 'registration')]
     public function registrationUser(
         Request $request, UserPasswordHasherInterface $passwordEncoder,
         EntityManagerInterface $entityManager,
