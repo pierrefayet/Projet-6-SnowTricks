@@ -18,7 +18,7 @@ class CommentFormType extends AbstractType
             ->add('content', null, ['attr' => ['id' => 'form-comment'],
             ])
             ->
-            add('submit', SubmitType::class, ['label' => 'Laisser un commentaire'],
+            add('submit', SubmitType::class, ['label' => 'Poster un commentaire'],
             );
     }
 

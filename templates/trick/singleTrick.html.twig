@@ -13,54 +13,69 @@
                     {% else %}
                         style="background-image: url({{ asset(pathMediaImage  ~ '/' ~ 'default.jpg') }});">
                     {% endif %}
-                    <div class="content-trick-image-title">
-                        <h1>
-                            {{ trick.title }}
-                        </h1>
-                    </div>
-                    {% if is_granted('ROLE_USER') and app.user == trick.author %}
-                        <div class="content-trick-image--icon">
-                            <div id="pencil"><a href="{{ path('update_tricks', {'id': trick.id}) }}"><i
-                                            class="fa-solid fa-pencil"></i></a>
-                            </div>
-                            <div id="trash-can"><a href="{{ path('update_tricks', {'id': trick.id}) }}"><i
-                                            class="fa-solid fa-trash-can"></i></a>
+                    <div class="container">
+                        <div class="row">
+                            {% if is_granted('ROLE_USER') and app.user == trick.author %}
+                                <div class="content-trick-image--icon offset-11 col-1 p-0 ">
+                                    <div class="w-100 d-inline-block h-100 align-middle">
+                                        <div id="pencil" class="d-inline-block align-middle mx-auto h-100"><a href="{{ path('update_tricks', {'id': trick.id}) }}"><i
+                                                        class="fa-solid fa-pencil"></i></a>
+                                        </div>
+                                        <div id="trash-can" class="d-inline-block  align-middle mx-auto h-100"><a href="{{ path('update_tricks', {'id': trick.id}) }}"><i
+                                                        class="fa-solid fa-trash-can"></i></a>
+                                        </div>
+                                    </div>
+                                </div>
+                            {% endif %}
+                        </div>
+                        <div class="row">
+                            <div class="content-trick-image-title col-12">
+                                <h1>
+                                    {{ trick.title }}
+                                </h1>
                             </div>
                         </div>
-                    {% endif %}
+
+                    </div>
                 </div>
-                <div>
-                    <div class="content-media-tricks">
+                <div class="media-single-trick container d-none d-sm-block">
+                    <div class="row">
                         {% set image_count = 0 %}
                         {% set video_count = 0 %}
                         {% for media in trick.medias %}
-                            {% if media.type == 'image' and image_count < 3 %}
-                                {% set image_count = image_count + 1 %}
-                                <img src="{{ asset(pathMediaImage  ~ '/' ~ media.filename) }}" alt="{{ media.alt }}">
-                            {% elseif media.type == 'video' and video_count < 2 %}
-                                <video controls>
-                                    <source src="{{ asset(pathMediaVideo  ~ '/' ~ media.filename) }}"
-                                            type="video/mp4">
-                                    Votre navigateur ne prend pas en charge la balise vidéo.
-                                </video>
-                                {% set image_count = image_count + 1 %}
-                            {% endif %}
+                            <div class="content-media-tricks col-3">
+                                {% if media.type == 'image' and image_count < 3 %}
+                                    {% set image_count = image_count + 1 %}
+                                    <img class="w-100" src="{{ asset(pathMediaImage  ~ '/' ~ media.filename) }}"
+                                         alt="{{ media.alt }}">
+                                {% elseif media.type == 'video' and video_count < 2 %}
+                                    <video class="w-100" controls>
+                                        <source src="{{ asset(pathMediaVideo  ~ '/' ~ media.filename) }}"
+                                                type="video/mp4">
+                                        Votre navigateur ne prend pas en charge la balise vidéo.
+                                    </video>
+                                    {% set image_count = image_count + 1 %}
+                                {% endif %}
+                            </div>
                         {% endfor %}
+                        <div class="content-media-tricks-external col-3">
+                            {% for externalVideo in trick.externalVideo %}
+                                {% if externalVideo.platformId == 1 %}
+                                    <iframe type="text/html" width="640" height="360"
+                                            src="{{ externalVideo.url }}">
+                                    </iframe>
+                                {% else %}
+                                    <iframe type="text/html" src="{{ externalVideo.url }}" width="100%" height="100%"
+                                            allowfullscreen title="Dailymotion Video Player" allow="autoplay"></iframe>
+                                {% endif %}
+                            {% endfor %}
+                        </div>
                     </div>
-                    <div class="content-media-tricks-external">
-                        {% for externalVideo in trick.externalVideo %}
-                            {% if externalVideo.platformId == 1 %}
-                                <iframe type="text/html" width="640" height="360"
-                                        src="{{ externalVideo.url }}">
-                                </iframe>
-                            {% else %}
-                                <iframe type="text/html" src="{{ externalVideo.url }}" width="100%" height="100%"
-                                        allowfullscreen title="Dailymotion Video Player" allow="autoplay"></iframe>
-                            {% endif %}
-                        {% endfor %}
-                    </div>
-                    <button class="modal-btn  modal-trigger">
-                        Voir les medias
+                </div>
+                <div class="text-center">
+                    <button type="button" class="btn btn-primary d-inline-block d-sm-none " data-bs-toggle="modal"
+                            data-bs-target="#exampleModal">
+                        Launch demo modal
                     </button>
                 </div>
                 <div class="content-description">
@@ -68,22 +83,35 @@
                         {{ trick.content }}
                     </p>
                 </div>
-                {% if is_granted('ROLE_USER') %}
-                    <div class="content-form">
-                        <div class="content-form--content">
-                            {{ form_start(commentForm) }}
-                            {{ form_row(commentForm.content, {'label':false}) }}
-                            {{ form_row(commentForm.submit) }}
-                            {{ form_end(commentForm) }}
-                        </div>
+                <div class="container">
+                    <div class="row">
+                        {% if is_granted('ROLE_USER') %}
+
+                            <div class="content-form">
+                                <div class="content-form--content w-100">
+                                    {{ form_start(commentForm) }}
+                                    <div class="row">
+                                        <div class="col-sm-7 col-12">
+                                            {{ form_row(commentForm.content, {'label':false, 'attr': {'class': 'w-100'}}) }}
+                                        </div>
+                                        <div class="col-sm-5 col-12">
+                                            {{ form_row(commentForm.submit, {'attr': {'class': 'w-100'}}) }}
+                                        </div>
+                                    </div>
+                                    {{ form_end(commentForm) }}
+                                </div>
+                            </div>
+                        {% else %}
+                            <div class="col-12">
+                                <div class="content-form">
+                                    <div class="content-form--content">
+                                        <p>Veuillez vous connecté pour pouvoir poster un commentaire</p>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endif %}
                     </div>
-                {% else %}
-                    <div class="content-form">
-                        <div class="content-form--content">
-                            <p>Veuillez vous connecté pour pouvoir poster un commentaire</p>
-                        </div>
-                    </div>
-                {% endif %}
+                </div>
                 <div class="content-comment-container">
                     <div class="content-comment">
                         {% include 'comment/comments.html.twig' with {'comments': comments} %}
@@ -92,7 +120,7 @@
                         <div id="expand" class="d-flex">
                             {% if comments.currentPageNumber < maxPage %}
                                 <button id="load-more" data-current-page="{{ comments.currentPageNumber + 1 }}"
-                                        data-max-page="{{ maxPage }}"> Load More
+                                        data-max-page="{{ maxPage }}"> voir plus de media
                                 </button>
                             {% endif %}
                         </div>
@@ -100,44 +128,51 @@
                 </div>
             </div>
         </section>
-        <div class="modal-container">
-            <div class="overlay modal-trigger"></div>
-            <div class="modal">
-                <button class="close-modal modal-trigger">
-                    X
-                </button>
-                <h1>Voici les medias: </h1>
-                <div class="content-media-tricks-expands">
-                    {% set image_count = 0 %}
-                    {% set video_count = 0 %}
-                    {% for media in trick.medias %}
-                        {% if media.type == 'image' and image_count < 3 %}
-                            {% set image_count = image_count + 1 %}
-                            <img src="{{ asset(pathMediaImage  ~ '/' ~ media.filename) }}"
-                                 alt="{{ media.alt }}">
-                        {% elseif media.type == 'video' and video_count < 2 %}
-                            <video controls>
-                                <source src="{{ asset(pathMediaVideo  ~ '/' ~ media.filename) }}"
-                                        type="video/mp4">
-                                Votre navigateur ne prend pas en charge la balise vidéo.
-                            </video>
-                            {% set image_count = image_count + 1 %}
-                        {% endif %}
-                    {% endfor %}
-                </div>
-                <div class="content-media-tricks-external--expand">
-                    {% for externalVideo in trick.externalVideo %}
-                        {% if externalVideo.platformId == 1 %}
-                            <iframe type="text/html" width="640" height="360"
-                                    src="{{ externalVideo.url }}">
-                            </iframe>
-                        {% else %}
-                            <iframe type="text/html" src="{{ externalVideo.url }}" width="100%"
-                                    height="100%"
-                                    allowfullscreen title="Dailymotion Video Player"
-                                    allow="autoplay"></iframe>
-                        {% endif %}
-                    {% endfor %}
+        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="exampleModalLabel">Modal title</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="content-media-tricks-expands">
+                            {% set image_count = 0 %}
+                            {% set video_count = 0 %}
+                            {% for media in trick.medias %}
+                                {% if media.type == 'image' and image_count < 3 %}
+                                    {% set image_count = image_count + 1 %}
+                                    <img src="{{ asset(pathMediaImage  ~ '/' ~ media.filename) }}"
+                                         alt="{{ media.alt }}">
+                                {% elseif media.type == 'video' and video_count < 2 %}
+                                    <video controls>
+                                        <source src="{{ asset(pathMediaVideo  ~ '/' ~ media.filename) }}"
+                                                type="video/mp4">
+                                        Votre navigateur ne prend pas en charge la balise vidéo.
+                                    </video>
+                                    {% set image_count = image_count + 1 %}
+                                {% endif %}
+                            {% endfor %}
+                        </div>
+                        <div class="content-media-tricks-external--expand">
+                            {% for externalVideo in trick.externalVideo %}
+                                {% if externalVideo.platformId == 1 %}
+                                    <iframe type="text/html" width="640" height="360"
+                                            src="{{ externalVideo.url }}">
+                                    </iframe>
+                                {% else %}
+                                    <iframe type="text/html" src="{{ externalVideo.url }}" width="100%"
+                                            height="100%"
+                                            allowfullscreen title="Dailymotion Video Player"
+                                            allow="autoplay"></iframe>
+                                {% endif %}
+                            {% endfor %}
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-primary">Save changes</button>
+                    </div>
                 </div>
             </div>
         </div>
