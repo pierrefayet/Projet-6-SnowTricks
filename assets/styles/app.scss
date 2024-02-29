@@ -205,9 +205,19 @@ footer {
   font-size: 20px;
 }
 
+.content-trick-image-title {
+  position: relative;
+  h1 {
+    margin: 0;
+    position: absolute;
+    top: 50%;
+
+    transform: translate(-50%, -50%);
+    left: 50%;
+  }
+}
 
 .content #content-trick .content-trick-image-title h1 {
-  height: 10%;
   background-color: aliceblue;
   font-size: 50px;
   border: cornflowerblue solid 2px;
@@ -561,10 +571,6 @@ footer {
     div p {
       font-size: 16px;
     }
-  }
-
-  #expand {
-    display: none;
   }
 
   .connection-form .link-registration {

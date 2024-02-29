@@ -1,8 +1,8 @@
 {% extends 'layout.html.twig' %}
 {% block main %}
     <main>
-        <section class="intro-background">
-            <div class="intro-trick" style="background-image: url({{ asset('build/images/surfeur.jpg') }});"></div>
+        <section class="intro-background d-none d-sm-block">
+            <div class="intro-trick " style="background-image: url({{ asset('build/images/surfeur.jpg') }});"></div>
         </section>
         <section class="content">
             <div id="content-trick" class="content-trick-container">
@@ -16,21 +16,24 @@
                     <div class="container">
                         <div class="row">
                             {% if is_granted('ROLE_USER') and app.user == trick.author %}
-                                <div class="content-trick-image--icon offset-11 col-1 p-0 ">
-                                    <div class="w-100 d-inline-block h-100 align-middle">
-                                        <div id="pencil" class="d-inline-block align-middle mx-auto h-100"><a href="{{ path('update_tricks', {'id': trick.id}) }}"><i
-                                                        class="fa-solid fa-pencil"></i></a>
+                                <div class="content-trick-image--icon offset-9 col-3 text-center p-0 offset-sm-11 col-sm-1">
+                                    <div class="d-inline-block w-100">
+                                        <div id="pencil" class="d-inline-block mt-2 p-1">
+                                            <a href="{{ path('update_tricks', {'id': trick.id}) }}"><i
+                                                        class="fa-solid
+                                                         fa-pencil"></i></a>
                                         </div>
-                                        <div id="trash-can" class="d-inline-block  align-middle mx-auto h-100"><a href="{{ path('update_tricks', {'id': trick.id}) }}"><i
+                                        <div id="trash-can" class="d-inline-block  mt-2">
+                                            <a href="{{ path('update_tricks', {'id': trick.id}) }}"><i
                                                         class="fa-solid fa-trash-can"></i></a>
                                         </div>
                                     </div>
                                 </div>
                             {% endif %}
                         </div>
-                        <div class="row">
-                            <div class="content-trick-image-title col-12">
-                                <h1>
+                        <div class="row h-100">
+                            <div class="content-trick-image-title">
+                                <h1 class="text-center">
                                     {{ trick.title }}
                                 </h1>
                             </div>
@@ -86,8 +89,7 @@
                 <div class="container">
                     <div class="row">
                         {% if is_granted('ROLE_USER') %}
-
-                            <div class="content-form">
+                            <div class="content-form mx-auto">
                                 <div class="content-form--content w-100">
                                     {{ form_start(commentForm) }}
                                     <div class="row">
@@ -116,15 +118,13 @@
                     <div class="content-comment">
                         {% include 'comment/comments.html.twig' with {'comments': comments} %}
                     </div>
-                    <div id="expand" class="d-flex">
-                        <div id="expand" class="d-flex">
+                        <div id="expand" class="text-center m-3">
                             {% if comments.currentPageNumber < maxPage %}
                                 <button id="load-more" data-current-page="{{ comments.currentPageNumber + 1 }}"
                                         data-max-page="{{ maxPage }}"> voir plus de media
                                 </button>
                             {% endif %}
                         </div>
-                    </div>
                 </div>
             </div>
         </section>
