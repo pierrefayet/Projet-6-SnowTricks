@@ -1,13 +1,20 @@
-tricks.success.add: 'La  figure a bien été ajoutée.'
-tricks.success.update: 'La  figure a bien été mise à jour.'
-tricks.success.delete: 'La  figure a bien été supprimée.'
-home.intro: 'Rejoignez la communauté Snow tricks la plus cool sur la neige et partagez votre passion pour le snow avec des riders du monde entier !'
+tricks:
+    success:
+        add: 'La  figure a bien été ajoutée.'
+        update: 'La  figure a bien été mise à jour.'
+        delete: 'La  figure a bien été supprimée.'
+
+home.intro: 'Rejoignez la communauté Snow tricks et partagez votre passion pour le snowboard avec des riders du monde entier !'
 user:
     success:
         create_account: 'Votre compte a été créé.'
         verify_email : 'Votre email a bien été verifié.'
         update_profile : 'Votre profil a bien été mis à jour'
         login : 'Vous êtes connecté !'
+        reset :
+            title : 'Reset votre password'
+            content: 'Entrez votre adresse email et nous vous enverrons un lien pour reset votre password'
+            submit: "Envoyer l'e-mail de réinitialisation"
 email:
     success: |
         <h1>Bonjour!</h1>
@@ -15,4 +22,6 @@ email:
         <a href="{resetPasswordLink}">Reset votre mot de passe</a>
         <p>ce lien expire dans 1 heure.</p>
         <p>cordialement!</p>
-
+password_reset_email_sent: "Email de réinitialisation de mot de passe envoyé"
+if_an_account_matching: "Si un compte correspondant à votre email existe, un email vient d'être envoyé contenant un lien que vous pouvez utiliser pour réinitialiser votre mot de passe. Ce lien expirera dans une heure."
+check_spam_or_try_again: "Si vous ne recevez pas d'email, veuillez vérifier votre dossier spam ou"

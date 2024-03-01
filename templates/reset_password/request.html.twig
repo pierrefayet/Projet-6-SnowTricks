@@ -9,7 +9,7 @@
     <main class="connection-reset">
         <div class="connection-title">
             <div class="connection-title-content">
-                <h1>Reset votre password</h1>
+                <h1> {{ 'user.success.reset.title'|trans }}</h1>
             </div>
         </div>
         <section class="connection-form">
@@ -19,12 +19,11 @@
             </div>
             <div>
                 <small>
-                    Enter your email address, and we will send you a
-                    link to reset your password.
+                    {{ 'user.success.reset.content'|trans }}
                 </small>
             </div>
 
-            <button class="btn btn-primary">Send password reset email</button>
+            <button class="btn btn-primary p-1">{{ 'user.success.reset.submit'|trans }}</button>
             {{ form_end(requestForm) }}
         </section>
     </main>

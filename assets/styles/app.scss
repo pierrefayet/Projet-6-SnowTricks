@@ -63,20 +63,28 @@ a {
   }
 }
 
-#scroll-down i,
-#scroll-up i {
-  position: absolute;
-  bottom: -30px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 40px;
-  height: 80px;
+#scroll-down i {
+  position: fixed;
+  transform: translateX(50%);
   color: #251d1d;
-  text-align: center;
   font-size: 34px;
   cursor: pointer;
   padding: 10px;
+  top: 10%;
+  left:96%;
 }
+#scroll-up i {
+  position: fixed;
+  transform: translateX(50%);
+  color: #251d1d;
+  font-size: 34px;
+  cursor: pointer;
+  padding: 10px;
+  left:96%;
+  top: 90%;
+}
+
+
 
 #portfolio {
   margin-top: 50px;
@@ -562,7 +570,10 @@ footer {
       padding: 0;
     }
   }
-
+  #portfolio {
+    display: flex;
+    flex-direction: column;
+  }
   #portfolio .card .card-content .card-icons .icon {
     font-size: 20px;
   }

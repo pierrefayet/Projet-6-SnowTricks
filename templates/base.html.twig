@@ -9,7 +9,6 @@
         </div>
     {% endfor %}
     <main>
-        {{ maxPage }}
         <section class="intro" style="background-image: url({{ asset('build/images/surfeur.jpg') }})">
             <div>
                 <p>
@@ -17,7 +16,7 @@
                 </p>
             </div>
             <div class="scroll-arrow-down" id="scroll-down">
-                    <i class="fa-solid fa-arrow-down"></i>
+                <i class="fa-solid fa-arrow-down"></i>
             </div>
         </section>
         {% if is_granted('ROLE_USER') %}
@@ -35,16 +34,20 @@
         <div id="expand" class="text-center">
             <div id="expand" class="w-100">
                 {% if tricks.currentPageNumber < maxPage %}
-                        <button id="load-more"  class="btn btn-primary text-center" data-current-page="{{ tricks.currentPageNumber + 1 }}"
-                                data-max-page="{{ maxPage }}"> Voir plus de figure
-                        </button>
+                    <button id="load-more" class="btn btn-primary text-center m-5"
+                            data-current-page="{{ tricks.currentPageNumber + 1 }}"
+                            data-max-page="{{ maxPage }}"> Voir plus de figure
+                    </button>
                 {% endif %}
+                <div class="scroll-arrow-up d-flex justify-content-end" id="scroll-up">
+                    <i class="fa-solid fa-arrow-up"></i>
+                </div>
             </div>
         </div>
         {% if tricks.currentPageNumber >= 2 %}
-        <div class="scroll-arrow-up" id="scroll-up">
+            <div class="scroll-arrow-up" id="scroll-up">
                 <i class="fa-solid fa-arrow-up"></i>
-        </div>
+            </div>
         {% endif %}
     </main>
     {% include 'navbar-mobile.html.twig' %}
