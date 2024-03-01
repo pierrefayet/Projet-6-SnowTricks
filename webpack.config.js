@@ -9,6 +9,7 @@ Encore
     .setPublicPath('/build')
     .enableSassLoader()
     .addEntry('app', './assets/app.js')
+    .addEntry('scroll', './assets/scroll.js')
     .addEntry('preview', './assets/preview.js')
     .addEntry('externalMedia', './assets/externalMedia.js')
     .addEntry('paginateHome', './assets/paginateHome.js')

@@ -12,7 +12,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     document.querySelector('.content-comment').insertAdjacentHTML('beforeend', data);
                 })
             if(currentPage > maxPage) {
-                loadMoreButton.parentElement.parentElement.remove();
+                loadMoreButton.parentElement.remove();
             }
         });
     }

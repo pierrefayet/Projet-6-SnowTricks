@@ -24,7 +24,7 @@ class CommentController extends AbstractController
         return $this->redirectToRoute('single_trick', ['slug' => $trick->getSlug()]);
     }
 
-    #[\Symfony\Component\Routing\Annotation\Route('/get-comments', name: 'load_more_comment')]
+    #[Route('/get-comments', name: 'load_more_comment')]
     public function loadMore(CommentRepository $commentRepository, Request $request): Response
     {
         $page     = $request->query->getInt('page', 2);

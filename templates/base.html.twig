@@ -9,6 +9,7 @@
         </div>
     {% endfor %}
     <main>
+        {{ maxPage }}
         <section class="intro" style="background-image: url({{ asset('build/images/surfeur.jpg') }})">
             <div>
                 <p>
@@ -16,16 +17,14 @@
                 </p>
             </div>
             <div class="scroll-arrow-down" id="scroll-down">
-                <a href="#expand">
                     <i class="fa-solid fa-arrow-down"></i>
-                </a>
             </div>
         </section>
         {% if is_granted('ROLE_USER') %}
             <section>
                 <div class="d-flex justify-content-center my-5">
                     <a href="{{ path('add_trick') }}" class="btn btn-primary">
-                        Add a new Trick
+                        Ajouter une nouvelle figure
                     </a>
                 </div>
             </section>
@@ -33,21 +32,22 @@
         <section id="portfolio">
             {% include 'trick/tricks.html.twig'with {'tricks': tricks} %}
         </section>
-        <div id="expand" class="d-flex">
-            <div id="expand" class="d-flex">
+        <div id="expand" class="text-center">
+            <div id="expand" class="w-100">
                 {% if tricks.currentPageNumber < maxPage %}
-                        <button id="load-more" data-current-page="{{ tricks.currentPageNumber + 1 }}"
-                                data-max-page="{{ maxPage }}"> Plus de figure
+                        <button id="load-more"  class="btn btn-primary text-center" data-current-page="{{ tricks.currentPageNumber + 1 }}"
+                                data-max-page="{{ maxPage }}"> Voir plus de figure
                         </button>
                 {% endif %}
             </div>
         </div>
+        {% if tricks.currentPageNumber >= 2 %}
         <div class="scroll-arrow-up" id="scroll-up">
-            <a href="#portfolio">
                 <i class="fa-solid fa-arrow-up"></i>
-            </a>
         </div>
+        {% endif %}
     </main>
     {% include 'navbar-mobile.html.twig' %}
     {{ encore_entry_script_tags('paginateHome') }}
+    {{ encore_entry_script_tags('scroll') }}
 {% endblock %}

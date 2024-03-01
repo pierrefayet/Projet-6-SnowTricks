@@ -17,8 +17,8 @@
             {{ form_start(trickForm, {'attr': {'enctype':'multipart/form-data'}}) }}
             <div id="content-trick">
                 <div class="content-header">
-                    <div class="content-trick-image-title">
-                        <h1>
+                    <div class="content-trick-image-title w-100">
+                        <h1 class="text-center fs-2 rounded-1">
                             {{ form_row(trickForm.title, { 'attr': {'class': 'form-control'}}) }}
                         </h1>
                     </div>
@@ -48,10 +48,13 @@
                         </div>
                     </div>
                 </div>
-                <div class="media-expand">
-                    <div class="media-expand-content">See medias</div>
+                <div class="text-center m-3">
+                    <button type="button" class="btn btn-primary d-inline-block d-sm-none " data-bs-toggle="modal"
+                            data-bs-target="#exampleModal">
+                        Voir plus de media
+                    </button>
                 </div>
-                <div class="content-intro mx-auto" style="width: 50%">
+                <div class="content-intro mx-auto w-50">
                     <p>
                         {{ form_row(trickForm.intro, { 'attr': {'class': 'form-control'}}) }}
                     </p>
@@ -76,6 +79,54 @@
                 </div>
             </div>
         </section>
+        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="exampleModalLabel">Modal title</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="content-media-tricks-expands">
+                            {% set image_count = 0 %}
+                            {% set video_count = 0 %}
+                            {% for media in trick.medias %}
+                                {% if media.type == 'image' and image_count < 3 %}
+                                    {% set image_count = image_count + 1 %}
+                                    <img src="{{ asset(pathMediaImage  ~ '/' ~ media.filename) }}"
+                                         alt="{{ media.alt }}">
+                                {% elseif media.type == 'video' and video_count < 2 %}
+                                    <video controls>
+                                        <source src="{{ asset(pathMediaVideo  ~ '/' ~ media.filename) }}"
+                                                type="video/mp4">
+                                        Votre navigateur ne prend pas en charge la balise vidéo.
+                                    </video>
+                                    {% set image_count = image_count + 1 %}
+                                {% endif %}
+                            {% endfor %}
+                        </div>
+                        <div class="content-media-tricks-external--expand">
+                            {% for externalVideo in trick.externalVideo %}
+                                {% if externalVideo.platformId == 1 %}
+                                    <iframe type="text/html" width="640" height="360"
+                                            src="{{ externalVideo.url }}">
+                                    </iframe>
+                                {% else %}
+                                    <iframe type="text/html" src="{{ externalVideo.url }}" width="100%"
+                                            height="100%"
+                                            allowfullscreen title="Dailymotion Video Player"
+                                            allow="autoplay"></iframe>
+                                {% endif %}
+                            {% endfor %}
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-primary">Save changes</button>
+                    </div>
+                </div>
+            </div>
+        </div>
         {% include 'navbar-mobile.html.twig' %}
     </main>
     {% block javascripts %}

@@ -2,10 +2,10 @@
     <div class="card m-2">
         <div class="row g-0 align-items-center">
             <div class="col-md-2 text-center col-2">
-                <div class="content-comment--icon">
+                <div class="content-comment--icon m-2">
                     {% if comment.commentUserId.userImage %}
                         <img src="{{ asset(pathMediaAvatar  ~ '/' ~  comment.commentUserId.userImage) }}"
-                             alt="profile image" class="img-fluid rounded-start" style="height: 100%;">
+                             alt="profile image" class="img-fluid rounded h-100">
                     {% else %}
                         <i class="fa-solid fa-user" style="font-size: 50px;"></i>
                     {% endif %}
