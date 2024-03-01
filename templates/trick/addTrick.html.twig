@@ -16,23 +16,23 @@
         <section class="content">
             {{ form_start(trickForm, {'attr': {'enctype':'multipart/form-data'}}) }}
             <div id="content-trick">
-                <div class="content-header">
+                <div class="content-header mb-5">
                     <div class="content-trick-image-title w-100">
                         <h1 class="text-center fs-2 rounded-1">
                             {{ form_row(trickForm.title, { 'attr': {'class': 'form-control'}}) }}
                         </h1>
                     </div>
                 </div>
-                <div class="addMedia container" data-index="0">
+                <div class="container" data-index="0">
                     <div class="row justify-content-around">
-                        <div class="col-auto">
-                            <button type="button" class="btn btn-primary add_item_media m-2" data-collection-holder-class="media">
-                                Add a media
+                        <div class="addMedia col-auto">
+                            <button type="button" class="btn btn-light add_item_media m-2" data-collection-holder-class="media">
+                                Ajouter un média
                             </button>
                         </div>
                         <div class="addExternalMedia col-auto">
-                            <button type="button" class="btn btn-primary add_item__external_media m-2" data-collection-holder-class="externalMedia">
-                                Add a external media
+                            <button type="button" class="btn btn-light add_item__external_media m-2" data-collection-holder-class="externalMedia">
+                                Ajouter un lien média externe
                             </button>
                         </div>
                     </div>
@@ -63,22 +63,24 @@
                         {{ form_row(trickForm.intro, { 'attr': {'class': 'form-control'}}) }}
                     </p>
                 </div>
-                <div class="information-content">
-                    <div class="content-description-scroll">
+                <div class="information-content mb-5">
+                    <div class="content-description-scroll w-50">
                         <p>
                             {{ form_row(trickForm.content, {'attr': {'class': 'form-control'}}) }}
                         </p>
                     </div>
-                    <div class="information-actions">
-                        <div class="select-group">
-                            <div class="content-tag" data-index="0">
-                                {{ form_row(trickForm.category, { 'attr': {'class': 'form-control'}}) }}
+                    <div class="information-actions container">
+                        <div class="select-group row mb-5">
+                            <div class="content-category m-5 w-25" data-index="0">
+                                {{ form_row(trickForm.category, { 'attr': {'class': 'form-control w'}}) }}
                             </div>
                         </div>
                     </div>
-                        <div class="save">
-                            <button type="submit" class="btn btn-success">Save</button>
+                    <div>
+                        <div class="save w-100">
+                            <button type="submit" class="btn btn-success">Sauvegarder</button>
                         </div>
+                    </div>
                     {{ form_end(trickForm) }}
                 </div>
             </div>

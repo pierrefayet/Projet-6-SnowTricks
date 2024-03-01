@@ -21,11 +21,12 @@ class TrickFormType extends AbstractType
     {
         $builder
             ->add('title', TextType::class, ['label' => 'Titre'])
-            ->add('intro', TextType::class)
-            ->add('content', TextareaType::class)
+            ->add('intro', TextType::class, ['label' => 'Chapô'])
+            ->add('content', TextareaType::class, ['label' => 'Contenu'])
             ->add('category', EntityType::class, [
                 'class'        => Category::class,
                 'choice_label' => 'name',
+                'label'        => 'Catégorie',
             ])
             ->add('medias', CollectionType::class, [
                 'entry_type'        => FileType::class,

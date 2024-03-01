@@ -290,16 +290,7 @@ footer p {
   align-items: center;
 }
 
-.information-content .information-actions {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  width: 80%;
-  margin-top: 50px;
-}
-
 .information-content .information-actions #select-group {
-  width: 100px;
   font-weight: bold;
 }
 
