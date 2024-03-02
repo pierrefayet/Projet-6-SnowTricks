@@ -32,7 +32,7 @@
             {% include 'trick/tricks.html.twig'with {'tricks': tricks} %}
         </section>
         <div id="expand" class="text-center">
-            <div id="expand" class="w-100">
+            <div class="w-100">
                 {% if tricks.currentPageNumber < maxPage %}
                     <button id="load-more" class="btn btn-primary text-center m-5"
                             data-current-page="{{ tricks.currentPageNumber + 1 }}"
@@ -44,11 +44,6 @@
                 </div>
             </div>
         </div>
-        {% if tricks.currentPageNumber >= 2 %}
-            <div class="scroll-arrow-up" id="scroll-up">
-                <i class="fa-solid fa-arrow-up"></i>
-            </div>
-        {% endif %}
     </main>
     {% include 'navbar-mobile.html.twig' %}
     {{ encore_entry_script_tags('paginateHome') }}

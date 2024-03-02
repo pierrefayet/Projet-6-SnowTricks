@@ -38,7 +38,6 @@
                                 </h1>
                             </div>
                         </div>
-
                     </div>
                 </div>
                 <div class="media-single-trick container d-none d-sm-block">
@@ -46,13 +45,13 @@
                         {% set image_count = 0 %}
                         {% set video_count = 0 %}
                         {% for media in trick.medias %}
-                            <div class="content-media-tricks col-3">
+                            <div class="content-media-tricks col-3 w-50">
                                 {% if media.type == 'image' and image_count < 3 %}
                                     {% set image_count = image_count + 1 %}
-                                    <img class="w-100" src="{{ asset(pathMediaImage  ~ '/' ~ media.filename) }}"
+                                    <img class="w-100 h-100 w-100" src="{{ asset(pathMediaImage  ~ '/' ~ media.filename) }}"
                                          alt="{{ media.alt }}">
                                 {% elseif media.type == 'video' and video_count < 2 %}
-                                    <video class="w-100" controls>
+                                    <video class="w-100 col-4" controls>
                                         <source src="{{ asset(pathMediaVideo  ~ '/' ~ media.filename) }}"
                                                 type="video/mp4">
                                         Votre navigateur ne prend pas en charge la balise vidéo.
@@ -61,14 +60,14 @@
                                 {% endif %}
                             </div>
                         {% endfor %}
-                        <div class="content-media-tricks-external col-3">
+                        <div class="content-media-tricks-external w-100">
                             {% for externalVideo in trick.externalVideo %}
                                 {% if externalVideo.platformId == 1 %}
-                                    <iframe type="text/html" width="640" height="360"
-                                            src="{{ externalVideo.url }}">
+                                    <iframe  class="col-4" type="text/html" width="640" height="360"
+                                            src="{{ externalVideo.url }}" Access-Control-Allow-Origin>
                                     </iframe>
                                 {% else %}
-                                    <iframe type="text/html" src="{{ externalVideo.url }}" width="100%" height="100%"
+                                    <iframe class="col-3" type="text/html" src="{{ externalVideo.url }}" width="100%" height="100%"
                                             allowfullscreen title="Dailymotion Video Player" allow="autoplay"></iframe>
                                 {% endif %}
                             {% endfor %}
@@ -129,12 +128,13 @@
                 </div>
                 <div class="content-comment-container">
                     <div class="content-comment">
-                        {% include 'comment/comments.html.twig' with {'comments': comments} %}
+                        {% include 'comment/comments.html.twig' with {'comments': comments, 'trick': trick} %}
+                        {{ dump(trick) }}
                     </div>
                         <div id="expand" class="text-center m-3">
                             {% if comments.currentPageNumber < maxPage %}
                                 <button id="load-more" class="rounded-1" data-current-page="{{ comments.currentPageNumber + 1 }}"
-                                        data-max-page="{{ maxPage }}"> voir plus de media
+                                        data-max-page="{{ maxPage }}"> voir plus de commentaire
                                 </button>
                             {% endif %}
                         </div>
