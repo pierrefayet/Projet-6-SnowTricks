@@ -2,7 +2,7 @@
     <div class="card">
         <div class="card-image">
             <a href="{{ path('single_trick', {'slug': trick.slug }) }}">
-                {% if trick.medias|length > 0 %}
+                {% if trick.medias|length > 0 and trick.medias|first.type == 'image' %}
                     {% set media = trick.medias|first %}
                     <img src="{{ asset(pathMediaImage  ~ '/' ~ media.filename) }}" alt="{{ trick.title }}">
                 {% else %}

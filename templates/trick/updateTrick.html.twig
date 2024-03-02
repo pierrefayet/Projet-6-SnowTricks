@@ -4,11 +4,10 @@
         {% for message in app.flashes('error') %}
             <div class="alert alert-danger">{{ message }}</div>
         {% endfor %}
-
         {% for message in app.flashes('success') %}
             <div class="alert alert-success">{{ message }}</div>
         {% endfor %}
-        <section class="intro-background">
+        <section class="intro-background d-none d-sm-block">
             <div class="intro-trick"
                  style="background-image: url({{ asset('build/images/surfeur.08d91665.jpg') }});">
             </div>
@@ -37,7 +36,7 @@
                                 Ajouter un lien média externe
                             </button>
                             <p>
-                                {{ form_row(trickForm.externalVideo, {'attr': {'class': 'form-control'}}) }}
+                                {{ form_row(trickForm.externalVideo) }}
                             </p>
                         </div>
                     </div>

@@ -1,13 +1,14 @@
 {% extends 'layout.html.twig' %}
 {% block main %}
     <main>
+        <div id="trickId" class="d-none" data-trickId="{{ trick.id }}"></div>
         <section class="intro-background d-none d-sm-block">
             <div class="intro-trick " style="background-image: url({{ asset('build/images/surfeur.jpg') }});"></div>
         </section>
         <section class="content">
             <div id="content-trick" class="content-trick-container">
                 <div class="content-header"
-                        {% if trick.medias|length > 0 %}
+                        {% if trick.medias|length > 0 and trick.medias|first.type == 'image' %}
                         {% set media = trick.medias|first %}
                      style="background-image: url({{ asset(pathMediaImage  ~ '/' ~ media.filename) }});">
                     {% else %}
@@ -60,14 +61,16 @@
                                 {% endif %}
                             </div>
                         {% endfor %}
-                        <div class="content-media-tricks-external w-100">
+                    </div>
+                    <div class="row">
+                        <div class="content-media-tricks-external col-12">
                             {% for externalVideo in trick.externalVideo %}
                                 {% if externalVideo.platformId == 1 %}
-                                    <iframe  class="col-4" type="text/html" width="640" height="360"
+                                    <iframe  class="w-100" type="text/html" height="360"
                                             src="{{ externalVideo.url }}" Access-Control-Allow-Origin>
                                     </iframe>
                                 {% else %}
-                                    <iframe class="col-3" type="text/html" src="{{ externalVideo.url }}" width="100%" height="100%"
+                                    <iframe type="text/html" src="{{ externalVideo.url }}" width="100%" height="100%"
                                             allowfullscreen title="Dailymotion Video Player" allow="autoplay"></iframe>
                                 {% endif %}
                             {% endfor %}
@@ -129,7 +132,6 @@
                 <div class="content-comment-container">
                     <div class="content-comment">
                         {% include 'comment/comments.html.twig' with {'comments': comments, 'trick': trick} %}
-                        {{ dump(trick) }}
                     </div>
                         <div id="expand" class="text-center m-3">
                             {% if comments.currentPageNumber < maxPage %}

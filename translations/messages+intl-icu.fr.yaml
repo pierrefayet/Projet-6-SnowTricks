@@ -25,3 +25,5 @@ email:
 password_reset_email_sent: "Email de réinitialisation de mot de passe envoyé"
 if_an_account_matching: "Si un compte correspondant à votre email existe, un email vient d'être envoyé contenant un lien que vous pouvez utiliser pour réinitialiser votre mot de passe. Ce lien expirera dans une heure."
 check_spam_or_try_again: "Si vous ne recevez pas d'email, veuillez vérifier votre dossier spam ou"
+reset:
+    submit: 'Essayer à nouveau'

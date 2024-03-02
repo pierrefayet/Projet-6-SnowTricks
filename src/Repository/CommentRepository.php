@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Repository;
 
 use App\Entity\Comment;
+use App\Entity\Trick;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 use Knp\Component\Pager\Pagination\PaginationInterface;
@@ -25,10 +26,12 @@ class CommentRepository extends ServiceEntityRepository
         parent::__construct($registry, Comment::class);
     }
 
-    public function paginateTrick(int $page, int $limit): PaginationInterface
+    public function paginateTrick(int $page, int $limit, Trick $trick): PaginationInterface
     {
         return $this->paginator->paginate(
-            $this->createQueryBuilder('c'),
+            $this->createQueryBuilder('c')
+            ->WHERE('c.trick  = :trick')
+            ->setParameter('trick', $trick),
             $page,
             $limit,
         );

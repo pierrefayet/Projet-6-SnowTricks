@@ -4,12 +4,11 @@
         {% for message in app.flashes('error') %}
             <div class="alert alert-danger">{{ message }}</div>
         {% endfor %}
-
         {% for message in app.flashes('success') %}
             <div class="alert alert-success">{{ message }}</div>
         {% endfor %}
-        <section class="intro-background">
-            <div class="intro-trick"
+        <section class="intro-background d-none  d-sm-block">
+            <div class="intro-trick "
                  style="background-image: url({{ asset('build/images/surfeur.08d91665.jpg') }});">
             </div>
         </section>
@@ -25,12 +24,12 @@
                 </div>
                 <div class="container" data-index="0">
                     <div class="row justify-content-around">
-                        <div class="addMedia col-auto">
+                        <div class="addMedia col-12 col-sm-6">
                             <button type="button" class="btn btn-light add_item_media m-2" data-collection-holder-class="media">
                                 Ajouter un média
                             </button>
                         </div>
-                        <div class="addExternalMedia col-auto">
+                        <div class="addExternalMedia col-12 col-sm-6">
                             <button type="button" class="btn btn-light add_item__external_media m-2" data-collection-holder-class="externalMedia">
                                 Ajouter un lien média externe
                             </button>
@@ -58,30 +57,34 @@
                         Voir plus de media
                     </button>
                 </div>
-                <div class="content-intro mx-auto w-50">
-                    <p>
-                        {{ form_row(trickForm.intro, { 'attr': {'class': 'form-control'}}) }}
-                    </p>
-                </div>
-                <div class="information-content mb-5">
-                    <div class="content-description-scroll w-50">
-                        <p>
-                            {{ form_row(trickForm.content, {'attr': {'class': 'form-control'}}) }}
-                        </p>
-                    </div>
-                    <div class="information-actions container">
-                        <div class="select-group row mb-5">
-                            <div class="content-category m-5 w-25" data-index="0">
-                                {{ form_row(trickForm.category, { 'attr': {'class': 'form-control w'}}) }}
+                <div class="container">
+                    <div class="row">
+                        <div class="content-intro mx-auto w-50">
+                            <p>
+                                {{ form_row(trickForm.intro, { 'attr': {'class': 'form-control'}}) }}
+                            </p>
+                        </div>
+                        <div class="information-content mb-5">
+                            <div class="content-description-scroll w-50">
+                                <p>
+                                    {{ form_row(trickForm.content, {'attr': {'class': 'form-control'}}) }}
+                                </p>
                             </div>
+                            <div class="information-actions container">
+                                <div class="select-group row mb-5">
+                                    <div class="content-category m-5 w-25" data-index="0">
+                                        {{ form_row(trickForm.category, { 'attr': {'class': 'form-control w'}}) }}
+                                    </div>
+                                </div>
+                            </div>
+                            <div>
+                                <div class="save w-100">
+                                    <button type="submit" class="btn btn-success">Sauvegarder</button>
+                                </div>
+                            </div>
+                            {{ form_end(trickForm) }}
                         </div>
                     </div>
-                    <div>
-                        <div class="save w-100">
-                            <button type="submit" class="btn btn-success">Sauvegarder</button>
-                        </div>
-                    </div>
-                    {{ form_end(trickForm) }}
                 </div>
             </div>
         </section>

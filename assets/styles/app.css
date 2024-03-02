@@ -64,7 +64,7 @@ a {
   cursor: pointer;
   padding: 10px;
   top: 10%;
-  left: 96%;
+  right: 20px;
 }
 
 #scroll-up i {
@@ -74,7 +74,7 @@ a {
   font-size: 34px;
   cursor: pointer;
   padding: 10px;
-  left: 96%;
+  right: 20px;
   top: 90%;
 }
 
@@ -167,7 +167,6 @@ footer p {
 }
 
 .content #content-trick {
-  width: 800px;
   background-color: #6982ec;
   border: cornflowerblue solid 2px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.5), inset 0 0 10px rgba(255, 255, 255, 0.5);
@@ -511,6 +510,11 @@ footer p {
   }
   #portfolio {
     grid-template-columns: repeat(2, 1fr);
+  }
+}
+@media screen and (min-width: 768px) {
+  #content-trick {
+    width: 800px;
   }
 }
 @media screen and (max-width: 425px) {

@@ -21,7 +21,7 @@ class TrickControllerTest extends WebTestCase
     {
         $client = static::createClient();
         $client->followRedirects(true);
-        $client->request('GET', '/single/trick/');
+        $client->request('GET', '/trick/single/test');
 
         $this->assertResponseIsSuccessful();
     }

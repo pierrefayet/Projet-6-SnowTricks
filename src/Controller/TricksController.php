@@ -38,7 +38,7 @@ class TricksController extends AbstractController
             $entityManager->persist($trick);
             $file = $form->get('medias')->getData();
             if (\is_array($file)) {
-                $this->handleMedia->handleMediaUpload([$file], $trick);
+                $this->handleMedia->handleMediaUpload($file, $trick);
             }
 
             $entityManager->flush();
@@ -83,7 +83,7 @@ class TricksController extends AbstractController
     public function showTrick(Trick $trick, CommentRepository $commentRepository, CommentManager $commentManager): Response
     {
         $commentForm = $commentManager->addComment($trick);
-        $comments    = $commentRepository->paginateTrick(1, 5);
+        $comments    = $commentRepository->paginateTrick(1, 5, $trick);
         $maxPage     = ceil($comments->getTotalItemCount() / 5);
 
         return $this->render('trick/singleTrick.html.twig', [

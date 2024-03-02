@@ -24,11 +24,11 @@ class CommentController extends AbstractController
         return $this->redirectToRoute('single_trick', ['slug' => $trick->getSlug()]);
     }
 
-    #[Route('/get-comments', name: 'load_more_comment')]
-    public function loadMore(CommentRepository $commentRepository, Request $request): Response
+    #[Route('/get-comments/{trick}', name: 'load_more_comment')]
+    public function loadMore(CommentRepository $commentRepository, Request $request, Trick $trick): Response
     {
         $page     = $request->query->getInt('page', 2);
-        $comments = $commentRepository->paginateTrick($page, 5);
+        $comments = $commentRepository->paginateTrick($page, 5, $trick);
 
         return $this->render('comment/comments.html.twig', [
             'comments' => $comments,

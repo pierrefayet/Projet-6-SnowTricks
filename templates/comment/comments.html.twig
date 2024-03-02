@@ -1,6 +1,4 @@
-{% if trick.comments|length > 0 %}
-    {% for comment in comments %}
-        {% if comment.trick.id == trick.id %}
+{% for comment in comments %}
             <div class="card m-2">
                 <div class="row g-0 align-items-center">
                     <div class="col-md-2 text-center col-2">
@@ -24,9 +22,4 @@
                     </div>
                 </div>
             </div>
-        {% endif %}
-    {% endfor %}
-{% else %}
-    <p>Aucun commentaire pour cette figure.</p>
-{% endif %}
-
+{% endfor %}
