@@ -42,4 +42,4 @@ jobs:
             - run: yes | php bin/console doctrine:fixtures:load --env=test || true
             - run: npm run build
             #- run: vendor/bin/phpstan
-            #- run: ./vendor/bin/phpunit
+            - run: ./vendor/bin/phpunit
