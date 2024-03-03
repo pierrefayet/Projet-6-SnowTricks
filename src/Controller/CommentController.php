@@ -15,7 +15,7 @@ use Symfony\Component\Routing\Attribute\Route;
 
 class CommentController extends AbstractController
 {
-    #[Route('/comment/delete/{id}', name: 'delete_comment')]
+    #[Route('/comment/delete/{id}', name: 'delete_comment', methods: 'POST')]
     public function deleteTrick(Comment $comment, EntityManagerInterface $entityManager, Trick $trick): Response
     {
         $entityManager->remove($comment);
@@ -24,7 +24,7 @@ class CommentController extends AbstractController
         return $this->redirectToRoute('single_trick', ['slug' => $trick->getSlug()]);
     }
 
-    #[Route('/get-comments/{trick}', name: 'load_more_comment')]
+    #[Route('/get-comments/{trick}', name: 'load_more_comment', methods: 'GET')]
     public function loadMore(CommentRepository $commentRepository, Request $request, Trick $trick): Response
     {
         $page     = $request->query->getInt('page', 2);

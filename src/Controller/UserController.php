@@ -37,7 +37,7 @@ class UserController extends AbstractController
     ) {
     }
 
-    #[Route('/login', name: 'security_login')]
+    #[Route('/login', name: 'security_login', methods: ['GET', 'POST'])]
     public function loginUser(Request $request, AuthenticationUtils $authenticationUtils): Response
     {
         $user      = new User();
@@ -51,7 +51,7 @@ class UserController extends AbstractController
         ]);
     }
 
-    #[Route('/logout', name: 'security_logout')]
+    #[Route('/logout', name: 'security_logout', methods: 'GET')]
     public function logOut(): void
     {
     }
@@ -59,7 +59,7 @@ class UserController extends AbstractController
     /**
      * @throws TransportExceptionInterface
      */
-    #[Route('/forgot', name: 'forgot_password')]
+    #[Route('/forgot', name: 'forgot_password', methods: 'GET')]
     public function forgotPassword(
         Request $request,
         EmailVerifier $emailVerifier,
@@ -87,7 +87,7 @@ class UserController extends AbstractController
         return $this->render('user/forgotPassword.html.twig', ['forgotPassword' => $forgotForm->createView()]);
     }
 
-    #[Route('/inscription', name: 'registration')]
+    #[Route('/inscription', name: 'registration', methods: 'POST')]
     public function registrationUser(
         Request $request, UserPasswordHasherInterface $passwordEncoder,
         EntityManagerInterface $entityManager,
@@ -125,7 +125,7 @@ class UserController extends AbstractController
         return $this->render('user/registration.html.twig', ['registration' => $createForm->createView()]);
     }
 
-    #[Route('/verify/email', name: 'app_verify_email')]
+    #[Route('/verify/email', name: 'app_verify_email', methods: ['GET', 'POST'])]
     public function verifyUserEmail(Request $request, TranslatorInterface $translator, UserRepository $userRepository): Response
     {
         $id = $request->query->get('id');
@@ -153,7 +153,7 @@ class UserController extends AbstractController
         return $this->redirectToRoute('home');
     }
 
-    #[Route('/profile', name: 'profile')]
+    #[Route('/profile', name: 'profile', methods: 'GET')]
     public function modifyProfile(
         Request $request,
         EntityManagerInterface $entityManager, ImageService $imageService,
