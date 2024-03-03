@@ -23,7 +23,7 @@ class UserRepository extends ServiceEntityRepository
         parent::__construct($registry, User::class);
     }
 
-    public function findOneByEmail(mixed $userEmail)
+    public function findOneByEmail(mixed $userEmail): ?User
     {
         return $this->createQueryBuilder('u')
             ->where('u.email = :email')

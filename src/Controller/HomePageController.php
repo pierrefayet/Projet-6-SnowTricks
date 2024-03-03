@@ -25,7 +25,7 @@ class HomePageController extends AbstractController
         ]);
     }
 
-    #[Route('/get-tricks', name: 'load_more')]
+    #[Route('/get-tricks', name: 'load_more', methods: 'GET')]
     public function loadMore(TrickRepository $trickRepository, Request $request): Response
     {
         $page   = $request->query->getInt('page', 2);
