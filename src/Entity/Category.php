@@ -49,7 +49,7 @@ class Category
         $this->name = $name;
     }
 
-    public function getTricks(): ArrayCollection
+    public function getTricks(): Collection
     {
         return $this->tricks;
     }
