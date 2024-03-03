@@ -27,7 +27,7 @@ class TricksController extends AbstractController
     ) {
     }
 
-    #[Route('/add', name: 'add_trick', methods: 'POST')]
+    #[Route('/add', name: 'add_trick', methods: ['GET', 'POST'])]
     public function addTrick(Request $request, EntityManagerInterface $entityManager): Response
     {
         $trick = new Trick();
@@ -79,7 +79,7 @@ class TricksController extends AbstractController
         ]);
     }
 
-    #[Route('/single/{slug}', name: 'single_trick', methods: 'POST')]
+    #[Route('/single/{slug}', name: 'single_trick', methods: ['GET', 'POST'])]
     public function showTrick(Trick $trick, CommentRepository $commentRepository, CommentManager $commentManager): Response
     {
         $commentForm = $commentManager->addComment($trick);
