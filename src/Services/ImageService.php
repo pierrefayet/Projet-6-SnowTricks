@@ -6,11 +6,11 @@ namespace App\Services;
 
 class ImageService
 {
-    public function __construct(private string $mediaDirectory)
+    public function __construct(private readonly string $mediaDirectory)
     {
     }
 
-    public function buildImage($file, $directory): string
+    public function buildImage($file, string $directory): string
     {
         $newFilename     = pathinfo($file->getClientOriginalName(), \PATHINFO_FILENAME) . uniqid() . '.' . $file->guessExtension();
         $targetDirectory = $this->mediaDirectory . '/' . $directory;

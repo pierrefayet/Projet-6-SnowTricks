@@ -39,8 +39,9 @@ class HandleMedia
                 $media->setFilename($newFilename);
                 $media->setTrick($trick);
                 $this->entitymanager->persist($media);
-                $this->entitymanager->flush();
             }
         }
+
+        $this->entitymanager->flush();
     }
 }

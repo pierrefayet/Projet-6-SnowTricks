@@ -2,7 +2,7 @@
 
 <p>
     Voici le lien pour verifier votre email: <br><br>
-    <a href="{{ signedUrl|raw }}">Vérifier votre email</a>.
+    <a href="{{ signedUrl }}">Vérifier votre email</a>.
     le lien est valide pendant une durée de  {{ expiresAtMessageKey|trans(expiresAtMessageData, 'VerifyEmailBundle') }}.
 </p>
 
