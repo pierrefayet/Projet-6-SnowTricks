@@ -28,26 +28,41 @@ class UploadMedia
     #[ORM\JoinColumn(name: 'trick_id', referencedColumnName: 'id')]
     protected ?Trick $trick = null;
 
+    /**
+     * @return int|null
+     */
     public function getId(): ?int
     {
         return $this->id;
     }
 
+    /**
+     * @param int|null $id
+     */
     public function setId(?int $id): void
     {
         $this->id = $id;
     }
 
+    /**
+     * @return string|null
+     */
     public function getFilename(): ?string
     {
         return $this->filename;
     }
 
+    /**
+     * @param string|null $filename
+     */
     public function setFilename(?string $filename): void
     {
         $this->filename = $filename;
     }
 
+    /**
+     * @return Trick|null
+     */
     public function getTrick(): ?Trick
     {
         return $this->trick;

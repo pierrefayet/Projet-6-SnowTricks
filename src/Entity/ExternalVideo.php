@@ -54,6 +54,9 @@ class ExternalVideo
         return $this->url;
     }
 
+    /**
+     * @param string|null $url
+     */
     public function setUrl(?string $url): void
     {
         $this->url = $url;

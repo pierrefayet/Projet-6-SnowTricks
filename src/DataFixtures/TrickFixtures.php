@@ -6,6 +6,7 @@ namespace App\DataFixtures;
 
 use App\Entity\Category;
 use App\Entity\Trick;
+use App\Entity\User;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
@@ -34,9 +35,19 @@ class TrickFixtures extends Fixture implements DependentFixtureInterface
 
         for ($i = 1; $i <= 50; ++$i) {
             $trick = new Trick();
-            $trick->setAuthor($this->getReference('users' . $i));
+            $authorReference = $this->getReference('users' . $i);
+
+            if ($authorReference instanceof User) {
+                $trick->setAuthor($authorReference);
+            }
+
             $trick->setTitle($this->faker->sentence(2));
-            $trick->setSlug((new AsciiSlugger())->slug(strtolower($trick->getTitle()))->toString());
+            $title = $trick->getTitle();
+
+            if (\is_string($title)) {
+                $trick->setSlug((new AsciiSlugger())->slug(strtolower($title))->toString());
+            }
+
             $trick->setIntro($this->faker->sentence(3));
             $trick->setContent($this->faker->paragraph);
             $trick->setCategory($groups[$i % \count($groups)]);
@@ -46,14 +57,19 @@ class TrickFixtures extends Fixture implements DependentFixtureInterface
         }
 
         $trickCustom = new Trick();
-        $trickCustom->setAuthor($this->getReference('userCustom'));
+        $authorCustomReference = $this->getReference('userCustom');
+
+        if ($authorCustomReference instanceof User) {
+            $trickCustom->setAuthor($authorCustomReference);
+        }
+
         $trickCustom->setTitle('test');
-        $trickCustom->setSlug((new AsciiSlugger())->slug(strtolower($trickCustom->getTitle()))->toString());
+        $trickCustom->setSlug((new AsciiSlugger())->slug(strtolower('test'))->toString());
         $trickCustom->setIntro($this->faker->sentence(3));
         $trickCustom->setContent($this->faker->paragraph);
-        $trickCustom->setCategory($groups[$i % \count($groups)]);
+        $trickCustom->setCategory($groups[0]);
 
-        $manager->persist($trick);
+        $manager->persist($trickCustom);
         $this->addReference('trickCustom', $trickCustom);
         $manager->flush();
     }

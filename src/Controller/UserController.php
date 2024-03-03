@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
+use App\Entity\UploadMedia;
 use App\Entity\User;
 use App\Form\ForgotFormType;
 use App\Form\LoginFormType;
@@ -18,6 +19,7 @@ use App\Services\Security\EmailVerifier;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
@@ -51,7 +53,7 @@ class UserController extends AbstractController
         ]);
     }
 
-    #[Route('/logout', name: 'security_logout', methods: 'GET')]
+    #[Route('/logout', name: 'security_logout', methods: ['GET', 'POST'])]
     public function logOut(): void
     {
     }
@@ -59,7 +61,7 @@ class UserController extends AbstractController
     /**
      * @throws TransportExceptionInterface
      */
-    #[Route('/forgot', name: 'forgot_password', methods: 'GET')]
+    #[Route('/forgot', name: 'forgot_password', methods: ['GET', 'POST'])]
     public function forgotPassword(
         Request $request,
         EmailVerifier $emailVerifier,
@@ -71,7 +73,7 @@ class UserController extends AbstractController
         if ($forgotForm->isSubmitted()) {
             $userEmail = $forgotForm->get('email')->getData();
             $user      = $userRepository->findOneByEmail($userEmail);
-            if ($user) {
+            if ($user && \is_string($user->getEmail())) {
                 $emailVerifier->sendEmailConfirmation('app_verify_email', $user,
                     (new TemplatedEmail())
                         ->from(new Address('snowtrick@gmail.com', 'admin'))
@@ -176,7 +178,7 @@ class UserController extends AbstractController
 
         if ($imageForm->isSubmitted() && $imageForm->isValid()) {
             $file = $imageForm->get('userImage')->getData();
-            if ($file && $user instanceof User) {
+            if ($file instanceof UploadedFile && $user instanceof User) {
                 $user->setUserImage($imageService->buildImage($file, '/avatar'));
             }
 

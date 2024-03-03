@@ -21,6 +21,10 @@ class Category
 
     #[ORM\Column(nullable: true)]
     private ?string $name;
+
+    /**
+     * @var Collection<int, Trick>
+     */
     #[ORM\OneToMany(mappedBy: 'category', targetEntity: Trick::class)]
     private Collection $tricks;
 
@@ -29,31 +33,49 @@ class Category
         $this->tricks = new ArrayCollection();
     }
 
-    public function getId(): int
+    /**
+     * @return int|null
+     */
+    public function getId(): ?int
     {
         return $this->id;
     }
 
+    /**
+     * @param int $id
+     */
     public function setId(int $id): void
     {
         $this->id = $id;
     }
 
-    public function getName(): string
+    /**
+     * @return string|null
+     */
+    public function getName(): ?string
     {
         return $this->name;
     }
 
+    /**
+     * @param string $name
+     */
     public function setName(string $name): void
     {
         $this->name = $name;
     }
 
+    /**
+     * @return Collection<int, Trick>
+     */
     public function getTricks(): Collection
     {
         return $this->tricks;
     }
 
+    /**
+     * @param Trick $trick
+     */
     public function addTrick(Trick $trick): void
     {
         if (! $this->tricks->contains($trick)) {
@@ -61,6 +83,9 @@ class Category
         }
     }
 
+    /**
+     * @param Trick $trick
+     */
     public function removeTrick(Trick $trick): void
     {
         $this->tricks->removeElement($trick);

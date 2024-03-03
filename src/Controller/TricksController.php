@@ -18,7 +18,7 @@ use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
-#[Route('/trick', methods: 'GET')]
+#[Route('/trick')]
 class TricksController extends AbstractController
 {
     public function __construct(

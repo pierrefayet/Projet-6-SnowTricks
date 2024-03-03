@@ -39,11 +39,21 @@ class Trick
     #[ORM\ManyToOne(targetEntity: Category::class, cascade: ['persist'], inversedBy: 'tricks')]
     private Category $category;
 
+    /**
+     * @var Collection<int, UploadMedia>
+     */
     #[ORM\OneToMany(mappedBy: 'trick', targetEntity: UploadMedia::class, cascade: ['remove'])]
     private Collection $medias;
 
+    /**
+     * @var Collection<int, Comment>
+     */
     #[ORM\OneToMany(mappedBy: 'trick', targetEntity: Comment::class, cascade: ['remove'])]
     private Collection $comments;
+
+    /**
+     * @var Collection<int, ExternalVideo>
+     */
     #[ORM\OneToMany(mappedBy: 'trick', targetEntity: ExternalVideo::class, cascade: ['persist', 'remove'])]
     private Collection $externalVideo;
 
@@ -117,7 +127,7 @@ class Trick
         $this->content = $content;
     }
 
-    public function getCreationDate(): \DateTimeImmutable
+    public function getCreationDate(): ?\DateTimeImmutable
     {
         return $this->creation_date;
     }
@@ -131,10 +141,11 @@ class Trick
     #[ORM\PreUpdate]
     public function updatedTimestamps(): void
     {
-        $this->setUpdateAt(new \DateTimeImmutable('now'));
+        $now = new \DateTimeImmutable('now');
+        $this->setUpdateAt($now);
 
-        if (null === $this->getCreationDate()) {
-            $this->setCreationDate(new \DateTimeImmutable('now'));
+        if (! $this->getCreationDate()) {
+            $this->setCreationDate($now);
         }
     }
 
@@ -158,6 +169,9 @@ class Trick
         $this->category = $category;
     }
 
+    /**
+     * @return Collection<int, UploadMedia>
+     */
     public function getMedias(): Collection
     {
         return $this->medias;
@@ -209,11 +223,17 @@ class Trick
         return $this;
     }
 
+    /**
+     * @return Collection<int, ExternalVideo>
+     */
     public function getExternalVideo(): Collection
     {
         return $this->externalVideo;
     }
 
+    /**
+     * @param Collection<int, ExternalVideo> $externalVideo
+     */
     public function setExternalVideo(Collection $externalVideo): void
     {
         $this->externalVideo = $externalVideo;

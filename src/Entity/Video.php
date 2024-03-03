@@ -14,13 +14,5 @@ class Video extends UploadMedia
         return 'video';
     }
 
-    public function getVideo(): ?self
-    {
-        return $this->video;
-    }
 
-    public function setVideo(?self $video): void
-    {
-        $this->video = $video;
-    }
 }
