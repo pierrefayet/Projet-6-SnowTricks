@@ -557,6 +557,9 @@ footer p {
   .information-widget {
     display: none;
   }
+  .content-form--content p {
+    margin: 0;
+  }
 }
 
 /*# sourceMappingURL=app.css.map */

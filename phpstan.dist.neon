@@ -6,8 +6,3 @@ parameters:
         - public/
         - src/
         - tests/
-        - src/Repository/UserRepository.php
-    ignoreErrors:
-        - '#Method App\\Repository\\CommentRepository::paginateTrick\(\) return type with generic interface Knp\\Component\\Pager\\Pagination\\PaginationInterface does not specify its types: TKey, TValue#'
-        - '#Method App\\Repository\\TrickRepository::paginateTrick\(\) return type with generic interface Knp\\Component\\Pager\\Pagination\\PaginationInterface does not specify its types: TKey, TValue#'
-        - '#^Class App\\Voter\\VoterTrick extends generic class Symfony\\Component\\Security\\Core\\Authorization\\Voter\\Voter but does not specify its types: TAttribute, TSubject$#'

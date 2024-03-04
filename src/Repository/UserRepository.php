@@ -6,7 +6,6 @@ namespace App\Repository;
 
 use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -26,16 +25,13 @@ class UserRepository extends ServiceEntityRepository
 
     /**
      * Finds a user by email.
-     *
-     * @return User|null the user if found, null otherwise
-     *
-     * @throws NonUniqueResultException if the query results in more than one result
      */
     public function findOneByEmail(mixed $userEmail): ?User
     {
         if (null === $userEmail) {
             return null;
         }
+
         /** @var ?User $result */
         $result = $this->createQueryBuilder('u')
             ->where('u.email = :email')

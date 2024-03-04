@@ -33,7 +33,7 @@ class CommentRepository extends ServiceEntityRepository
      * @param int $limit The number of items per page
      * @param Trick $trick The trick entity
      *
-     * @return PaginationInterface<Comment> The paginated comments
+     * @return PaginationInterface<int, Comment> The paginated comments
      */
     public function paginateTrick(int $page, int $limit, Trick $trick): PaginationInterface
     {

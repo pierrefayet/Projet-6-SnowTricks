@@ -9,6 +9,9 @@ use App\Entity\User;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authorization\Voter\Voter;
 
+/**
+ * @phpstan-extends Voter<'edit'|'delete', Trick>
+ */
 class VoterTrick extends Voter
 {
     protected function supports(string $attribute, mixed $subject): bool

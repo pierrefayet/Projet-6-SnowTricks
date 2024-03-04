@@ -31,7 +31,7 @@ class TrickRepository extends ServiceEntityRepository
      * @param int $page The current page number
      * @param int $limit The number of items per page
      *
-     * @return PaginationInterface<Trick> The paginated tricks
+     * @return PaginationInterface<int, Trick> The paginated tricks
      */
     public function paginateTrick(int $page, int $limit): PaginationInterface
     {
