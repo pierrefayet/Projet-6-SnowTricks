@@ -27,7 +27,7 @@ class CommentController extends AbstractController
     #[Route('/get-comments/{trick}', name: 'load_more_comment', methods: 'GET')]
     public function loadMore(CommentRepository $commentRepository, Request $request, Trick $trick): Response
     {
-        $page     = $request->query->getInt('page', 2);
+        $page = $request->query->getInt('page', 2);
         $comments = $commentRepository->paginateTrick($page, 5, $trick);
 
         return $this->render('comment/comments.html.twig', [
