@@ -25,6 +25,14 @@ class TrickRepository extends ServiceEntityRepository
         parent::__construct($registry, Trick::class);
     }
 
+    /**
+     * Paginates the tricks.
+     *
+     * @param int $page The current page number
+     * @param int $limit The number of items per page
+     *
+     * @return PaginationInterface<Trick> The paginated tricks
+     */
     public function paginateTrick(int $page, int $limit): PaginationInterface
     {
         return $this->paginator->paginate(

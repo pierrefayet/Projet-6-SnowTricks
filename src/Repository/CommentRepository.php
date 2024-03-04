@@ -26,6 +26,15 @@ class CommentRepository extends ServiceEntityRepository
         parent::__construct($registry, Comment::class);
     }
 
+    /**
+     * Paginates the comments for a given trick.
+     *
+     * @param int $page The current page number
+     * @param int $limit The number of items per page
+     * @param Trick $trick The trick entity
+     *
+     * @return PaginationInterface<Comment> The paginated comments
+     */
     public function paginateTrick(int $page, int $limit, Trick $trick): PaginationInterface
     {
         return $this->paginator->paginate(

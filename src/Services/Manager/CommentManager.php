@@ -6,6 +6,7 @@ namespace App\Services\Manager;
 
 use App\Entity\Comment;
 use App\Entity\Trick;
+use App\Entity\User;
 use App\Form\CommentFormType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\SecurityBundle\Security;
@@ -31,7 +32,12 @@ class CommentManager
 
         if ($form->isSubmitted() && $form->isValid()) {
             $comment->setTrick($trick);
-            $comment->setCommentUserId($this->security->getUser());
+
+            $user = $this->security->getUser();
+            if ($user instanceof User) {
+                $comment->setCommentUserId($user);
+            }
+
             $this->entityManager->persist($comment);
             $this->entityManager->flush();
         }

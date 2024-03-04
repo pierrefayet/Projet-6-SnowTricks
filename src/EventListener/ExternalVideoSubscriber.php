@@ -44,8 +44,13 @@ class ExternalVideoSubscriber
         }
     }
 
-    public function getYoutubeEmbedUrl(string $url): string
+    public function getYoutubeEmbedUrl(?string $url): string
     {
+        if (null === $url) {
+            return 'URL is null or not provided';
+        }
+
+        $youtube_id    = '';
         $shortUrlRegex = '/youtu.be\/([a-zA-Z0-9_-]+)\??/i';
         $longUrlRegex  = '/youtube.com\/((?:embed)|(?:watch))((?:\?v\=)|(?:\/))([a-zA-Z0-9_-]+)/i';
 
@@ -60,8 +65,12 @@ class ExternalVideoSubscriber
         return 'https://www.youtube.com/embed/' . $youtube_id;
     }
 
-    public function getDailymotionEmbedUrl(string $url): string
+    public function getDailymotionEmbedUrl(?string $url): string
     {
+        if (null === $url) {
+            return 'URL is null or not provided';
+        }
+
         $shortUrlRegex = '/dai.ly\/([a-zA-Z0-9]+)/i';
         $longUrlRegex  = '/dailymotion.com\/video\/([a-zA-Z0-9]+)/i';
 

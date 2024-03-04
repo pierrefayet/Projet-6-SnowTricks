@@ -33,6 +33,9 @@ class TrickSubscriber
         }
 
         $entity->setAuthor($user);
-        $entity->setSlug((new AsciiSlugger())->slug(strtolower($entity->getTitle()))->toString());
+
+        if ($entity->getTitle()) {
+            $entity->setSlug((new AsciiSlugger())->slug(strtolower($entity->getTitle()))->toString());
+        }
     }
 }
