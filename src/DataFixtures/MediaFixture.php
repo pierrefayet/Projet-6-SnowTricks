@@ -7,21 +7,11 @@ namespace App\DataFixtures;
 use App\Entity\Image;
 use App\Entity\Trick;
 use App\Entity\Video;
-use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
-use Faker\Factory;
-use Faker\Generator;
 
-class MediaFixture extends Fixture implements DependentFixtureInterface
+class MediaFixture extends AbstractFixture implements DependentFixtureInterface
 {
-    private Generator $faker;
-
-    public function __construct()
-    {
-        $this->faker = Factory::create('fr_FR');
-    }
-
     public function load(ObjectManager $manager): void
     {
         for ($j = 1; $j <= 4; ++$j) {

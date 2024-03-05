@@ -7,18 +7,16 @@ namespace App\DataFixtures;
 use App\Entity\User;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
-use Faker\Factory;
-use Faker\Generator;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
+use Symfony\Contracts\Service\Attribute\Required;
 
-class UserFixtures extends Fixture
+class UserFixtures extends AbstractFixture
 {
-    private Generator $faker;
     private UserPasswordHasherInterface $passwordEncoder;
 
-    public function __construct(UserPasswordHasherInterface $passwordEncoder)
+    #[Required]
+    public function setUserPasswordHasher(UserPasswordHasherInterface $passwordEncoder): void
     {
-        $this->faker           = Factory::create('fr_FR');
         $this->passwordEncoder = $passwordEncoder;
     }
 

@@ -7,22 +7,12 @@ namespace App\DataFixtures;
 use App\Entity\Category;
 use App\Entity\Trick;
 use App\Entity\User;
-use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
-use Faker\Factory;
-use Faker\Generator;
 use Symfony\Component\String\Slugger\AsciiSlugger;
 
-class TrickFixtures extends Fixture implements DependentFixtureInterface
+class TrickFixtures extends AbstractFixture implements DependentFixtureInterface
 {
-    private Generator $faker;
-
-    public function __construct()
-    {
-        $this->faker = Factory::create('fr_FR');
-    }
-
     public function load(ObjectManager $manager): void
     {
         $groups = [];
@@ -34,7 +24,7 @@ class TrickFixtures extends Fixture implements DependentFixtureInterface
         }
 
         for ($i = 1; $i <= 50; ++$i) {
-            $trick = new Trick();
+            $trick           = new Trick();
             $authorReference = $this->getReference('users' . $i);
 
             if ($authorReference instanceof User) {
@@ -56,7 +46,7 @@ class TrickFixtures extends Fixture implements DependentFixtureInterface
             $this->addReference('tricks' . $i, $trick);
         }
 
-        $trickCustom = new Trick();
+        $trickCustom           = new Trick();
         $authorCustomReference = $this->getReference('userCustom');
 
         if ($authorCustomReference instanceof User) {

@@ -72,7 +72,7 @@ class UserController extends AbstractController
         $forgotForm->handleRequest($request);
         if ($forgotForm->isSubmitted()) {
             $userEmail = $forgotForm->get('email')->getData();
-            $user      = $userRepository->findOneByEmail($userEmail);
+            $user      = $userRepository->findOneBy(['email' => $userEmail]);
             if ($user && \is_string($user->getEmail())) {
                 $emailVerifier->sendEmailConfirmation('app_verify_email', $user,
                     (new TemplatedEmail())

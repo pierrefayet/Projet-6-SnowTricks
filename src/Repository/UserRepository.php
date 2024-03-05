@@ -22,23 +22,4 @@ class UserRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, User::class);
     }
-
-    /**
-     * Finds a user by email.
-     */
-    public function findOneByEmail(mixed $userEmail): ?User
-    {
-        if (null === $userEmail) {
-            return null;
-        }
-
-        /** @var ?User $result */
-        $result = $this->createQueryBuilder('u')
-            ->where('u.email = :email')
-            ->setParameter('email', $userEmail)
-            ->getQuery()
-            ->getOneOrNullResult();
-
-        return $result;
-    }
 }

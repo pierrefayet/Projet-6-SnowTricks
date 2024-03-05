@@ -15,8 +15,7 @@ class HomePageController extends AbstractController
     #[Route('/', name: 'home', methods: 'GET')]
     public function home(TrickRepository $trickRepository): Response
     {
-        $page    = 1;
-        $tricks  = $trickRepository->paginateTrick($page, 10);
+        $tricks  = $trickRepository->paginateTrick(1, 10);
         $maxPage = ceil($tricks->getTotalItemCount() / 10);
 
         return $this->render('base.html.twig', [
