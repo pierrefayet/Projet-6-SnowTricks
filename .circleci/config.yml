@@ -6,10 +6,10 @@ jobs:
         docker:
             # Specify the version you desire here
             - image: cimg/php:8.1.27-node
-            - image: circleci/mysql:5.7-ram
+            - image: cimg/mariadb:10.6
               environment:
-                  MYSQL_ROOT_PASSWORD: root
-                  MYSQL_DATABASE: circle_test
+                MARIADB_DATABASE: circle_test
+                MARIADB_ROOT_PASSWORD: root
 
         steps:
             - checkout
