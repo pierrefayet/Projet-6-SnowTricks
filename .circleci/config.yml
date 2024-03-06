@@ -9,7 +9,7 @@ jobs:
             - image: circleci/mysql:5.7-ram
               environment:
                   MYSQL_ROOT_PASSWORD: root
-                  MYSQL_DATABASE: circle_test
+                  MYSQL_DATABASE: snowTricks
 
         steps:
             - checkout
