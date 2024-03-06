@@ -37,7 +37,7 @@ jobs:
                   paths:
                       - node_modules
 
-            - run: bin/console doctrine:schema:update --dump-sql -f --env=dev
+            - run: bin/console doctrine:schema:update --dump-sql -f --env=test
             - run: yes | php bin/console doctrine:fixtures:load --env=test || true
             - run: npm run build
             - run: vendor/bin/phpstan
