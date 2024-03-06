@@ -35,6 +35,7 @@ class TrickFormType extends AbstractType
                 'allow_delete'      => true,
                 'by_reference'      => false,
                 'mapped'            => false,
+                'required'          => false,
                 'label_attr'        => ['style' => 'display: none'],
                 'prototype_options' => [
                     'label' => false,
