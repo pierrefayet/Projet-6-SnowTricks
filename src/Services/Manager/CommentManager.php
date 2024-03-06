@@ -40,6 +40,8 @@ class CommentManager
 
             $this->entityManager->persist($comment);
             $this->entityManager->flush();
+
+            $form = $this->formFactory->create(CommentFormType::class, new Comment());
         }
 
         return $form;
