@@ -8,10 +8,8 @@ jobs:
             - image: cimg/php:8.1.27-node
             - image: circleci/mysql:5.7-ram
               environment:
-                  DATABASE_URL="mysql://root:root@127:0:0:1:3306/circle":
                   MYSQL_ROOT_PASSWORD: root
-                  MYSQL_USER: root
-                  MYSQL_DATABASE: snowTricks
+                  MYSQL_DATABASE: circle_test
 
         steps:
             - checkout
