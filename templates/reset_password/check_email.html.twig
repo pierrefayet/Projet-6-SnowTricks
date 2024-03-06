@@ -1,0 +1,22 @@
+{% extends 'layout.html.twig' %}
+
+{% block title %}{{ 'password_reset_email_sent'|trans }}{% endblock %}
+
+{% block main %}
+    <main>
+        <div class="container mt-5">
+            <div class="row justify-content-center">
+                <div class="col-md-8">
+                    <div class="alert alert-info" role="alert">
+                        <p>{{ 'if_an_account_matching'|trans }}</p>
+                    </div>
+                    <div class="text-center mt-3">
+                        <p>{{ 'check_spam_or_try_again'|trans }} <a
+                                    href="{{ path('app_forgot_password_request') }}" class="btn btn-primary">{{ 'reset.submit'|trans }}</a>.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+{% endblock %}
+

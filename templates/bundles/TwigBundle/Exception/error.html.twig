@@ -1,0 +1,24 @@
+{% extends 'layout.html.twig' %}
+
+{% block main %}
+    <div class="container mt-5">
+        <div class="row justify-content-center align-items-center">
+            <div class="col-md-6 text-center">
+                {% if status_code  == 404 %}
+                    <h1 class="display-1 fw-bold">404</h1>
+                    <p class="fs-5">
+                        <span class="text-muted">La page que vous cherchez c'est perdu dans l'espace.</span>
+                    </p>
+                    <img src="{{ asset('build/images/notfoundPage.jpg') }}" alt="Page Not Found" class="img-fluid mb-2">
+                {% else %}
+                    <h1 class="display-1 fw-bold">500</h1>
+                    <p class="fs-4">
+                        <span class="text-muted">OUPS, quelque chose c'est mal passé.</span>
+                    </p>
+                    <img src="{{ asset('build/images/chute.jpg') }}" alt="Internal Error" class="img-fluid mb-3">
+                {% endif %}
+                <a href="{{ path('home') }}" class="btn btn-primary rounded-pill px-5 py-2">Retourner sur la page d'accueil</a>
+            </div>
+        </div>
+    </div>
+{% endblock %}

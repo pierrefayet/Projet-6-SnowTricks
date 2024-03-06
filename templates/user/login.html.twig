@@ -1,0 +1,27 @@
+{% extends 'layout.html.twig' %}
+{% block main %}
+    <main class="connection">
+        <div class="connection-title">
+            <div class="connection-title-content">
+                Connection
+            </div>
+        </div>
+        <section class="connection-form">
+                {{ form_start(connection, {'attr': {'class': 'connection-content'}}) }}
+                <div id="user_name">
+                    {{ form_row(connection.userName, {'attr': {'id': 'Username'}}) }}
+                </div>
+                <div id="user_password">
+                    {{ form_row(connection.password, {'attr': {'id': 'userPassword'}}) }}
+                </div>
+                <div class="button">
+                    <button type="submit">Login</button>
+                </div>
+                {{ form_rest(connection) }}
+                <div class="link-registration"><a href="{{ path('registration') }}">Register</a></div>
+                <div class="link-reset"><a href="{{ path('app_forgot_password_request') }}">Mot de passe oublié ?</a></div>
+                {{ form_end(connection) }}
+        </section>
+    </main>
+    {% include 'navbar-mobile.html.twig' %}
+{% endblock %}

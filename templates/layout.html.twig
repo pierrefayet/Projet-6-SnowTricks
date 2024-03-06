@@ -7,9 +7,9 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>{% block titre %}Snow Tricks{% endblock %}</title>
     {% block stylesheets %}
-        <link rel="stylesheet" href="{{ ('assets/styles/app-d1b1d28f1c5dfdebff002cc7d0f18d1e.css') }}">
-        <script src="https://kit.fontawesome.com/a4ca8720ca.js" crossorigin="anonymous"></script>
+        {{ encore_entry_link_tags('app') }}
     {% endblock %}
+    <script src="https://kit.fontawesome.com/a4ca8720ca.js" crossorigin="anonymous"></script>
     <link rel="icon" type="image/png" href="{{ asset('favicon.ico') }}"/>
 </head>
 <body>
@@ -17,15 +17,23 @@
     <header>
         <div id="header">
             <div class="header-picture">
-                <img src="/assets/img/logo.png" alt="surfer">
+                <img src="{{ asset('build/images/logo.jpg') }}" alt="surfer">
             </div>
             <div class="navbar">
-                <ul>
-                    <li><a href="/">Home</a></li>
-                    <li><a href="/#portfolio">Trick</a></li>
-                    <li><a href="/create_account">Sign in</a></li>
-                    <li><a href="/login">Sign up</a></li>
-                </ul>
+                {% if not is_granted('ROLE_USER') %}
+                    <ul>
+                        <li><a href="{{ path('home') }}">Accueil</a></li>
+                        <li><a href="{{ path('registration') }}">Inscription</a></li>
+                        <li><a href="{{ path('security_login') }}">Connection</a></li>
+                    </ul>
+                {% else %}
+                    <ul>
+                        <li>Bienvenue {{ app.user.username }} !</li>
+                        <li><a href="{{ path('home') }}">Home</a></li>
+                        <li><a href="{{ path('profile') }}">Profil</a></li>
+                        <li><a href="{{ path('security_logout') }}">Déconnection</a></li>
+                    </ul>
+                {% endif %}
             </div>
         </div>
     </header>
@@ -33,9 +41,17 @@
 {% block main %}
 {% endblock %}
 {% block footer %}
-    <div>
-        <p>Copyright @ Pierre Fayet</p>
-    </div>
+    <footer>
+        <div class="d-flex flex-column mt-4">
+            <div>
+                <p>Copyright @ Pierre Fayet</p>
+            </div>
+            <a href="https://insight.symfony.com/projects/5710005b-a1dc-41f8-8e29-943a51f26fcf">
+                <img src="https://insight.symfony.com/projects/5710005b-a1dc-41f8-8e29-943a51f26fcf/small.svg" alt="Symfony Insight Badge">
+            </a>
+        </div>
+    </footer>
 {% endblock %}
+{{ encore_entry_script_tags('app') }}
 </body>
 </html>

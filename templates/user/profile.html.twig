@@ -1,0 +1,56 @@
+{% extends 'layout.html.twig' %}
+{% block main %}
+    <main class="connection">
+        <div class="connection-title">
+            <div class="connection-title-content">
+                Profil utilisateur
+            </div>
+        </div>
+        <section class="connection-content mx-auto"
+                 style="border: 2px solid cornflowerblue; padding: 20px; max-width: 40rem;">
+            {{ form_start(profileUsername, {'attr': {'class': 'form-control'}}) }}
+            <div id="user_name" class="mb-4">
+                {{ form_row(profileUsername.userName, {'attr': {'class': 'form-control', 'style': 'background-color: transparent; border-top: none; border-left: none; border-right: none; border-bottom: 1px solid cornflowerblue;'}}) }}
+                <div class="button mt-4 mb-4">
+                    <button type="submit" class="btn btn-primary">Sauvegarder</button>
+                </div>
+            </div>
+            {{ form_end(profileUsername) }}
+
+            {{ form_start(profileEmail, {'attr': {'class': 'form-control'}}) }}
+            <div id="email" class="mb-4">
+                {{ form_row(profileEmail.email, {'attr': {'class': 'form-control', 'style': 'background-color: transparent; border-top: none; border-left: none; border-right: none; border-bottom: 1px solid cornflowerblue;'}}) }}
+                <div class="button mt-4 mb-4">
+                    <button type="submit" class="btn btn-primary">Sauvegarder</button>
+                </div>
+            </div>
+            {{ form_end(profileEmail) }}
+
+            {{ form_start(profileImage, {'attr': {'class': 'form-control'}}) }}
+            <div id="profile-image" class="mb-4">
+                <button id="clickUpload"  class="d-block d-sm-none" style="display:block; height:30px;" >Choisir une image</button>
+                {{ form_widget(profileImage, {'attr': {'class': 'd-none d-sm-block'}}) }}
+
+                <div class="button mt-4 mb-4">
+                    <button type="submit" class="btn btn-primary">Sauvegarder</button>
+                </div>
+            </div>
+            {{ form_end(profileImage) }}
+        </section>
+
+    </main>
+    <script>
+        document.querySelector('#clickUpload').addEventListener('click', (event) => {
+            event.preventDefault();
+            document.getElementById('profile_image_userImage').click();
+        })
+    </script>
+    {% include 'navbar-mobile.html.twig' %}
+    {% for message in app.flashes('error') %}
+        <div class="alert alert-danger">{{ message }}</div>
+    {% endfor %}
+
+    {% for message in app.flashes('success') %}
+        <div class="alert alert-success">{{ message }}</div>
+    {% endfor %}
+{% endblock %}

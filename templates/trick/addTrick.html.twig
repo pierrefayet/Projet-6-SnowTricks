@@ -1,0 +1,145 @@
+{% extends 'layout.html.twig' %}
+{% block main %}
+    <main>
+        {% for message in app.flashes('error') %}
+            <div class="alert alert-danger">{{ message }}</div>
+        {% endfor %}
+        {% for message in app.flashes('success') %}
+            <div class="alert alert-success">{{ message }}</div>
+        {% endfor %}
+        <section class="intro-background d-none  d-sm-block">
+            <div class="intro-trick "
+                 style="background-image: url({{ asset('build/images/surfeur.08d91665.jpg') }});">
+            </div>
+        </section>
+        <section class="content">
+            {{ form_start(trickForm, {'attr': {'enctype':'multipart/form-data'}}) }}
+            <div id="content-trick">
+                <div class="content-header mb-5">
+                    <div class="content-trick-image-title w-100">
+                        <h1 class="text-center fs-2 rounded-1">
+                            {{ form_row(trickForm.title, { 'attr': {'class': 'form-control'}}) }}
+                        </h1>
+                    </div>
+                </div>
+                <div class="container" data-index="0">
+                    <div class="row justify-content-around">
+                        <div class="addMedia col-12 col-sm-6">
+                            <button type="button" class="btn btn-light add_item_media m-2" data-collection-holder-class="media">
+                                Ajouter un média
+                            </button>
+                        </div>
+                        <div class="addExternalMedia col-12 col-sm-6">
+                            <button type="button" class="btn btn-light add_item__external_media m-2" data-collection-holder-class="externalMedia">
+                                Ajouter un lien média externe
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="content-media">
+                    <div class="media-tricks--modifier">
+                        <div class="media-tricks-modifier-content">
+                            <div>
+                                {{ form_row(trickForm.medias, { 'attr': {'class': 'form-control-file'}}) }}
+                            </div>
+                            <img id="imagePreview" src="#" alt="Show adding image  or video"
+                                 style="display: none; max-width: 200px; height: auto;" class="img-fluid"/>
+                            <video controls id="videoPreview" style="display: none; max-width: 200px; height: auto;"
+                                   class="img-fluid">
+                                <source src="#"/>
+                            </video>
+                        </div>
+                    </div>
+                </div>
+                <div class="text-center m-3">
+                    <button type="button" class="btn btn-primary d-inline-block d-sm-none " data-bs-toggle="modal"
+                            data-bs-target="#exampleModal">
+                        Voir plus de media
+                    </button>
+                </div>
+                <div class="container">
+                    <div class="row">
+                        <div class="content-intro mx-auto w-50">
+                            <p>
+                                {{ form_row(trickForm.intro, { 'attr': {'class': 'form-control'}}) }}
+                            </p>
+                        </div>
+                        <div class="information-content mb-5">
+                            <div class="content-description-scroll w-50">
+                                <p>
+                                    {{ form_row(trickForm.content, {'attr': {'class': 'form-control'}}) }}
+                                </p>
+                            </div>
+                            <div class="information-actions container">
+                                <div class="select-group row mb-5">
+                                    <div class="content-category m-5 w-25" data-index="0">
+                                        {{ form_row(trickForm.category, { 'attr': {'class': 'form-control w'}}) }}
+                                    </div>
+                                </div>
+                            </div>
+                            <div>
+                                <div class="save w-100">
+                                    <button type="submit" class="btn btn-success">Sauvegarder</button>
+                                </div>
+                            </div>
+                            {{ form_end(trickForm) }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="exampleModalLabel">Modal title</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="content-media-tricks-expands">
+                            {% set image_count = 0 %}
+                            {% set video_count = 0 %}
+                            {% for media in trick.medias %}
+                                {% if media.type == 'image' and image_count < 3 %}
+                                    {% set image_count = image_count + 1 %}
+                                    <img src="{{ asset(pathMediaImage  ~ '/' ~ media.filename) }}"
+                                         alt="{{ media.alt }}">
+                                {% elseif media.type == 'video' and video_count < 2 %}
+                                    <video controls>
+                                        <source src="{{ asset(pathMediaVideo  ~ '/' ~ media.filename) }}"
+                                                type="video/mp4">
+                                        Votre navigateur ne prend pas en charge la balise vidéo.
+                                    </video>
+                                    {% set image_count = image_count + 1 %}
+                                {% endif %}
+                            {% endfor %}
+                        </div>
+                        <div class="content-media-tricks-external--expand">
+                            {% for externalVideo in trick.externalVideo %}
+                                {% if externalVideo.platformId == 1 %}
+                                    <iframe type="text/html" width="640" height="360"
+                                            src="{{ externalVideo.url }}">
+                                    </iframe>
+                                {% else %}
+                                    <iframe type="text/html" src="{{ externalVideo.url }}" width="100%"
+                                            height="100%"
+                                            allowfullscreen title="Dailymotion Video Player"
+                                            allow="autoplay"></iframe>
+                                {% endif %}
+                            {% endfor %}
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-primary">Save changes</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% include 'navbar-mobile.html.twig' %}
+    </main>
+    {% block javascripts %}
+        {{ encore_entry_script_tags('preview') }}
+        {{ encore_entry_script_tags('externalMedia') }}
+    {% endblock %}
+{% endblock %}

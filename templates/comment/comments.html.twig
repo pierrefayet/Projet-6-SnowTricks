@@ -1,0 +1,25 @@
+{% for comment in comments %}
+            <div class="card m-2">
+                <div class="row g-0 align-items-center">
+                    <div class="col-md-2 text-center col-2">
+                        <div class="content-comment--icon m-2">
+                            {% if comment.commentUserId.userImage %}
+                                <img src="{{ asset(pathMediaAvatar  ~ '/' ~  comment.commentUserId.userImage) }}"
+                                     alt="profile image" class="img-fluid rounded h-100">
+                            {% else %}
+                                <i class="fa-solid fa-user" style="font-size: 50px;"></i>
+                            {% endif %}
+                        </div>
+                    </div>
+                    <div class="col-md-10 col-10">
+                        <div class="card-body">
+                            <p class="card-text">{{ comment.content }}</p>
+                            <p class="card-text"><small class="text-muted">{{ comment.commentUserId.userName }}</small>
+                            </p>
+                            <p class="card-text"><small
+                                        class="text-muted">{{ comment.creationDate|date('d/m/Y') }}</small></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+{% endfor %}
