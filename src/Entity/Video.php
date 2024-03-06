@@ -13,6 +13,4 @@ class Video extends UploadMedia
     {
         return 'video';
     }
-
-
 }

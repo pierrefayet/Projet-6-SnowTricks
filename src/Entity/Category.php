@@ -33,33 +33,21 @@ class Category
         $this->tricks = new ArrayCollection();
     }
 
-    /**
-     * @return int|null
-     */
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    /**
-     * @param int $id
-     */
     public function setId(int $id): void
     {
         $this->id = $id;
     }
 
-    /**
-     * @return string|null
-     */
     public function getName(): ?string
     {
         return $this->name;
     }
 
-    /**
-     * @param string $name
-     */
     public function setName(string $name): void
     {
         $this->name = $name;
@@ -73,9 +61,6 @@ class Category
         return $this->tricks;
     }
 
-    /**
-     * @param Trick $trick
-     */
     public function addTrick(Trick $trick): void
     {
         if (! $this->tricks->contains($trick)) {
@@ -83,9 +68,6 @@ class Category
         }
     }
 
-    /**
-     * @param Trick $trick
-     */
     public function removeTrick(Trick $trick): void
     {
         $this->tricks->removeElement($trick);

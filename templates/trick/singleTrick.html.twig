@@ -8,9 +8,14 @@
         <section class="content">
             <div id="content-trick" class="content-trick-container">
                 <div class="content-header"
-                        {% if trick.medias|length > 0 and trick.medias|first.type == 'image' %}
-                        {% set media = trick.medias|first %}
-                     style="background-image: url({{ asset(pathMediaImage  ~ '/' ~ media.filename) }});">
+                        {% set trickMedia = '' %}
+                        {% for media in trick.medias %}
+                            {% if media.type == 'image' %}
+                                {% set trickMedia = media.filename %}
+                            {% endif %}
+                        {% endfor %}
+                        {% if trickMedia is not empty %}
+                     style="background-image: url({{ asset(pathMediaImage  ~ '/' ~ trickMedia) }});">
                     {% else %}
                         style="background-image: url({{ asset(pathMediaImage  ~ '/' ~ 'default.jpg') }});">
                     {% endif %}
@@ -49,7 +54,8 @@
                             <div class="content-media-tricks col-3 w-50">
                                 {% if media.type == 'image' and image_count < 3 %}
                                     {% set image_count = image_count + 1 %}
-                                    <img class="w-100 h-100 w-100" src="{{ asset(pathMediaImage  ~ '/' ~ media.filename) }}"
+                                    <img class="w-100 h-100 w-100"
+                                         src="{{ asset(pathMediaImage  ~ '/' ~ media.filename) }}"
                                          alt="{{ media.alt }}">
                                 {% elseif media.type == 'video' and video_count < 2 %}
                                     <video class="w-100 col-4" controls>
@@ -66,7 +72,7 @@
                         <div class="content-media-tricks-external col-12">
                             {% for externalVideo in trick.externalVideo %}
                                 {% if externalVideo.platformId == 1 %}
-                                    <iframe  class="w-100" type="text/html" height="360"
+                                    <iframe class="w-100" type="text/html" height="360"
                                             src="{{ externalVideo.url }}" Access-Control-Allow-Origin>
                                     </iframe>
                                 {% else %}
@@ -84,17 +90,17 @@
                     </button>
                 </div>
                 <div class="information-widget">
+                    <p>
+                        {{ trick.category.name }}
+                    </p>
+                    <p>
+                        {{ trick.creationDate|date("d/m/y/ H:i") }}
+                    </p>
+                    {% if trick.updateAt is not null %}
                         <p>
-                            {{ trick.category.name }}
+                            {{ trick.updateAt|date("d/m/y/ H:i") }}
                         </p>
-                        <p>
-                            {{ trick.creationDate|date("d/m/y/ H:i") }}
-                        </p>
-                        {% if trick.updateAt is not null %}
-                            <p>
-                                {{ trick.updateAt|date("d/m/y/ H:i") }}
-                            </p>
-                        {% endif %}
+                    {% endif %}
                 </div>
                 <div class="content-description">
                     <p>
@@ -133,13 +139,14 @@
                     <div class="content-comment">
                         {% include 'comment/comments.html.twig' with {'comments': comments, 'trick': trick} %}
                     </div>
-                        <div id="expand" class="text-center m-3">
-                            {% if comments.currentPageNumber < maxPage %}
-                                <button id="load-more" class="rounded-1" data-current-page="{{ comments.currentPageNumber + 1 }}"
-                                        data-max-page="{{ maxPage }}"> voir plus de commentaire
-                                </button>
-                            {% endif %}
-                        </div>
+                    <div id="expand" class="text-center m-3">
+                        {% if comments.currentPageNumber < maxPage %}
+                            <button id="load-more" class="rounded-1"
+                                    data-current-page="{{ comments.currentPageNumber + 1 }}"
+                                    data-max-page="{{ maxPage }}"> voir plus de commentaire
+                            </button>
+                        {% endif %}
+                    </div>
                 </div>
             </div>
         </section>
@@ -171,7 +178,8 @@
                         </div>
                         <div class="content-media-tricks-external--expand">
                             {% for externalVideo in trick.externalVideo %}
-                                <iframe class="img-fluid mx-auto d-block" style="width: 100%; height: auto;" src="{{ externalVideo.url }}" frameborder="0" allowfullscreen></iframe>
+                                <iframe class="img-fluid mx-auto d-block" style="width: 100%; height: auto;"
+                                        src="{{ externalVideo.url }}" frameborder="0" allowfullscreen></iframe>
                             {% endfor %}
                         </div>
                     </div>
