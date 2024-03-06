@@ -1,7 +1,7 @@
 const mediaPrototype = document.querySelector('#trick_form_medias');
 const collectionHolder = document.querySelector('.addMedia');
 document.querySelector('.add_item_media').addEventListener('click', () => {
-    const item = document.createElement('li');
+    const item = document.createElement('div');
     item.innerHTML = mediaPrototype
         .dataset
         .prototype

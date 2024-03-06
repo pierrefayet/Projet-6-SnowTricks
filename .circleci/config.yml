@@ -6,10 +6,10 @@ jobs:
         docker:
             # Specify the version you desire here
             - image: cimg/php:8.1.27-node
-            - image: circleci/mysql:5.7-ram
+            - image: cimg/mariadb:10.6
               environment:
-                  MYSQL_ROOT_PASSWORD: root
-                  MYSQL_DATABASE: circle_test
+                MARIADB_DATABASE: circle_test
+                MARIADB_ROOT_PASSWORD: root
 
         steps:
             - checkout
@@ -37,7 +37,7 @@ jobs:
                   paths:
                       - node_modules
 
-            - run: bin/console doctrine:schema:update --dump-sql -f --env=dev
+            - run: bin/console doctrine:schema:update --dump-sql -f --env=test
             - run: yes | php bin/console doctrine:fixtures:load --env=test || true
             - run: npm run build
             - run: vendor/bin/phpstan

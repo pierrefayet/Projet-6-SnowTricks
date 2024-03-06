@@ -23,9 +23,6 @@ class Image extends UploadMedia
         return $this->alt;
     }
 
-    /**
-     * @param string|null $alt
-     */
     public function setAlt(?string $alt): void
     {
         $this->alt = $alt;

@@ -44,7 +44,7 @@ class HandleMedia
             };
 
             $directory       = $media instanceof Image ? 'image/' : 'video/';
-            $newFilename     = pathinfo($file->getClientOriginalName(), \PATHINFO_FILENAME) . uniqid() . '.' . $file->guessExtension();
+            $newFilename     = uniqid() . '.' . $file->guessExtension();
             $targetDirectory = $this->mediaDirectory . '/' . $directory;
             $file->move($targetDirectory, $newFilename);
             $media->setFilename($newFilename);

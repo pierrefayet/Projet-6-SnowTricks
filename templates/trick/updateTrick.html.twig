@@ -16,7 +16,18 @@
             {{ form_start(trickForm, {'attr': {'enctype':'multipart/form-data'}}) }}
             <div id="content-trick">
                 <div class="content-header mb-5">
-                    <div class="content-trick-image-title w-100">
+                    <div class="content-trick-image-title w-100"
+                        {% set trickMedia = '' %}
+                        {% for media in trick.medias %}
+                            {% if media.type == 'image' %}
+                                {% set trickMedia = media.filename %}
+                            {% endif %}
+                        {% endfor %}
+                        {% if trickMedia is not empty %}
+                            style="background-size: cover; background-image: url({{ asset(pathMediaImage  ~ '/' ~ trickMedia) }});">
+                        {% else %}
+                            style="background-image: url({{ asset(pathMediaImage  ~ '/' ~ 'default.jpg') }});">
+                        {% endif %}
                         <h1 class="text-center fs-2 rounded-1">
                             {{ form_row(trickForm.title, { 'attr': {'class': 'form-control'}}) }}
                         </h1>
