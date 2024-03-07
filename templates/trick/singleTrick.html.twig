@@ -165,9 +165,9 @@
                                 {% if media.type == 'image' and image_count < 3 %}
                                     {% set image_count = image_count + 1 %}
                                     <img src="{{ asset(pathMediaImage  ~ '/' ~ media.filename) }}"
-                                         alt="{{ media.alt }}" class="img-fluid mx-auto d-block">
+                                         alt="{{ media.alt }}" class="img-fluid mx-auto d-block mb-2">
                                 {% elseif media.type == 'video' and video_count < 2 %}
-                                    <video controls class="img-fluid mx-auto d-block">
+                                    <video controls class="img-fluid mx-auto d-block mb-2">
                                         <source src="{{ asset(pathMediaVideo  ~ '/' ~ media.filename) }}"
                                                 type="video/mp4">
                                         Votre navigateur ne prend pas en charge la balise vidéo.
