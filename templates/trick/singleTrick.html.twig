@@ -21,7 +21,7 @@
                     {% endif %}
                     <div class="container">
                         <div class="row">
-                            {% if is_granted('ROLE_USER') and app.user == trick.author %}
+                            {% if is_granted('ROLE_USER') and app.user == trick.author and app.user.isVerified %}
                                 <div class="content-trick-image--icon offset-9 col-3 text-center p-0 offset-sm-11 col-sm-1">
                                     <div class="d-inline-block w-100">
                                         <div id="pencil" class="d-inline-block mt-2 p-1">
@@ -109,7 +109,7 @@
                 </div>
                 <div class="container">
                     <div class="row">
-                        {% if is_granted('ROLE_USER') %}
+                        {% if is_granted('ROLE_USER') and app.user.isVerified %}
                             <div class="content-form mx-auto">
                                 <div class="content-form--content w-100">
                                     {{ form_start(commentForm) }}
@@ -154,7 +154,6 @@
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h1 class="modal-title fs-5" id="exampleModalLabel">Modal title</h1>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">

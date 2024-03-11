@@ -27,6 +27,7 @@ class TricksController extends AbstractController
     ) {
     }
 
+    #[IsGranted('add')]
     #[Route('/add', name: 'add_trick', methods: ['GET', 'POST'])]
     public function addTrick(Request $request, EntityManagerInterface $entityManager): Response
     {
@@ -79,6 +80,7 @@ class TricksController extends AbstractController
         ]);
     }
 
+    #[IsGranted('add_comment')]
     #[Route('/single/{slug}', name: 'single_trick', methods: ['GET', 'POST'])]
     public function showTrick(Trick $trick, CommentRepository $commentRepository, CommentManager $commentManager): Response
     {

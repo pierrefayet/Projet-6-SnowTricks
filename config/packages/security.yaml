@@ -34,6 +34,8 @@ security:
   - { path: ^/trick/single, roles: PUBLIC_ACCESS, requires_channel: https  }
   - { path: ^/trick, roles: ROLE_USER, requires_channel: https  }
   - { path: ^/, roles: PUBLIC_ACCESS, requires_channel: https  }
+  access_decision_manager:
+    allow_if_all_abstain: true
 
 when@test:
   security:

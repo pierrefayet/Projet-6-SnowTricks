@@ -23,7 +23,7 @@ class TrickFixtures extends AbstractFixture implements DependentFixtureInterface
             $groups[] = $group;
         }
 
-        for ($i = 1; $i <= 50; ++$i) {
+        for ($i = 1; $i <= 20; ++$i) {
             $trick           = new Trick();
             $authorReference = $this->getReference('users' . $i);
 

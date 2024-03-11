@@ -6,7 +6,7 @@ namespace App\Tests;
 
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
-class TrickControllerTest extends WebTestCase
+class ControllerTest extends WebTestCase
 {
     public function testHomepage(): void
     {

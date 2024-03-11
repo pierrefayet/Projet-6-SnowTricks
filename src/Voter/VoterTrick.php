@@ -29,12 +29,9 @@ class VoterTrick extends Voter
 
     protected function voteOnAttribute(string $attribute, mixed $subject, TokenInterface $token): bool
     {
-        if (! $subject instanceof Trick) {
-            return false;
-        }
-
         $user = $token->getUser();
-        if (! $user instanceof User) {
+
+        if (! $user instanceof User || ! $subject instanceof Trick) {
             return false;
         }
 

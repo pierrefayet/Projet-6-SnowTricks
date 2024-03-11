@@ -19,7 +19,7 @@
                 <i class="fa-solid fa-arrow-down"></i>
             </div>
         </section>
-        {% if is_granted('ROLE_USER') %}
+        {% if is_granted('ROLE_USER') and app.user.isVerified %}
             <section>
                 <div class="d-flex justify-content-center my-5">
                     <a href="{{ path('add_trick') }}" class="btn btn-primary">
