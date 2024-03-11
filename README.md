@@ -1,6 +1,6 @@
 # Snowtrick
 
-![Build Status](https://insight.symfony.com/projects/5710005b-a1dc-41f8-8e29-943a51f26fcf/big.svg](https://insight.symfony.com/projects/4577fbbe-df46-499a-9125-fcada928dba1/big.svg)
+![Build Status][![SymfonyInsight](https://insight.symfony.com/projects/4577fbbe-df46-499a-9125-fcada928dba1/big.svg)](https://insight.symfony.com/projects/4577fbbe-df46-499a-9125-fcada928dba1)
 
 ## Description
 
