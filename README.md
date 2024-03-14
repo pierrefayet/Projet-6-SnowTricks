@@ -1,4 +1,4 @@
-# Snowtrick
+# Snowtricks
 
 [![SymfonyInsight](https://insight.symfony.com/projects/4577fbbe-df46-499a-9125-fcada928dba1/big.svg)](https://insight.symfony.com/projects/4577fbbe-df46-499a-9125-fcada928dba1)
 
